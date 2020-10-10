@@ -1,17 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
 public class PlayerController : MonoBehaviour{
 
-    public float movingForce = 5f;
-    public float movingTime = 0.5f;
+    public float movingForce = 10f;
+    public float movingTime = 0.2f;
     public float startingLinearDrag = 1f;
-    public float endLinearDrag = 20f;
+    public float finalLinearDrag = 10f;
 
     private Rigidbody2D rigidBody;
-    private bool force = false;
-    private float startingTime;
+    private float dashStartingTime;
+
+    private Vector2 touchStartingPosition;
+    private bool isSwipe = false;
+    private Vector2 swipeDirection = Vector2.zero;
 
     private void Awake(){
         this.rigidBody = GetComponent<Rigidbody2D>();
@@ -19,30 +23,58 @@ public class PlayerController : MonoBehaviour{
 
     // Start is called before the first frame update
     void Start(){
-        StartCoroutine("AddForce");
+
     }
 
     // Update is called once per frame
     void Update(){
-        if (!force) {
-            this.rigidBody.drag = this.startingLinearDrag;           
-        } else {
-            if(Time.time - this.startingTime >= movingTime) {
-                this.rigidBody.drag = this.endLinearDrag;
+        if(Input.touches.Length > 0) {
+            Touch touch = Input.GetTouch(0);
+            Debug.Log("entro");
+
+            //Get starting position of the touch
+            if(touch.phase == TouchPhase.Began) {
+                this.touchStartingPosition = touch.position;
+                this.isSwipe = false;
+            }
+
+            //Check if the action is a tap or a swipe
+            if(touch.phase == TouchPhase.Moved) {
+                this.isSwipe = true;
+            }
+
+            if (isSwipe) {
+                //Get the position at the end of the swipe
+                if(touch.phase == TouchPhase.Ended) {
+                    this.swipeDirection = (touch.position - this.touchStartingPosition).normalized;
+                    StartCoroutine("ChangeDrag");
+                }
             }
         }
+
     }
 
-    /*IEnumerator ChangeDrag() {
+    void FixedUpdate() {
+        
+    }
 
-    }*/
+    void LateUpdate() {
 
-    IEnumerator AddForce() {
-        yield return new WaitForSeconds(0.2f);
+    }
 
-        this.rigidBody.AddForce(Vector2.right * this.movingForce, ForceMode2D.Impulse);
-        this.startingTime = Time.time;
-        force = true;
+    IEnumerator ChangeDrag() {
+        this.rigidBody.drag = startingLinearDrag;
+        this.rigidBody.AddForce(this.swipeDirection * this.movingForce, ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(movingTime);
+
+        this.rigidBody.drag = finalLinearDrag;
+        
+    }
+
+    void Dash() {
+
+        
 
     }
 
