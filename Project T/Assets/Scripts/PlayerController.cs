@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour{
     public float finalLinearDrag = 10f;
 
     private Rigidbody2D rigidBody;
+    private Animator animator;
     private float dashStartingTime;
 
     private Vector2 touchStartingPosition;
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour{
     private float rotation = 0;
     private void Awake(){
         this.rigidBody = GetComponent<Rigidbody2D>();
+        this.animator = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -31,7 +33,6 @@ public class PlayerController : MonoBehaviour{
     void Update(){
         if(Input.touches.Length > 0) {
             Touch touch = Input.GetTouch(0);
-            Debug.Log("entro");
 
             //Get starting position of the touch
             if(touch.phase == TouchPhase.Began) {
@@ -47,8 +48,8 @@ public class PlayerController : MonoBehaviour{
             if (isSwipe) {
                 //Get the position at the end of the swipe
                 if(touch.phase == TouchPhase.Ended) {
-                    this.swipeDirection = (touch.position - this.touchStartingPosition).normalized;
-                    this.rotation = Vector2.SignedAngle(Vector2.right, this.swipeDirection);
+                    this.swipeDirection = (touch.position - this.touchStartingPosition).normalized; //Direction of the swipe
+                    this.rotation = Vector2.SignedAngle(Vector2.right, this.swipeDirection); //Setting player rotation to direction of swipe
                     StartCoroutine("ChangeDrag");
                 }
             }
@@ -62,13 +63,12 @@ public class PlayerController : MonoBehaviour{
     }
 
     void LateUpdate() {
-
     }
 
     IEnumerator ChangeDrag() {
         this.rigidBody.drag = startingLinearDrag;
         this.rigidBody.AddForce(this.swipeDirection * this.movingForce, ForceMode2D.Impulse);
-        Debug.Log(this.rotation);
+        this.animator.SetTrigger("Attack");
         
 
 
