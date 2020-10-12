@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour{
     private bool isSwipe = false;
     private Vector2 swipeDirection = Vector2.zero;
 
+    private float rotation = 0;
     private void Awake(){
         this.rigidBody = GetComponent<Rigidbody2D>();
     }
@@ -47,11 +48,13 @@ public class PlayerController : MonoBehaviour{
                 //Get the position at the end of the swipe
                 if(touch.phase == TouchPhase.Ended) {
                     this.swipeDirection = (touch.position - this.touchStartingPosition).normalized;
+                    this.rotation = Vector2.SignedAngle(Vector2.right, this.swipeDirection);
                     StartCoroutine("ChangeDrag");
                 }
             }
         }
 
+        this.transform.eulerAngles = new Vector3(0, 0, this.rotation);
     }
 
     void FixedUpdate() {
@@ -65,6 +68,9 @@ public class PlayerController : MonoBehaviour{
     IEnumerator ChangeDrag() {
         this.rigidBody.drag = startingLinearDrag;
         this.rigidBody.AddForce(this.swipeDirection * this.movingForce, ForceMode2D.Impulse);
+        Debug.Log(this.rotation);
+        
+
 
         yield return new WaitForSeconds(movingTime);
 
