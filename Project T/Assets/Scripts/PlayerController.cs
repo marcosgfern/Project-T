@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour{
     public float startingLinearDrag = 1f;
     public float finalLinearDrag = 10f;
 
+    public GameObject projectilePrefab;
+
     private Rigidbody2D rigidBody;
     private Animator animator;
     private float dashStartingTime;
@@ -51,6 +53,8 @@ public class PlayerController : MonoBehaviour{
                     this.swipeDirection = (touch.position - this.touchStartingPosition).normalized; //Direction of the swipe
                     this.rotation = Vector2.SignedAngle(Vector2.right, this.swipeDirection); //Setting player rotation to direction of swipe
                     StartCoroutine("ChangeDrag");
+                } else {
+                    Shoot(Camera.main.ScreenToWorldPoint(this.touchStartingPosition), this.transform.position);
                 }
             }
         }
@@ -69,5 +73,15 @@ public class PlayerController : MonoBehaviour{
 
         this.rigidBody.drag = finalLinearDrag;
         
+    }
+
+    public void Shoot(Vector2 target, Vector2 shootingPoint) {
+        if (projectilePrefab != null) {
+            GameObject projectile = Instantiate(projectilePrefab, shootingPoint, Quaternion.identity) as GameObject;
+
+            Projectile projectileComponent = projectile.GetComponent<Projectile>();
+
+            projectileComponent.direction = target - shootingPoint;
+        }
     }
 }
