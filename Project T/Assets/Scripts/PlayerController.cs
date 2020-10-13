@@ -45,9 +45,9 @@ public class PlayerController : MonoBehaviour{
                 this.isSwipe = true;
             }
 
-            if (isSwipe) {
+            if (touch.phase == TouchPhase.Ended) {
                 //Get the position at the end of the swipe
-                if(touch.phase == TouchPhase.Ended) {
+                if(isSwipe) {
                     this.swipeDirection = (touch.position - this.touchStartingPosition).normalized; //Direction of the swipe
                     this.rotation = Vector2.SignedAngle(Vector2.right, this.swipeDirection); //Setting player rotation to direction of swipe
                     StartCoroutine("ChangeDrag");
@@ -56,13 +56,6 @@ public class PlayerController : MonoBehaviour{
         }
 
         this.transform.eulerAngles = new Vector3(0, 0, this.rotation);
-    }
-
-    void FixedUpdate() {
-        
-    }
-
-    void LateUpdate() {
     }
 
     IEnumerator ChangeDrag() {
@@ -77,12 +70,4 @@ public class PlayerController : MonoBehaviour{
         this.rigidBody.drag = finalLinearDrag;
         
     }
-
-    void Dash() {
-
-        
-
-    }
-
-
 }
