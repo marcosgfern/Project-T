@@ -10,7 +10,6 @@ public class CameraScript : MonoBehaviour {
     void Start() {
         float screenRatio = (float)Screen.width / (float)Screen.height;
         float targetRatio = background.bounds.size.x / background.bounds.size.y;
-        Debug.Log("ScreenRatio: " + screenRatio + "\n targetRatio: " + targetRatio);
 
         if (screenRatio >= targetRatio) {
             Camera.main.orthographicSize = background.bounds.size.y / 2;
