@@ -7,8 +7,8 @@ public class EnemyHealth : MonoBehaviour
     public int health = 1;
 
     // Update is called once per frame
-    void AddDamage() {
-        health += -1;
+    void AddDamage(int damage) {
+        health = health - damage;
 
         if(health <= 0) {
             Destroy(gameObject);

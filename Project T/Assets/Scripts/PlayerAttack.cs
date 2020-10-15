@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour {
 
+    public int damage = 1;
+
     private bool isAttacking = false;
     private Animator animator;
     void Awake() {
@@ -14,10 +16,10 @@ public class PlayerAttack : MonoBehaviour {
         isAttacking = this.animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack");
     }
 
-    void OnTriggerEnter2D(Collider2D collision) {
+    private void OnCollisionEnter2D(Collision2D collision) {
         if (isAttacking) {
-            if (collision.CompareTag("Enemy")) {
-                collision.SendMessageUpwards("AddDamage");
+            if (collision.collider.CompareTag("Enemy")) {
+                collision.collider.SendMessageUpwards("AddDamage", damage);
             }
         }
     }

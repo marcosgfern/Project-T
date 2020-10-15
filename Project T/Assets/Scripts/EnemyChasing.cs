@@ -17,4 +17,10 @@ public class EnemyChasing : MonoBehaviour {
         this.transform.eulerAngles = new Vector3(0, 0, rotation);
 
     }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.collider.CompareTag("Player")) {
+            collision.collider.SendMessageUpwards("AddDamage", 1);
+        }
+    }
 }

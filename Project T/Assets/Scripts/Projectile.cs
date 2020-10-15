@@ -5,7 +5,9 @@ using UnityEngine;
 public class Projectile : MonoBehaviour {
 
     public Vector2 direction;
-    public float speed;
+    public float speed = 5;
+    public int damage = 1;
+
     // Start is called before the first frame update
     void Start() {
         float rotation = Vector2.SignedAngle(Vector2.right, this.direction);
@@ -18,11 +20,10 @@ public class Projectile : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        Debug.Log("entro");
         if (collision.CompareTag("Enemy")) {
-            collision.SendMessageUpwards("AddDamage");
+            collision.SendMessageUpwards("AddDamage", damage);
+            Destroy(gameObject);
         }
 
-        Destroy(gameObject);
     }
 }
