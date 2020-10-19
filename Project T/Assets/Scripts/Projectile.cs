@@ -19,11 +19,10 @@ public class Projectile : MonoBehaviour {
         this.transform.Translate(this.direction.normalized * this.speed * Time.deltaTime, Space.World);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.CompareTag("Enemy")) {
-            collision.SendMessageUpwards("AddDamage", damage);
-            Destroy(gameObject);
+    void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.collider.CompareTag("Enemy")) {
+            collision.collider.SendMessageUpwards("AddDamage", new int[] { damage, 2 });
         }
-
+            Destroy(gameObject);
     }
 }
