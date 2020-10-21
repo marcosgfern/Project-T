@@ -121,6 +121,7 @@ MonoBehaviour:
   direction: {x: 0, y: 0}
   speed: 5
   damage: 1
+  timeAlive: 2
 --- !u!61 &4119682779881868276
 BoxCollider2D:
   m_ObjectHideFlags: 0
