@@ -12,6 +12,7 @@ public class EnemyHealth : MonoBehaviour {
     private Rigidbody2D rigidbody;
     private Collider2D collider;
     private EnemyChasing chasingScript;
+    private EnemyShooting shootingScript;
     private SpriteRenderer spriteRenderer;
     private Color spriteColor;
 
@@ -20,6 +21,7 @@ public class EnemyHealth : MonoBehaviour {
         this.rigidbody = GetComponent<Rigidbody2D>();
         this.collider = GetComponent<Collider2D>();
         this.chasingScript = GetComponent<EnemyChasing>();
+        this.shootingScript = GetComponent<EnemyShooting>();
     }
 
     void Start() {
@@ -67,8 +69,16 @@ public class EnemyHealth : MonoBehaviour {
 
     private IEnumerator InvulnerabilityTime() {
         //Stop enemy movement
-        float speed = chasingScript.moveSpeed;
-        chasingScript.moveSpeed = 0;
+        float speed = 0;
+        if(chasingScript != null) {
+            speed = chasingScript.moveSpeed;
+            chasingScript.moveSpeed = 0;
+        }
+
+        if (shootingScript != null) {
+            speed = shootingScript.moveSpeed;
+            shootingScript.moveSpeed = 0;
+        }
 
         //Disable physics
         rigidbody.isKinematic = true;
@@ -96,7 +106,13 @@ public class EnemyHealth : MonoBehaviour {
         this.spriteRenderer.color = spriteColor * Color.white;
 
         //Reset enemy movement
-        chasingScript.moveSpeed = speed;
+        if (chasingScript != null) {
+            chasingScript.moveSpeed = speed;
+        }
+
+        if (shootingScript != null) {
+            shootingScript.moveSpeed = speed;
+        }
 
         //Enable physics back
         rigidbody.isKinematic = false;

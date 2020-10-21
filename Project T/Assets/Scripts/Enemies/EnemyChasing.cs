@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Controller for melee enemies
 public class EnemyChasing : MonoBehaviour {
 
     public Transform player;
