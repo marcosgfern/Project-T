@@ -6,17 +6,25 @@ using UnityEngine;
 public class EnemyShooting : MonoBehaviour
 {
     public Transform player;
-    public float moveSpeed = 1.5f;
-    public float targetDistance = 2;
-    private Vector2 movement;
+    public GameObject projectilePrefab;
+    public float movingSpeed = 1f;
+    public float shootingSpeed = 0.2f;
+    public float targetDistance = 2f;
+    public float timeToShoot = 1f;
+    public float shotCoolingTime = 1f;
+
+    private float speed;
+    private bool canShoot = true;
+
+    private void Start() {
+        this.speed = movingSpeed;
+    }
 
     // Update is called once per frame
     void Update() {
         Vector3 vectorToPlayer = player.position - this.transform.position;
 
         Vector2 direction = Vector2.zero;
-
-        
 
         if(vectorToPlayer.magnitude >= targetDistance) {
             float distanceFactor = targetDistance / vectorToPlayer.magnitude;
@@ -39,14 +47,43 @@ public class EnemyShooting : MonoBehaviour
 
         float rotation = Vector2.SignedAngle(Vector2.right, vectorToPlayer);
 
-        this.transform.Translate(direction.normalized * moveSpeed * Time.deltaTime, Space.World);
+        this.transform.Translate(direction.normalized * speed * Time.deltaTime, Space.World);
         this.transform.eulerAngles = new Vector3(0, 0, rotation);
+
+        if (canShoot) {
+            canShoot = false;
+            StartCoroutine("Shooting");
+        }
 
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.collider.CompareTag("Player")) {
             collision.collider.SendMessageUpwards("AddDamage", 1);
+        }
+    }
+
+    IEnumerator Shooting() {
+        //Slowing down. Preparing to shoot
+        speed = shootingSpeed;
+        yield return new WaitForSeconds(timeToShoot);
+
+        Debug.Log("Entro");
+
+        Shoot(player.position, transform.position);
+        speed = movingSpeed;
+        yield return new WaitForSeconds(shotCoolingTime);
+
+        canShoot = true;
+    }
+
+    void Shoot(Vector2 target, Vector2 shootingPoint) {
+        if (projectilePrefab != null) {
+            GameObject projectile = Instantiate(projectilePrefab, shootingPoint, Quaternion.identity) as GameObject;
+
+            EnemyProjectile projectileComponent = projectile.GetComponent<EnemyProjectile>();
+
+            projectileComponent.direction = target - shootingPoint;
         }
     }
 }

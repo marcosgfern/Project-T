@@ -889,13 +889,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShootingEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2795149379939366355, guid: 120fe75b978ead84d923f9763eaab7ed, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 571709413}
+    - target: {fileID: 2795149379939366355, guid: 120fe75b978ead84d923f9763eaab7ed, type: 3}
+      propertyPath: moveSpeed
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7846310248954348347, guid: 120fe75b978ead84d923f9763eaab7ed, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.19
+      value: -1.64
       objectReference: {fileID: 0}
     - target: {fileID: 7846310248954348347, guid: 120fe75b978ead84d923f9763eaab7ed, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.98
+      value: 2.89
       objectReference: {fileID: 0}
     - target: {fileID: 7846310248954348347, guid: 120fe75b978ead84d923f9763eaab7ed, type: 3}
       propertyPath: m_LocalPosition.z
@@ -946,17 +954,21 @@ PrefabInstance:
       propertyPath: currentHealthUI
       value: 
       objectReference: {fileID: 1770310310}
+    - target: {fileID: 3159384213031258684, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3697284688787348975, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3697284688787348979, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.18
+      value: 0.39
       objectReference: {fileID: 0}
     - target: {fileID: 3697284688787348979, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.17
+      value: -0.91
       objectReference: {fileID: 0}
     - target: {fileID: 3697284688787348979, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1013,7 +1025,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9049060201411902898, guid: 154efeb085e12e74cbdc0ea9880e6409, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9049060201411902899, guid: 154efeb085e12e74cbdc0ea9880e6409, type: 3}
       propertyPath: m_Enabled

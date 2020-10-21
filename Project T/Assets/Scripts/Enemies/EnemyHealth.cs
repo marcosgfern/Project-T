@@ -68,16 +68,20 @@ public class EnemyHealth : MonoBehaviour {
     }
 
     private IEnumerator InvulnerabilityTime() {
-        //Stop enemy movement
+        //Stop melee enemy movement
         float speed = 0;
         if(chasingScript != null) {
             speed = chasingScript.moveSpeed;
             chasingScript.moveSpeed = 0;
         }
 
+        //Stop shooting enemy movement
+        float shootingSpeed = 0;
         if (shootingScript != null) {
-            speed = shootingScript.moveSpeed;
-            shootingScript.moveSpeed = 0;
+            speed = shootingScript.movingSpeed;
+            shootingScript.movingSpeed = 0;
+            shootingSpeed = shootingScript.shootingSpeed;
+            shootingScript.shootingSpeed = 0;
         }
 
         //Disable physics
@@ -105,13 +109,15 @@ public class EnemyHealth : MonoBehaviour {
 
         this.spriteRenderer.color = spriteColor * Color.white;
 
-        //Reset enemy movement
+        //Reset melee enemy movement
         if (chasingScript != null) {
             chasingScript.moveSpeed = speed;
         }
 
+        //Reset shooting enemy movement
         if (shootingScript != null) {
-            shootingScript.moveSpeed = speed;
+            shootingScript.movingSpeed = speed;
+            shootingScript.shootingSpeed = shootingSpeed;
         }
 
         //Enable physics back

@@ -150,5 +150,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  moveSpeed: 1
+  projectilePrefab: {fileID: 134156742331206581, guid: 32cac192533cbd540a24a087553a905d, type: 3}
+  movingSpeed: 2
+  shootingSpeed: 0.1
   targetDistance: 2
+  timeToShoot: 1
+  shotCoolingTime: 1
