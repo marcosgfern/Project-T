@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour{
     public float movingTime = 0.2f;
     public float startingLinearDrag = 1f;
     public float finalLinearDrag = 10f;
+    public float shotCoolingTime = 0.1f;
 
     public GameObject projectilePrefab;
 
@@ -19,6 +20,8 @@ public class PlayerController : MonoBehaviour{
     private Vector2 touchStartingPosition;
     private bool isSwipe = false;
     private Vector2 swipeDirection = Vector2.zero;
+
+    private bool canShoot = true;
 
     private float rotation = 0;
     private void Awake(){
@@ -54,7 +57,10 @@ public class PlayerController : MonoBehaviour{
                     this.rotation = Vector2.SignedAngle(Vector2.right, this.swipeDirection); //Setting player rotation to direction of swipe
                     StartCoroutine("ChangeDrag");
                 } else {
-                    Shoot(Camera.main.ScreenToWorldPoint(this.touchStartingPosition), this.transform.position);
+                    if (canShoot) {
+                        canShoot = false;
+                        StartCoroutine("Shooting");
+                    }
                 }
             }
         }
@@ -73,6 +79,13 @@ public class PlayerController : MonoBehaviour{
 
         this.rigidBody.drag = finalLinearDrag;
         
+    }
+
+    IEnumerator Shooting() {
+        Shoot(Camera.main.ScreenToWorldPoint(this.touchStartingPosition), this.transform.position);
+
+        yield return new WaitForSeconds(shotCoolingTime);
+        canShoot = true;
     }
 
     public void Shoot(Vector2 target, Vector2 shootingPoint) {
