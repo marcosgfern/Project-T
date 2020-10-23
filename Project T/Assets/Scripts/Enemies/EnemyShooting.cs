@@ -68,11 +68,11 @@ public class EnemyShooting : MonoBehaviour
         speed = shootingSpeed;
         yield return new WaitForSeconds(timeToShoot);
 
-        Debug.Log("Entro");
-
         Shoot(player.position, transform.position);
+
+        yield return new WaitForSeconds(0.1f);
         speed = movingSpeed;
-        yield return new WaitForSeconds(shotCoolingTime);
+        yield return new WaitForSeconds(shotCoolingTime - 0.1f);
 
         canShoot = true;
     }
