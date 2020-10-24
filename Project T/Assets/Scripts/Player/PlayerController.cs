@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour{
                 this.isSwipe = true;
                 this.animator.SetBool("IsSwiping", true);
                 this.swipeDirection = (touch.position - this.touchStartingPosition).normalized; //Direction of the swipe
-                this.rotation = Vector2.SignedAngle(Vector2.right, this.swipeDirection); //Setting player rotation to direction of swipe
+                this.rotation = Vector2.SignedAngle(Vector2.right, this.swipeDirection); //Setting player rotation to direction of current touch position
             }
 
             if (touch.phase == TouchPhase.Ended) {
@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour{
     }
 
     IEnumerator ChangeDrag() {
+        canShoot = false;
         this.rigidBody.drag = startingLinearDrag;
         this.rigidBody.AddForce(this.swipeDirection * this.movingForce, ForceMode2D.Impulse);
         this.animator.SetBool("IsSwiping", false);
@@ -82,10 +83,12 @@ public class PlayerController : MonoBehaviour{
 
         this.rigidBody.drag = finalLinearDrag;
         this.animator.SetTrigger("EndAttack");
+        canShoot = true;
         
     }
 
     IEnumerator Shooting() {
+        this.rotation = Vector2.SignedAngle(Vector2.right, Camera.main.ScreenToWorldPoint(this.touchStartingPosition) - this.transform.position); //Setting player rotation to direction of shot
         Shoot(Camera.main.ScreenToWorldPoint(this.touchStartingPosition), this.transform.position);
 
         yield return new WaitForSeconds(shotCoolingTime);
