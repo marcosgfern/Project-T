@@ -48,6 +48,9 @@ public class PlayerController : MonoBehaviour{
             //Check if the action is a tap or a swipe
             if(touch.phase == TouchPhase.Moved) {
                 this.isSwipe = true;
+                this.animator.SetBool("IsSwiping", true);
+                this.swipeDirection = (touch.position - this.touchStartingPosition).normalized; //Direction of the swipe
+                this.rotation = Vector2.SignedAngle(Vector2.right, this.swipeDirection); //Setting player rotation to direction of swipe
             }
 
             if (touch.phase == TouchPhase.Ended) {
@@ -71,13 +74,14 @@ public class PlayerController : MonoBehaviour{
     IEnumerator ChangeDrag() {
         this.rigidBody.drag = startingLinearDrag;
         this.rigidBody.AddForce(this.swipeDirection * this.movingForce, ForceMode2D.Impulse);
-        this.animator.SetTrigger("Attack");
-        
+        this.animator.SetBool("IsSwiping", false);
+
 
 
         yield return new WaitForSeconds(movingTime);
 
         this.rigidBody.drag = finalLinearDrag;
+        this.animator.SetTrigger("EndAttack");
         
     }
 

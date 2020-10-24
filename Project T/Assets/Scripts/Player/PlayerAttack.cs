@@ -13,7 +13,7 @@ public class PlayerAttack : MonoBehaviour {
     }
 
     void LateUpdate() {
-        isAttacking = this.animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack");
+        isAttacking = (this.animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"));
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {

@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8532217651484511871
 Transform:
   m_ObjectHideFlags: 0
@@ -44,8 +44,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.15, y: 0}
-  m_Size: {x: 1, y: 1.05}
+  m_Offset: {x: 0.3, y: 0}
+  m_Size: {x: 1.4, y: 1.1}
   m_Direction: 1
 --- !u!1 &3697284688787348975
 GameObject:
@@ -125,12 +125,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7503402373696077091, guid: 5eaf66c2acf91a44aae3ee879dbcafd2, type: 3}
+  m_Sprite: {fileID: 8983785769151291716, guid: af71828c7b40b1648ab302c55452462d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.64, y: 0.96}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
