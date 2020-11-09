@@ -15,6 +15,11 @@ public class EnemyShooting : MonoBehaviour
 
     private float speed;
     private bool canShoot = true;
+    private Animator animator;
+
+    private void Awake() {
+        this.animator = GetComponent<Animator>();
+    }
 
     private void Start() {
         this.speed = movingSpeed;
@@ -57,6 +62,12 @@ public class EnemyShooting : MonoBehaviour
 
     }
 
+    private void LateUpdate() {
+        if (!this.animator.CompareTag("Shoot")) {
+            canShoot = true;
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.collider.CompareTag("Player")) {
             collision.collider.SendMessageUpwards("AddDamage", 1);
@@ -68,7 +79,7 @@ public class EnemyShooting : MonoBehaviour
         speed = shootingSpeed;
         yield return new WaitForSeconds(timeToShoot);
 
-        Shoot(player.position, transform.position);
+        Shoot();
 
         yield return new WaitForSeconds(0.1f);
         speed = movingSpeed;
@@ -77,13 +88,13 @@ public class EnemyShooting : MonoBehaviour
         canShoot = true;
     }
 
-    void Shoot(Vector2 target, Vector2 shootingPoint) {
+    void Shoot() {
         if (projectilePrefab != null) {
-            GameObject projectile = Instantiate(projectilePrefab, shootingPoint, Quaternion.identity) as GameObject;
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity) as GameObject;
 
             EnemyProjectile projectileComponent = projectile.GetComponent<EnemyProjectile>();
 
-            projectileComponent.direction = target - shootingPoint;
+            projectileComponent.direction = player.position - transform.position;
         }
     }
 }

@@ -14,6 +14,7 @@ public class EnemyHealth : MonoBehaviour {
     private EnemyChasing chasingScript;
     private EnemyShooting shootingScript;
     private SpriteRenderer spriteRenderer;
+    private Animator animator;
     private Color spriteColor;
 
     void Awake() {
@@ -22,6 +23,7 @@ public class EnemyHealth : MonoBehaviour {
         this.collider = GetComponent<Collider2D>();
         this.chasingScript = GetComponent<EnemyChasing>();
         this.shootingScript = GetComponent<EnemyShooting>();
+        this.animator = GetComponent<Animator>();
     }
 
     void Start() {
@@ -44,6 +46,8 @@ public class EnemyHealth : MonoBehaviour {
         }
 
         this.spriteRenderer.color = this.spriteColor;
+
+        this.animator.SetBool("Moving", true);
     }
 
     /*
@@ -68,6 +72,9 @@ public class EnemyHealth : MonoBehaviour {
     }
 
     private IEnumerator InvulnerabilityTime() {
+        //Change animation
+        this.animator.SetBool("Moving", false);
+
         //Stop melee enemy movement
         float speed = 0;
         if(chasingScript != null) {
@@ -125,5 +132,9 @@ public class EnemyHealth : MonoBehaviour {
 
         //Enable collisions back
         collider.enabled = true;
+
+        //Change animation
+        this.animator.SetBool("Moving", true);
+
     }
 }
