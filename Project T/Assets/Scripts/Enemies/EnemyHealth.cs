@@ -76,19 +76,13 @@ public class EnemyHealth : MonoBehaviour {
         this.animator.SetBool("Moving", false);
 
         //Stop melee enemy movement
-        float speed = 0;
         if(chasingScript != null) {
-            speed = chasingScript.moveSpeed;
-            chasingScript.moveSpeed = 0;
+            chasingScript.isStunned = true;
         }
 
         //Stop shooting enemy movement
-        float shootingSpeed = 0;
         if (shootingScript != null) {
-            speed = shootingScript.movingSpeed;
-            shootingScript.movingSpeed = 0;
-            shootingSpeed = shootingScript.shootingSpeed;
-            shootingScript.shootingSpeed = 0;
+            shootingScript.isStunned = true;
         }
 
         //Disable physics
@@ -116,15 +110,18 @@ public class EnemyHealth : MonoBehaviour {
 
         this.spriteRenderer.color = spriteColor * Color.white;
 
+        //Change animation
+        this.animator.SetBool("Moving", true);
+
         //Reset melee enemy movement
         if (chasingScript != null) {
-            chasingScript.moveSpeed = speed;
+            chasingScript.isStunned = false;
         }
 
         //Reset shooting enemy movement
         if (shootingScript != null) {
-            shootingScript.movingSpeed = speed;
-            shootingScript.shootingSpeed = shootingSpeed;
+            shootingScript.isStunned = false;
+            shootingScript.CoolingTime(); //Force walking-shooting loop to restart
         }
 
         //Enable physics back
@@ -132,9 +129,6 @@ public class EnemyHealth : MonoBehaviour {
 
         //Enable collisions back
         collider.enabled = true;
-
-        //Change animation
-        this.animator.SetBool("Moving", true);
 
     }
 }
