@@ -11,19 +11,21 @@ public class EnemyHealth : MonoBehaviour {
 
     private Rigidbody2D rigidbody;
     private Collider2D collider;
-    private EnemyChasing chasingScript;
-    private EnemyShooting shootingScript;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
+    private EnemyChasing chasingScript;
+    private EnemyShooting shootingScript;
+    private LifeBar lifeBar;
     private Color spriteColor;
 
     void Awake() {
-        this.spriteRenderer = GetComponent<SpriteRenderer>();
         this.rigidbody = GetComponent<Rigidbody2D>();
         this.collider = GetComponent<Collider2D>();
+        this.spriteRenderer = GetComponent<SpriteRenderer>();
+        this.animator = GetComponent<Animator>();
         this.chasingScript = GetComponent<EnemyChasing>();
         this.shootingScript = GetComponent<EnemyShooting>();
-        this.animator = GetComponent<Animator>();
+        this.lifeBar = GetComponentInChildren<LifeBar>();
     }
 
     void Start() {
@@ -47,6 +49,8 @@ public class EnemyHealth : MonoBehaviour {
 
         this.spriteRenderer.color = this.spriteColor;
 
+        this.lifeBar.SetLifePoints(this.health);
+
         this.animator.SetBool("Moving", true);
     }
 
@@ -58,9 +62,11 @@ public class EnemyHealth : MonoBehaviour {
     void AddDamage(int[] damageInfo) {
         if(this.color == 0) {
             this.health = this.health - damageInfo[0];
+            this.lifeBar.SetLifePoints(this.health);
         } else {
             if(this.color == damageInfo[1]) {
                 this.health = this.health - damageInfo[0];
+                this.lifeBar.SetLifePoints(this.health);
             }
         }
 

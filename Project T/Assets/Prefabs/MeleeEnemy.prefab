@@ -182,7 +182,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 55506585164067933, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}
       propertyPath: m_Name
-      value: LifeBar
+      value: LifeBarPivotPoint
       objectReference: {fileID: 0}
     - target: {fileID: 317683567396007233, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}
       propertyPath: m_LocalPosition.x
@@ -231,6 +231,14 @@ PrefabInstance:
     - target: {fileID: 4716677856522928930, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}
       propertyPath: m_Size.x
       value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 9130977953689510783, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}
+      propertyPath: m_Size.x
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 9130977953689510783, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}

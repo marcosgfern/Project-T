@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 317683567396007233}
   - component: {fileID: 5979498903159503582}
   m_Layer: 5
-  m_Name: LifeBarPivotPoint
+  m_Name: LifeBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c9db5379b7003c41ae8ab7ba23b3e64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointWidth: 0.08
+  pointHeight: 0.08
+  lifePoints: 1
 --- !u!1 &4396153623521755765
 GameObject:
   m_ObjectHideFlags: 0
