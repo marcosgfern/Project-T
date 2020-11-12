@@ -89,6 +89,7 @@ public class EnemyShooting : MonoBehaviour
     }
     private IEnumerator ShotCoolingTime() {
         speed = movingSpeed;
+        this.animator.ResetTrigger("Shoot");
         yield return new WaitForSeconds(shotCoolingTime);
         canShoot = true;
     }
