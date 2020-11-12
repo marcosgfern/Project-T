@@ -6,9 +6,9 @@ public class PlayerHealth : MonoBehaviour {
 
     public float maxHealth = 3f;
     public RectTransform currentHealthUI;
+    public float heartSize = 64f;
 
     private float health;
-    private float heartSize = 100f;
     private bool invincible;
 
     private SpriteRenderer spriteRenderer;
