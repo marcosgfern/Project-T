@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using EnemyHealth;
+
 public class PlayerAttack : MonoBehaviour {
 
     public int damage = 1;
@@ -19,7 +21,7 @@ public class PlayerAttack : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision) {
         if (isAttacking) {
             if (collision.collider.CompareTag("Enemy")) {
-                collision.collider.SendMessageUpwards("AddDamage", new int[] {damage, 1});
+                collision.collider.SendMessageUpwards("AddDamage", new Damage(damage, DamageColor.Red));
             }
         }
     }

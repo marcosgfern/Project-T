@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using EnemyHealth;
+
 public class Projectile : MonoBehaviour {
 
     public Vector2 direction;
@@ -23,7 +25,7 @@ public class Projectile : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D collision) {
         if (collision.collider.CompareTag("Enemy")) {
-            collision.collider.SendMessageUpwards("AddDamage", new int[] { damage, 2 });
+            collision.collider.SendMessageUpwards("AddDamage", new Damage(damage, DamageColor.Blue));
         }
             Destroy(gameObject);
     }
