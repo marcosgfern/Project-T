@@ -3,28 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Controller for shooting enemies
-public class EnemyShooting : MonoBehaviour
-{
-    public Transform player;
+public class ShooterController : EnemyController {
+
     public GameObject projectilePrefab;
-    public float movingSpeed = 1f;
-    public float shootingSpeed = 0.2f;
     public float targetDistance = 2f;
     public float timeToShoot = 1f;
     public float shotCoolingTime = 1f;
-    public bool isStunned;
 
     private float speed;
     private bool canShoot = true;
-    private Animator animator;
+    
 
-    private void Awake() {
-        this.animator = GetComponent<Animator>();
-    }
-
-    private void Start() {
+    private new void Start() {
+        base.Start();
         this.speed = movingSpeed;
-        this.isStunned = false;
     }
 
     // Update is called once per frame
@@ -60,19 +52,12 @@ public class EnemyShooting : MonoBehaviour
 
             if (canShoot) {
                 canShoot = false;
-                speed = shootingSpeed;
+                speed = 0;
                 this.animator.SetTrigger("Shoot");
             }
         }
 
     }
-
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.collider.CompareTag("Player")) {
-            collision.collider.SendMessageUpwards("AddDamage", 1);
-        }
-    }
-
 
     void Shoot() {
         if (projectilePrefab != null) {
@@ -84,13 +69,19 @@ public class EnemyShooting : MonoBehaviour
         }
     }
 
-    public void CoolingTime() {
-        StartCoroutine("ShotCoolingTime");
+    public void StartShotCooling() {
+        StartCoroutine("ShotCooling");
     }
-    private IEnumerator ShotCoolingTime() {
+
+    private IEnumerator ShotCooling() {
         speed = movingSpeed;
         this.animator.ResetTrigger("Shoot");
         yield return new WaitForSeconds(shotCoolingTime);
         canShoot = true;
+    }
+
+    protected override void Unstun() {
+        base.Unstun();
+        StartShotCooling(); //Forcing restart of moving-shooting loop
     }
 }

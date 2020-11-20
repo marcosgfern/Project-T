@@ -1014,9 +1014,13 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2795149379939366355, guid: 120fe75b978ead84d923f9763eaab7ed, type: 3}
+      propertyPath: movingSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5160279390342962397, guid: 120fe75b978ead84d923f9763eaab7ed, type: 3}
       propertyPath: color
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5160279390342962397, guid: 120fe75b978ead84d923f9763eaab7ed, type: 3}
       propertyPath: health

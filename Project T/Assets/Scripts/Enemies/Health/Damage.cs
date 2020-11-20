@@ -16,7 +16,7 @@ namespace EnemyHealth {
             this.damageColor = damageColor;
         }
 
-
+        //Returns the damage an enemy will receive depending on its color
         public int CalculateDamage(DamageColor enemyColor) {
             if (enemyColor == DamageColor.White) {
                 return this.damagePoints;
