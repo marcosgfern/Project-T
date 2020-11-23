@@ -7,7 +7,6 @@ public class ShooterController : EnemyController {
 
     public GameObject projectilePrefab;
     public float targetDistance = 2f;
-    public float timeToShoot = 1f;
     public float shotCoolingTime = 1f;
 
     private float speed;
@@ -26,6 +25,7 @@ public class ShooterController : EnemyController {
 
             Vector2 direction = Vector2.zero;
 
+            //If the enemy is further than the target distance
             if (vectorToPlayer.magnitude >= targetDistance) {
                 float distanceFactor = targetDistance / vectorToPlayer.magnitude;
                 if (distanceFactor > 1) distanceFactor = 1;

@@ -18,8 +18,6 @@ namespace EnemyHealth {
         }
 
         void Start() {
-            this.enemyController.SetColor(this.color);
-
             this.lifeBar.SetLifePoints(this.health);
         }
 
@@ -33,6 +31,10 @@ namespace EnemyHealth {
             } else {
                 enemyController.InvulnerabilityTime();
             }
+        }
+
+        public DamageColor GetColor() {
+            return this.color;
         }
     }
 }

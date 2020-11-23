@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
-public class PlayerController : MonoBehaviour{
+public class PlayerController : MonoBehaviour {
 
     public float movingForce = 10f;
     public float movingTime = 0.2f;
@@ -15,23 +15,27 @@ public class PlayerController : MonoBehaviour{
 
     private Rigidbody2D rigidBody;
     private Animator animator;
-    private float dashStartingTime;
+    private SpriteRenderer spriteRenderer;
+    private PlayerHealthController healthController;
 
     private Vector2 touchStartingPosition;
     private bool isSwipe = false;
     private Vector2 swipeDirection = Vector2.zero;
+    
+    private float rotation = 0;
 
     private bool canShoot = true;
 
-    private float rotation = 0;
+
     private void Awake(){
         this.rigidBody = GetComponent<Rigidbody2D>();
         this.animator = GetComponent<Animator>();
+        this.spriteRenderer = GetComponent<SpriteRenderer>();
+        this.healthController = GetComponent<PlayerHealthController>();
     }
 
     // Start is called before the first frame update
     void Start(){
-
     }
 
     // Update is called once per frame
@@ -103,5 +107,30 @@ public class PlayerController : MonoBehaviour{
 
             projectileComponent.direction = target - shootingPoint;
         }
+    }
+
+    public void StartInvulnerabilityTime() {
+        StartCoroutine("InvulnerabilityTime");
+    }
+    private IEnumerator InvulnerabilityTime() {
+        this.healthController.SetInvincibility(true);
+
+        //Visual feedback
+        this.spriteRenderer.color = Color.yellow;
+        yield return new WaitForSeconds(0.05f);
+        this.spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.05f);
+        this.spriteRenderer.color = Color.white;
+        yield return new WaitForSeconds(0.05f);
+
+        for (int i = 0; i < 5; i++) {
+            this.spriteRenderer.color = new Color(1f, 1f, 1f, 0.2f);
+            yield return new WaitForSeconds(0.1f);
+            this.spriteRenderer.color = new Color(1f, 1f, 1f, 0.6f);
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        this.spriteRenderer.color = Color.white;
+        this.healthController.SetInvincibility(false);
     }
 }

@@ -18,16 +18,20 @@ public class EnemyController : MonoBehaviour {
     private SpriteRenderer spriteRenderer;
     private Color spriteColor;
 
+    private EnemyHealthController healthController;
+
     void Awake() {
         this.animator = GetComponent<Animator>();
         this.rigidbody = GetComponent<Rigidbody2D>();
         this.collider = GetComponent<Collider2D>();
         this.spriteRenderer = GetComponent<SpriteRenderer>();
+        this.healthController = GetComponent<EnemyHealthController>();
     }
 
     protected void Start() {
         this.isStunned = false;
         this.animator.SetBool("Moving", true);
+        SetColor(healthController.GetColor());
     }
 
     public void SetColor(DamageColor color) {
@@ -57,18 +61,7 @@ public class EnemyController : MonoBehaviour {
     }
 
     protected IEnumerator Invulnerability() {
-        //Change animation
-        this.animator.SetBool("Moving", false);
-
         Stun();
-
-        //Disable physics
-        rigidbody.isKinematic = true;
-        rigidbody.velocity = Vector2.zero;
-        rigidbody.angularVelocity = 0f;
-
-        //Disable collisions
-        collider.enabled = false;
 
         //Visual feedback
         this.spriteRenderer.color = spriteColor * Color.yellow;
@@ -87,24 +80,36 @@ public class EnemyController : MonoBehaviour {
 
         this.spriteRenderer.color = spriteColor * Color.white;
 
+        Unstun();
+    }
+
+    protected virtual void Stun(){
+        this.isStunned = true;
+
+        //Change animation
+        this.animator.SetBool("Moving", false);
+
+        //Disable physics
+        rigidbody.isKinematic = true;
+        rigidbody.velocity = Vector2.zero;
+        rigidbody.angularVelocity = 0f;
+
+        //Disable collisions
+        collider.enabled = false;
+    }
+
+    protected virtual void Unstun(){
+        this.isStunned = false;
+
         //Change animation
         this.animator.SetBool("Moving", true);
 
-        Unstun();
 
         //Enable physics back
         rigidbody.isKinematic = false;
 
         //Enable collisions back
         collider.enabled = true;
-    }
-
-    protected virtual void Stun(){
-        this.isStunned = true;
-    }
-
-    protected virtual void Unstun(){
-        this.isStunned = false;
     }
 
 
