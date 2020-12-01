@@ -41,4 +41,8 @@ public class PlayerHealthController : MonoBehaviour {
     public void SetInvincibility(bool invincible) {
         this.invincible = invincible;
     }
+
+    public bool IsInvincible() {
+        return this.invincible;
+    }
 }

@@ -3,6 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
+class TouchManager {
+    private Vector2 startingPosition;
+    private Vector2 currentPosition;
+    private bool swipe;
+    private TouchPhase phase;
+
+    public void Update() {
+        if (Input.touches.Length > 0) {
+            Touch touch = Input.GetTouch(0);
+
+            this.phase = touch.phase;
+
+            switch (touch.phase) {
+                case TouchPhase.Began:
+                    this.startingPosition = this.currentPosition = touch.position;
+                    this.swipe = false;
+
+                    break;
+                case TouchPhase.Moved:
+                    this.swipe = true;
+                    this.currentPosition = touch.position;
+
+                    break;
+                case TouchPhase.Ended:
+                    this.currentPosition = touch.position;
+                    break;
+            }
+        }
+    }
+
+    public Vector2 GetStartingPosition() {
+        return this.startingPosition;
+    }
+
+    public Vector2 GetSwipeDirection() {
+        return (this.currentPosition - this.startingPosition).normalized;
+    }
+
+    public bool IsSwipe() {
+        return this.swipe;
+    }
+
+    public TouchPhase? GetPhase() {
+        if (Input.touches.Length == 0) {
+            return null;
+        } else {
+            return this.phase;
+        }
+    }
+}
+
 public class PlayerController : MonoBehaviour {
 
     public float movingForce = 10f;
@@ -18,11 +69,7 @@ public class PlayerController : MonoBehaviour {
     private SpriteRenderer spriteRenderer;
     private PlayerHealthController healthController;
 
-    private Vector2 touchStartingPosition;
-    private bool isSwipe = false;
-    private Vector2 swipeDirection = Vector2.zero;
-    
-    private float rotation = 0;
+    private TouchManager touchManager = new TouchManager();
 
     private bool canShoot = true;
 
@@ -34,72 +81,73 @@ public class PlayerController : MonoBehaviour {
         this.healthController = GetComponent<PlayerHealthController>();
     }
 
-    // Start is called before the first frame update
-    void Start(){
-    }
-
     // Update is called once per frame
     void Update(){
-        if(Input.touches.Length > 0) {
-            Touch touch = Input.GetTouch(0);
+        this.touchManager.Update();
 
-            //Get starting position of the touch
-            if(touch.phase == TouchPhase.Began) {
-                this.touchStartingPosition = touch.position;
-                this.isSwipe = false;
-            }
-
-            //Check if the action is a tap or a swipe
-            if(touch.phase == TouchPhase.Moved) {
-                this.isSwipe = true;
-                this.animator.SetBool("IsSwiping", true);
-                this.swipeDirection = (touch.position - this.touchStartingPosition).normalized; //Direction of the swipe
-                this.rotation = Vector2.SignedAngle(Vector2.right, this.swipeDirection); //Setting player rotation to direction of current touch position
-            }
-
-            if (touch.phase == TouchPhase.Ended) {
-                //Get the position at the end of the swipe
-                if(isSwipe) {
-                    this.swipeDirection = (touch.position - this.touchStartingPosition).normalized; //Direction of the swipe
-                    this.rotation = Vector2.SignedAngle(Vector2.right, this.swipeDirection); //Setting player rotation to direction of swipe
-                    StartCoroutine("ChangeDrag");
+        switch(this.touchManager.GetPhase()) {
+            case TouchPhase.Moved:
+                this.ChargeAttack();
+                break;
+            case TouchPhase.Ended:
+                if (this.touchManager.IsSwipe()) {
+                    this.DoMeleeAttack();
                 } else {
-                    if (canShoot) {
-                        canShoot = false;
-                        StartCoroutine("Shooting");
-                    }
+                    this.DoRangedAttack();
                 }
-            }
+                break;
         }
+    }
 
-        this.transform.eulerAngles = new Vector3(0, 0, this.rotation);
+    private void ChargeAttack() {
+        this.animator.SetBool("IsSwiping", true);
+        this.RotatePlayerToTouch();
+    }
+
+    private void DoMeleeAttack() {
+        this.RotatePlayerToTouch();
+        StartCoroutine("ChangeDrag");
+    }
+
+    private void DoRangedAttack() {
+        if (canShoot) {
+            canShoot = false;
+            StartCoroutine("Shooting");
+        }
+    }
+
+    private void RotatePlayerToTouch() {
+        this.transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.right, this.touchManager.GetSwipeDirection()));
     }
 
     IEnumerator ChangeDrag() {
         canShoot = false;
         this.rigidBody.drag = startingLinearDrag;
-        this.rigidBody.AddForce(this.swipeDirection * this.movingForce, ForceMode2D.Impulse);
+
+        this.rigidBody.velocity = Vector2.zero;
+        this.rigidBody.AddForce(this.touchManager.GetSwipeDirection() * this.movingForce, ForceMode2D.Impulse);
+
         this.animator.SetBool("IsSwiping", false);
-
-
 
         yield return new WaitForSeconds(movingTime);
 
         this.rigidBody.drag = finalLinearDrag;
         this.animator.SetTrigger("EndAttack");
-        canShoot = true;
-        
+        canShoot = true;       
     }
 
     IEnumerator Shooting() {
-        this.rotation = Vector2.SignedAngle(Vector2.right, Camera.main.ScreenToWorldPoint(this.touchStartingPosition) - this.transform.position); //Setting player rotation to direction of shot
-        Shoot(Camera.main.ScreenToWorldPoint(this.touchStartingPosition), this.transform.position);
+        //Setting player rotation to direction of shot
+        float rotation = Vector2.SignedAngle(Vector2.right, Camera.main.ScreenToWorldPoint(this.touchManager.GetStartingPosition()) - this.transform.position);
+        this.transform.eulerAngles = new Vector3(0, 0, rotation);
+
+        Shoot(Camera.main.ScreenToWorldPoint(this.touchManager.GetStartingPosition()), this.transform.position);
 
         yield return new WaitForSeconds(shotCoolingTime);
         canShoot = true;
     }
 
-    public void Shoot(Vector2 target, Vector2 shootingPoint) {
+    void Shoot(Vector2 target, Vector2 shootingPoint) {
         if (projectilePrefab != null) {
             GameObject projectile = Instantiate(projectilePrefab, shootingPoint, Quaternion.identity) as GameObject;
 
@@ -113,24 +161,36 @@ public class PlayerController : MonoBehaviour {
         StartCoroutine("InvulnerabilityTime");
     }
     private IEnumerator InvulnerabilityTime() {
-        this.healthController.SetInvincibility(true);
+        if (!this.healthController.IsInvincible()) {
+            this.healthController.SetInvincibility(true);
 
-        //Visual feedback
-        this.spriteRenderer.color = Color.yellow;
-        yield return new WaitForSeconds(0.05f);
-        this.spriteRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.05f);
-        this.spriteRenderer.color = Color.white;
-        yield return new WaitForSeconds(0.05f);
+            /*FlashAnimator flashAnimator;
 
-        for (int i = 0; i < 5; i++) {
-            this.spriteRenderer.color = new Color(1f, 1f, 1f, 0.2f);
-            yield return new WaitForSeconds(0.1f);
-            this.spriteRenderer.color = new Color(1f, 1f, 1f, 0.6f);
-            yield return new WaitForSeconds(0.1f);
+            flashAnimator.AddStep(Color.yellow, 0.05f);
+            flashAnimator.AddStep({ Color.red, Color.blue}, 0.1f, 5);
+
+            for (FlashStep step : flashAnimator.GetSteps()) {
+                this.spriteRenderer.color = step.color;
+                yield return step.wait;
+            }*/
+
+            //Visual feedback
+            this.spriteRenderer.color = Color.yellow;
+            yield return new WaitForSeconds(0.05f);
+            this.spriteRenderer.color = Color.red;
+            yield return new WaitForSeconds(0.05f);
+            this.spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(0.05f);
+
+            for (int i = 0; i < 5; i++) {
+                this.spriteRenderer.color = new Color(1f, 1f, 1f, 0.2f);
+                yield return new WaitForSeconds(0.1f);
+                this.spriteRenderer.color = new Color(1f, 1f, 1f, 0.6f);
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            this.spriteRenderer.color = Color.white;
+            this.healthController.SetInvincibility(false);
         }
-
-        this.spriteRenderer.color = Color.white;
-        this.healthController.SetInvincibility(false);
     }
 }

@@ -12,8 +12,8 @@ public class EnemyController : MonoBehaviour {
     
     protected bool isStunned;
     protected Animator animator;
-    private Rigidbody2D rigidbody;
-    private Collider2D collider;
+    private Rigidbody2D enemyRigidbody;
+    private Collider2D enemyCollider;
 
     private SpriteRenderer spriteRenderer;
     private Color spriteColor;
@@ -22,8 +22,8 @@ public class EnemyController : MonoBehaviour {
 
     void Awake() {
         this.animator = GetComponent<Animator>();
-        this.rigidbody = GetComponent<Rigidbody2D>();
-        this.collider = GetComponent<Collider2D>();
+        this.enemyRigidbody = GetComponent<Rigidbody2D>();
+        this.enemyCollider = GetComponent<Collider2D>();
         this.spriteRenderer = GetComponent<SpriteRenderer>();
         this.healthController = GetComponent<EnemyHealthController>();
     }
@@ -90,12 +90,12 @@ public class EnemyController : MonoBehaviour {
         this.animator.SetBool("Moving", false);
 
         //Disable physics
-        rigidbody.isKinematic = true;
-        rigidbody.velocity = Vector2.zero;
-        rigidbody.angularVelocity = 0f;
+        enemyRigidbody.isKinematic = true;
+        enemyRigidbody.velocity = Vector2.zero;
+        enemyRigidbody.angularVelocity = 0f;
 
         //Disable collisions
-        collider.enabled = false;
+        GetComponent<Collider>().enabled = false;
     }
 
     protected virtual void Unstun(){
@@ -106,10 +106,10 @@ public class EnemyController : MonoBehaviour {
 
 
         //Enable physics back
-        rigidbody.isKinematic = false;
+        enemyRigidbody.isKinematic = false;
 
         //Enable collisions back
-        collider.enabled = true;
+        GetComponent<Collider>().enabled = true;
     }
 
 
