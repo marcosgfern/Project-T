@@ -4,14 +4,14 @@ using UnityEngine;
 
 using EnemyHealth;
 
-public class EnemyController : MonoBehaviour {
-
+public abstract class EnemyController : MonoBehaviour {
 
     public float movingSpeed = 1f;
     
     protected Transform playerTransform;
 
     protected bool isStunned;
+
     protected Animator animator;
     private Rigidbody2D enemyRigidbody;
     private Collider2D enemyCollider;
@@ -20,7 +20,7 @@ public class EnemyController : MonoBehaviour {
 
     private EnemyHealthController healthController;
 
-    void Awake() {
+    private void Awake() {
         this.playerTransform = GameObject.FindGameObjectsWithTag("Player")[0].transform;
 
         this.animator = GetComponent<Animator>();
@@ -38,13 +38,36 @@ public class EnemyController : MonoBehaviour {
         this.animator.SetBool("Moving", true);
     }
 
-    
-
-    public void InvulnerabilityTime() {
-        StartCoroutine("Invulnerability");
+    protected void Update() {
+        if (!isStunned) {
+            RotateEnemyToPlayer();
+            Move();
+            SecondaryActions();
+        }
     }
 
-    protected IEnumerator Invulnerability() {
+    private void RotateEnemyToPlayer() {
+        Vector2 directionToPlayer = playerTransform.position - this.transform.position;
+        float angleToPlayer = Vector2.SignedAngle(Vector2.right, directionToPlayer);
+        this.transform.eulerAngles = new Vector3(0, 0, angleToPlayer);
+    }
+
+    private void Move() {
+        Vector3 deltaVector = CalculateDirection().normalized * this.movingSpeed * Time.deltaTime;
+        this.transform.Translate(deltaVector, Space.World);
+    }
+
+    protected abstract Vector2 CalculateDirection();
+
+    protected abstract void SecondaryActions();
+
+
+
+    public void StartInvulnerabilityTime() {
+        StartCoroutine(InvulnerabilityTime());
+    }
+
+    protected IEnumerator InvulnerabilityTime() {
         Stun();
 
         yield return StartCoroutine(this.spriteManager.HitFlash());

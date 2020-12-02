@@ -18,48 +18,32 @@ public class ShooterController : EnemyController {
         this.speed = movingSpeed;
     }
 
-    // Update is called once per frame
-    void Update() {
-        if (!isStunned) {
-            Vector3 vectorToPlayer = playerTransform.position - this.transform.position;
 
-            Vector2 direction = Vector2.zero;
+    override protected Vector2 CalculateDirection() {
+        Vector3 vectorToPlayer = playerTransform.position - this.transform.position;
 
-            //If the enemy is further than the target distance
-            if (vectorToPlayer.magnitude >= targetDistance) {
-                float distanceFactor = targetDistance / vectorToPlayer.magnitude;
-                if (distanceFactor > 1) distanceFactor = 1;
+        //If the enemy is further than the target distance
+        if (vectorToPlayer.magnitude >= targetDistance) {
+            float distanceFactor = targetDistance / vectorToPlayer.magnitude;
+            if (distanceFactor > 1) distanceFactor = 1;
 
-                //A degree vector relative to vectorToPlayer, between 0 and 90
-                float xComponent = vectorToPlayer.x * (1 - distanceFactor) - vectorToPlayer.y * (distanceFactor);
-                float yComponent = vectorToPlayer.y * (1 - distanceFactor) + vectorToPlayer.x * (distanceFactor);
-                direction = new Vector2(xComponent, yComponent);
+            //A degree vector relative to vectorToPlayer, between 0 and 90
+            float xComponent = vectorToPlayer.x * (1 - distanceFactor) - vectorToPlayer.y * (distanceFactor);
+            float yComponent = vectorToPlayer.y * (1 - distanceFactor) + vectorToPlayer.x * (distanceFactor);
+            return new Vector2(xComponent, yComponent);
 
-            } else {
-                float distanceFactor = vectorToPlayer.magnitude / targetDistance;
-                if (distanceFactor > 1) distanceFactor = 1;
+        } else {
+            float distanceFactor = vectorToPlayer.magnitude / targetDistance;
+            if (distanceFactor > 1) distanceFactor = 1;
 
-                //A degree vector relative to vectorToPlayer, between 90 and 180 degrees
-                float xComponent = vectorToPlayer.x * -1f * (1 - distanceFactor) - vectorToPlayer.y * (distanceFactor);
-                float yComponent = vectorToPlayer.y * -1f * (1 - distanceFactor) + vectorToPlayer.x * (distanceFactor);
-                direction = new Vector2(xComponent, yComponent);
-            }
-
-            float rotation = Vector2.SignedAngle(Vector2.right, vectorToPlayer);
-
-            this.transform.Translate(direction.normalized * speed * Time.deltaTime, Space.World);
-            this.transform.eulerAngles = new Vector3(0, 0, rotation);
-
-            if (canShoot) {
-                canShoot = false;
-                speed = 0;
-                this.animator.SetTrigger("Shoot");
-            }
+            //A degree vector relative to vectorToPlayer, between 90 and 180 degrees
+            float xComponent = vectorToPlayer.x * -1f * (1 - distanceFactor) - vectorToPlayer.y * (distanceFactor);
+            float yComponent = vectorToPlayer.y * -1f * (1 - distanceFactor) + vectorToPlayer.x * (distanceFactor);
+            return new Vector2(xComponent, yComponent);
         }
-
     }
 
-    void Shoot() {
+        void Shoot() {
         if (projectilePrefab != null) {
             GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity) as GameObject;
 
@@ -68,8 +52,12 @@ public class ShooterController : EnemyController {
         }
     }
 
-    public void StartShotCooling() {
-        StartCoroutine("ShotCooling");
+    protected override void SecondaryActions() {
+        if (canShoot) {
+            canShoot = false;
+            speed = 0;
+            this.animator.SetTrigger("Shoot");
+        }
     }
 
     private IEnumerator ShotCooling() {
@@ -81,6 +69,6 @@ public class ShooterController : EnemyController {
 
     protected override void Unstun() {
         base.Unstun();
-        StartShotCooling();
+        StartCoroutine(ShotCooling());
     }
 }

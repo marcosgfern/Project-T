@@ -29,7 +29,7 @@ namespace EnemyHealth {
             if (health <= 0) {
                 Destroy(gameObject);
             } else {
-                enemyController.InvulnerabilityTime();
+                enemyController.StartInvulnerabilityTime();
             }
         }
 
