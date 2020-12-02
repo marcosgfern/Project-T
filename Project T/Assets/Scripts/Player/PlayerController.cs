@@ -64,10 +64,10 @@ public class PlayerController : MonoBehaviour {
 
     private Rigidbody2D rigidBody;
     private Animator animator;
-    private SpriteRenderer spriteRenderer;
-    private PlayerHealthController healthController;
 
-    private TouchManager touchManager = new TouchManager();
+    private PlayerHealthController healthController;
+    private TouchManager touchManager;
+    private SpriteManager spriteManager;
 
     private bool canShoot = true;
 
@@ -75,8 +75,10 @@ public class PlayerController : MonoBehaviour {
     private void Awake(){
         this.rigidBody = GetComponent<Rigidbody2D>();
         this.animator = GetComponent<Animator>();
-        this.spriteRenderer = GetComponent<SpriteRenderer>();
+
         this.healthController = GetComponent<PlayerHealthController>();
+        this.touchManager = new TouchManager();
+        this.spriteManager = new SpriteManager(GetComponent<SpriteRenderer>());
     }
 
     // Update is called once per frame
@@ -162,32 +164,10 @@ public class PlayerController : MonoBehaviour {
         if (!this.healthController.IsInvincible()) {
             this.healthController.SetInvincibility(true);
 
-            /*FlashAnimator flashAnimator;
+            yield return StartCoroutine(this.spriteManager.HitFlash());
+            yield return StartCoroutine(this.spriteManager.InvulnerabilityFlash(1f));
+            this.spriteManager.ResetColor();
 
-            flashAnimator.AddStep(Color.yellow, 0.05f);
-            flashAnimator.AddStep({ Color.red, Color.blue}, 0.1f, 5);
-
-            for (FlashStep step : flashAnimator.GetSteps()) {
-                this.spriteRenderer.color = step.color;
-                yield return step.wait;
-            }*/
-
-            //Visual feedback
-            this.spriteRenderer.color = Color.yellow;
-            yield return new WaitForSeconds(0.05f);
-            this.spriteRenderer.color = Color.red;
-            yield return new WaitForSeconds(0.05f);
-            this.spriteRenderer.color = Color.white;
-            yield return new WaitForSeconds(0.05f);
-
-            for (int i = 0; i < 5; i++) {
-                this.spriteRenderer.color = new Color(1f, 1f, 1f, 0.2f);
-                yield return new WaitForSeconds(0.1f);
-                this.spriteRenderer.color = new Color(1f, 1f, 1f, 0.6f);
-                yield return new WaitForSeconds(0.1f);
-            }
-
-            this.spriteRenderer.color = Color.white;
             this.healthController.SetInvincibility(false);
         }
     }
