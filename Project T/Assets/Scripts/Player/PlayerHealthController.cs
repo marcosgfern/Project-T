@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerHealthController : MonoBehaviour {
 
     public float maxHealth = 3f;
+    public GameObject heartBarGameObject;
 
     private float health;
     private bool invincible;
@@ -14,7 +15,7 @@ public class PlayerHealthController : MonoBehaviour {
     private PlayerController playerController;
 
     private void Awake() {
-        this.heartBar = GetComponent<HeartBar>();
+        this.heartBar = heartBarGameObject.GetComponent<HeartBar>();
         this.playerController = GetComponent<PlayerController>();
     }
 

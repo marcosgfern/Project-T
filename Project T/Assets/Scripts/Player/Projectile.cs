@@ -9,13 +9,11 @@ public class Projectile : MonoBehaviour {
     public Vector2 direction;
     public float speed = 5;
     public int damage = 1;
-    public float timeAlive = 3f;
 
     // Start is called before the first frame update
     void Start() {
         float rotation = Vector2.SignedAngle(Vector2.right, this.direction);
         this.transform.eulerAngles = new Vector3(0, 0, rotation);
-        StartCoroutine("Living");
     }
 
     // Update is called once per frame
@@ -27,11 +25,7 @@ public class Projectile : MonoBehaviour {
         if (collision.collider.CompareTag("Enemy")) {
             collision.collider.SendMessageUpwards("AddDamage", new Damage(damage, DamageColor.Blue));
         }
-            Destroy(gameObject);
-    }
-
-    private IEnumerator Living() {
-        yield return new WaitForSeconds(timeAlive);
+        
         Destroy(gameObject);
     }
 }

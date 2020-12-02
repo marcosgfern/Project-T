@@ -21,7 +21,7 @@ public class ShooterController : EnemyController {
     // Update is called once per frame
     void Update() {
         if (!isStunned) {
-            Vector3 vectorToPlayer = player.position - this.transform.position;
+            Vector3 vectorToPlayer = playerTransform.position - this.transform.position;
 
             Vector2 direction = Vector2.zero;
 
@@ -64,8 +64,7 @@ public class ShooterController : EnemyController {
             GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity) as GameObject;
 
             EnemyProjectile projectileComponent = projectile.GetComponent<EnemyProjectile>();
-
-            projectileComponent.direction = player.position - transform.position;
+            projectileComponent.direction = playerTransform.position - transform.position;
         }
     }
 
@@ -82,6 +81,6 @@ public class ShooterController : EnemyController {
 
     protected override void Unstun() {
         base.Unstun();
-        StartShotCooling(); //Forcing restart of moving-shooting loop
+        StartShotCooling();
     }
 }

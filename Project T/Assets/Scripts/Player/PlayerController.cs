@@ -7,7 +7,7 @@ class TouchManager {
     private Vector2 startingPosition;
     private Vector2 currentPosition;
     private bool swipe;
-    private TouchPhase phase;
+    private TouchPhase? phase;
 
     public void Update() {
         if (Input.touches.Length > 0) {
@@ -30,6 +30,8 @@ class TouchManager {
                     this.currentPosition = touch.position;
                     break;
             }
+        } else {
+            phase = null;
         }
     }
 
@@ -46,11 +48,7 @@ class TouchManager {
     }
 
     public TouchPhase? GetPhase() {
-        if (Input.touches.Length == 0) {
-            return null;
-        } else {
-            return this.phase;
-        }
+        return this.phase;
     }
 }
 

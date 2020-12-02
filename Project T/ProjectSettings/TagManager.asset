@@ -16,10 +16,10 @@ TagManager:
   - 
   - 
   - Hit
-  - Hurt
+  - EnemyProjectile
   - Enemy
   - Player
-  - 
+  - PlayerProjectile
   - 
   - 
   - 

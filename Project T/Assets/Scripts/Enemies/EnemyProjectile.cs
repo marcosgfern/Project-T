@@ -8,6 +8,7 @@ public class EnemyProjectile : Projectile {
         if (collision.collider.CompareTag("Player")) {
             collision.collider.SendMessageUpwards("AddDamage", 1);
         }
+
         Destroy(gameObject);
     }
 }

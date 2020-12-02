@@ -6,10 +6,10 @@ using EnemyHealth;
 
 public class EnemyController : MonoBehaviour {
 
-    public Transform player;
 
     public float movingSpeed = 1f;
     
+    protected Transform playerTransform;
     protected bool isStunned;
     protected Animator animator;
     private Rigidbody2D enemyRigidbody;
@@ -26,6 +26,7 @@ public class EnemyController : MonoBehaviour {
         this.enemyCollider = GetComponent<Collider2D>();
         this.spriteRenderer = GetComponent<SpriteRenderer>();
         this.healthController = GetComponent<EnemyHealthController>();
+        this.playerTransform = GameObject.FindGameObjectsWithTag("Player")[0].transform;
     }
 
     protected void Start() {
@@ -95,7 +96,7 @@ public class EnemyController : MonoBehaviour {
         enemyRigidbody.angularVelocity = 0f;
 
         //Disable collisions
-        GetComponent<Collider>().enabled = false;
+        this.enemyCollider.enabled = false;
     }
 
     protected virtual void Unstun(){
@@ -109,7 +110,7 @@ public class EnemyController : MonoBehaviour {
         enemyRigidbody.isKinematic = false;
 
         //Enable collisions back
-        GetComponent<Collider>().enabled = true;
+        this.enemyCollider.enabled = true;
     }
 
 
