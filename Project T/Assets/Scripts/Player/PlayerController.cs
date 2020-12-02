@@ -101,27 +101,33 @@ public class PlayerController : MonoBehaviour {
 
     private void ChargeAttack() {
         this.animator.SetBool("IsSwiping", true);
-        this.RotatePlayerToTouch();
+        this.RotatePlayerToSwipeDirection();
     }
 
     private void DoMeleeAttack() {
-        this.RotatePlayerToTouch();
-        StartCoroutine("ChangeDrag");
+        this.RotatePlayerToSwipeDirection();
+        StartCoroutine(Dashing());
     }
 
     private void DoRangedAttack() {
         if (canShoot) {
-            canShoot = false;
-            StartCoroutine("Shooting");
+            RotatePlayerToTouch();
+            StartCoroutine(Shooting());
         }
     }
 
-    private void RotatePlayerToTouch() {
+    private void RotatePlayerToSwipeDirection() {
         this.transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.right, this.touchManager.GetSwipeDirection()));
     }
 
-    IEnumerator ChangeDrag() {
+    private void RotatePlayerToTouch() {
+        float rotation = Vector2.SignedAngle(Vector2.right, Camera.main.ScreenToWorldPoint(this.touchManager.GetStartingPosition()) - this.transform.position);
+        this.transform.eulerAngles = new Vector3(0, 0, rotation);
+    }
+
+    private IEnumerator Dashing() {
         canShoot = false;
+
         this.rigidBody.drag = startingLinearDrag;
 
         this.rigidBody.velocity = Vector2.zero;
@@ -133,21 +139,21 @@ public class PlayerController : MonoBehaviour {
 
         this.rigidBody.drag = finalLinearDrag;
         this.animator.SetTrigger("EndAttack");
+
         canShoot = true;       
     }
 
-    IEnumerator Shooting() {
-        //Setting player rotation to direction of shot
-        float rotation = Vector2.SignedAngle(Vector2.right, Camera.main.ScreenToWorldPoint(this.touchManager.GetStartingPosition()) - this.transform.position);
-        this.transform.eulerAngles = new Vector3(0, 0, rotation);
+    private IEnumerator Shooting() {
+        canShoot = false;
 
         Shoot(Camera.main.ScreenToWorldPoint(this.touchManager.GetStartingPosition()), this.transform.position);
 
         yield return new WaitForSeconds(shotCoolingTime);
+
         canShoot = true;
     }
 
-    void Shoot(Vector2 target, Vector2 shootingPoint) {
+     private void Shoot(Vector2 target, Vector2 shootingPoint) {
         if (projectilePrefab != null) {
             GameObject projectile = Instantiate(projectilePrefab, shootingPoint, Quaternion.identity) as GameObject;
 
@@ -158,7 +164,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void StartInvulnerabilityTime() {
-        StartCoroutine("InvulnerabilityTime");
+        StartCoroutine(InvulnerabilityTime());
     }
     private IEnumerator InvulnerabilityTime() {
         if (!this.healthController.IsInvincible()) {

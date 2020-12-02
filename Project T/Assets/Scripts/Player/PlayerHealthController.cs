@@ -5,11 +5,11 @@ using UnityEngine;
 public class PlayerHealthController : MonoBehaviour {
 
     public float maxHealth = 3f;
-    public GameObject heartBarGameObject;
 
     private float health;
     private bool invincible;
 
+    public GameObject heartBarGameObject;
     private HeartBar heartBar;
 
     private PlayerController playerController;
