@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Scripting.APIUpdating;
 
 class TouchManager {
     private Vector2 startingPosition;
@@ -121,8 +119,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void RotatePlayerToTouch() {
-        float rotation = Vector2.SignedAngle(Vector2.right, Camera.main.ScreenToWorldPoint(this.touchManager.GetStartingPosition()) - this.transform.position);
-        this.transform.eulerAngles = new Vector3(0, 0, rotation);
+        float rotationAngle = Vector2.SignedAngle(Vector2.right, Camera.main.ScreenToWorldPoint(this.touchManager.GetStartingPosition()) - this.transform.position);
+        this.transform.eulerAngles = new Vector3(0, 0, rotationAngle);
     }
 
     private IEnumerator Dashing() {

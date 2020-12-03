@@ -20,7 +20,6 @@ namespace EnemyHealth {
         // Start is called before the first frame update
         void Start() {
             this.lifeBarRenderer.size = new Vector2(pointWidth * lifePoints, pointHeight);
-
         }
 
         // Update is called once per frame

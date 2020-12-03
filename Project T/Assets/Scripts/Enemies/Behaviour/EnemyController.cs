@@ -6,7 +6,7 @@ using EnemyHealth;
 
 public abstract class EnemyController : MonoBehaviour {
 
-    public float movingSpeed = 1f;
+    public float speed = 1f;
     
     protected Transform playerTransform;
 
@@ -29,7 +29,7 @@ public abstract class EnemyController : MonoBehaviour {
         this.healthController = GetComponent<EnemyHealthController>();
 
         this.spriteManager = new SpriteManager(GetComponent<SpriteRenderer>());
-        spriteManager.SetMainColor(healthController.GetColor());
+        this.spriteManager.SetMainColor(healthController.GetColor());
 
     }
 
@@ -39,7 +39,7 @@ public abstract class EnemyController : MonoBehaviour {
     }
 
     protected void Update() {
-        if (!isStunned) {
+        if (!this.isStunned) {
             RotateEnemyToPlayer();
             Move();
             SecondaryActions();
@@ -53,7 +53,7 @@ public abstract class EnemyController : MonoBehaviour {
     }
 
     private void Move() {
-        Vector3 deltaVector = CalculateDirection().normalized * this.movingSpeed * Time.deltaTime;
+        Vector3 deltaVector = CalculateDirection().normalized * this.speed * Time.deltaTime;
         this.transform.Translate(deltaVector, Space.World);
     }
 
@@ -80,28 +80,22 @@ public abstract class EnemyController : MonoBehaviour {
     protected virtual void Stun(){
         this.isStunned = true;
 
-        //Change animation
         this.animator.SetBool("Moving", false);
 
-        //Disable physics
         enemyRigidbody.isKinematic = true;
         enemyRigidbody.velocity = Vector2.zero;
         enemyRigidbody.angularVelocity = 0f;
 
-        //Disable collisions
         this.enemyCollider.enabled = false;
     }
 
     protected virtual void Unstun(){
         this.isStunned = false;
 
-        //Change animation
         this.animator.SetBool("Moving", true);
 
-        //Enable physics back
         enemyRigidbody.isKinematic = false;
 
-        //Enable collisions back
         this.enemyCollider.enabled = true;
     }
 

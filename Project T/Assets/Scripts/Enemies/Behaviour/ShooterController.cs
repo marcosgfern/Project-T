@@ -9,13 +9,13 @@ public class ShooterController : EnemyController {
     public float targetDistance = 2f;
     public float shotCoolingTime = 1f;
 
-    private float speed;
+    private float movingSpeed;
     private bool canShoot = true;
     
 
     private new void Start() {
         base.Start();
-        this.speed = movingSpeed;
+        this.movingSpeed = speed;
     }
 
 
@@ -55,13 +55,13 @@ public class ShooterController : EnemyController {
     protected override void SecondaryActions() {
         if (canShoot) {
             canShoot = false;
-            speed = 0;
+            this.speed = 0f;
             this.animator.SetTrigger("Shoot");
         }
     }
 
     private IEnumerator ShotCooling() {
-        speed = movingSpeed;
+        this.speed = movingSpeed;
         this.animator.ResetTrigger("Shoot");
         yield return new WaitForSeconds(shotCoolingTime);
         canShoot = true;
