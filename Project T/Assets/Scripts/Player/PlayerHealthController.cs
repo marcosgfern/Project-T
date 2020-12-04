@@ -19,8 +19,9 @@ public class PlayerHealthController : MonoBehaviour {
         this.playerController = GetComponent<PlayerController>();
     }
 
-    // Start is called before the first frame update
     void Start() {
+        this.heartBar.SetHealth(maxHealth);
+        this.heartBar.SetMaxHealth(maxHealth);
         health = maxHealth;
         invincible = false;
     }
