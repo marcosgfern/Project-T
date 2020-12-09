@@ -6,13 +6,22 @@ public class CameraController : MonoBehaviour {
 
     public GameObject room;
 
+    //To be moved
+    public RectTransform upperUI, lowerUI, canvas;
+    private float shift;
+
     void Start() {
         AdjustOrtographicSize();
+
+        //To be moved
+        float screenShift = (lowerUI.rect.height - upperUI.rect.height) / 2 * canvas.localScale.y;
+        this.shift = (Camera.main.ScreenToWorldPoint(new Vector3(0, screenShift, 0)) - Camera.main.ScreenToWorldPoint(Vector3.zero)).y;
+
         MoveToRoom(room);
     }
 
     public void MoveToRoom(GameObject room) {
-        this.transform.position = new Vector3(room.transform.position.x, room.transform.position.y - 0.45f, this.transform.position.z);
+        this.transform.position = new Vector3(room.transform.position.x, room.transform.position.y - this.shift, this.transform.position.z);
     }
 
     private void AdjustOrtographicSize() {

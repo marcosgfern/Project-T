@@ -239,6 +239,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   room: {fileID: 1211554649}
+  upperUI: {fileID: 291270848}
+  lowerUI: {fileID: 1949478906}
+  canvas: {fileID: 2143630308}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -954,7 +957,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2261467207176083924, guid: 2757cbde2cb75744ba0ff0d9c6983740, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2261467207176083924, guid: 2757cbde2cb75744ba0ff0d9c6983740, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1007,7 +1010,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2667491560934539, guid: 120fe75b978ead84d923f9763eaab7ed, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2795149379939366355, guid: 120fe75b978ead84d923f9763eaab7ed, type: 3}
       propertyPath: player
@@ -1035,11 +1038,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7846310248954348347, guid: 120fe75b978ead84d923f9763eaab7ed, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.47
+      value: -1.42
       objectReference: {fileID: 0}
     - target: {fileID: 7846310248954348347, guid: 120fe75b978ead84d923f9763eaab7ed, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.58
+      value: 1.98
       objectReference: {fileID: 0}
     - target: {fileID: 7846310248954348347, guid: 120fe75b978ead84d923f9763eaab7ed, type: 3}
       propertyPath: m_LocalPosition.z
