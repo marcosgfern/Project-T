@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2261467207176083924}
   - component: {fileID: 2261467207176083922}
   - component: {fileID: 2261467207176083925}
+  - component: {fileID: 1686498052354538626}
   m_Layer: 0
   m_Name: Room
   m_TagString: Untagged
@@ -116,3 +117,15 @@ PolygonCollider2D:
       - {x: -2.0404003, y: 2.6808472}
       - {x: 2.0402532, y: 2.680532}
       - {x: 2.0407028, y: -2.6800413}
+--- !u!114 &1686498052354538626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2261467207176083927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 090607f60f2ff014bb945288a9304c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
