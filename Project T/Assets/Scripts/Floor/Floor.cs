@@ -8,23 +8,29 @@ public class Floor : MonoBehaviour {
 
     private int level;
     private Room[,] roomMatrix;
+    private int matrixSize;
     private int numberOfRooms;
 
     private void Start() {
-        this.level = 0;
-        Generate(854353874);
-        PrintFloor();
+        this.level = 2;
+        Generate(854353174);
     }
 
     public void Generate(int seed) {
         Random.InitState(seed);
 
-        this.numberOfRooms = 6 + level + (int) Random.Range(0, Mathf.Sqrt(level));
-        this.roomMatrix = new Room[this.numberOfRooms, this.numberOfRooms];
+        this.numberOfRooms = 6 + (int)(level * 1.5) + (int) Random.Range(0, Mathf.Sqrt(level));
+
+        if(this.numberOfRooms <= 10) {
+            this.matrixSize = this.numberOfRooms;
+        } else {
+            this.matrixSize = (int) Mathf.Sqrt(this.numberOfRooms * Mathf.Sqrt(this.numberOfRooms));
+        }       
+        this.roomMatrix = new Room[this.matrixSize, this.matrixSize];
 
         RoomCoordinate firstRoom = new RoomCoordinate(
-            Random.Range(1, this.numberOfRooms - 1), 
-            Random.Range(1, this.numberOfRooms - 1)
+            Random.Range(1, this.matrixSize - 1),
+            Random.Range(1, this.matrixSize - 1)
         );
         AddRoom(firstRoom);
 
@@ -41,6 +47,8 @@ public class Floor : MonoBehaviour {
                     availablePlaces.Add(neighbour);
                 }
             }
+
+            availablePlaces.RemoveAll(place => !IsUsable(place));
         }
 
 
@@ -54,6 +62,8 @@ public class Floor : MonoBehaviour {
             );
 
         GameObject room = Instantiate(roomPrefab, roomPosition, Quaternion.identity) as GameObject;
+        room.name = roomCoordinate.ToString();
+        room.transform.parent = this.gameObject.transform;
 
         this.roomMatrix[roomCoordinate.X(), roomCoordinate.Y()] = room.GetComponent<Room>();
     }
@@ -70,32 +80,26 @@ public class Floor : MonoBehaviour {
         return availableNeighbours;
     }
 
-    private bool IsAvailable(RoomCoordinate room) {
-        if(room.X() < 0 ||
-           room.X() >= this.numberOfRooms ||
-           room.Y() < 0 ||
-           room.Y() >= this.numberOfRooms) {
-            return false;
-        }
+    private bool IsUsable(RoomCoordinate room) {
+        int numberOfNeighbours = 0;
 
-        return this.roomMatrix[room.X(), room.Y()] == null;
-    }
-
-    private void PrintFloor() {
-        string floor = "\n\n";
-        for(int y = numberOfRooms - 1; y <= 0; y--) {
-            for(int x = 0; x < numberOfRooms; x++) {
-                if(roomMatrix[x,y] == null) {
-                    floor += "O";
-                } else {
-                    floor += "G";
+        foreach(RoomCoordinate neighbour in room.Neighbours()) {
+            if (!neighbour.IsOutOfBounds(this.roomMatrix.GetLength(0))) {
+                if(this.roomMatrix[neighbour.X(), neighbour.Y()] != null) {
+                    numberOfNeighbours++;
                 }
             }
-            floor += "\n";
         }
-        floor += "\n\n";
 
-        Debug.Log(floor);
+        return numberOfNeighbours == 1;
+    }
+
+    private bool IsAvailable(RoomCoordinate room) {
+        if(room.IsOutOfBounds(this.roomMatrix.GetLength(0))) {
+            return false;
+        } else {
+            return this.roomMatrix[room.X(), room.Y()] == null;
+        }
     }
 
 
@@ -140,6 +144,17 @@ public class Floor : MonoBehaviour {
             neighbours.Add(Left());
 
             return neighbours;
+        }
+
+        public bool IsOutOfBounds(int bounds) {
+            return (this.x < 0 ||
+                this.x >= bounds ||
+                this.y < 0 ||
+                this.y >= bounds);
+        }
+
+        override public string ToString() {
+            return "[" + this.x + "," + this.y + "]";
         }
     }
 }
