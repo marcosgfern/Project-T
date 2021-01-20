@@ -8,7 +8,7 @@ public class Floor : MonoBehaviour {
     private FloorGenerator generator;
 
     private void Start() {
-        this.generator = new FloorGenerator(2, this.roomPrefab, this.gameObject.transform);
+        this.generator = new FloorGenerator(10, this.roomPrefab, this.gameObject.transform);
         this.generator.Generate(854353174);
     }
 
@@ -21,6 +21,7 @@ public class Floor : MonoBehaviour {
         private Room[,] roomMatrix;
         private int matrixSize;
         private int numberOfRooms;
+        private RoomCoordinate firstRoom;
 
         public FloorGenerator (int level, GameObject roomPrefab, Transform floor) {
             this.level = level;
@@ -32,6 +33,19 @@ public class Floor : MonoBehaviour {
         public void Generate(int seed) {
             Random.InitState(seed);
 
+            SetFloorSize();
+
+            this.firstRoom = new RoomCoordinate(
+                Random.Range(1, this.matrixSize - 1),
+                Random.Range(1, this.matrixSize - 1)
+            );
+
+            AddRoom(this.firstRoom);
+
+            GenerateRooms();
+        }
+
+        private void SetFloorSize() {
             this.numberOfRooms = 6 + (int)(level * 1.5) + (int)Random.Range(0, Mathf.Sqrt(level));
 
             if (this.numberOfRooms <= 10) {
@@ -40,14 +54,23 @@ public class Floor : MonoBehaviour {
                 this.matrixSize = (int)Mathf.Sqrt(this.numberOfRooms * Mathf.Sqrt(this.numberOfRooms));
             }
             this.roomMatrix = new Room[this.matrixSize, this.matrixSize];
+        }
 
-            RoomCoordinate firstRoom = new RoomCoordinate(
-                Random.Range(1, this.matrixSize - 1),
-                Random.Range(1, this.matrixSize - 1)
-            );
-            AddRoom(firstRoom);
+        private void AddRoom(RoomCoordinate roomCoordinate) {
+            Vector2 roomPosition = new Vector2(
+                roomCoordinate.x * roomPrefab.GetComponent<Renderer>().bounds.size.x,
+                roomCoordinate.y * roomPrefab.GetComponent<Renderer>().bounds.size.y
+                );
 
-            List<RoomCoordinate> availablePlaces = AvailableNeighbours(firstRoom);
+            GameObject room = Instantiate(roomPrefab, roomPosition, Quaternion.identity) as GameObject;
+            room.name = roomCoordinate.ToString();
+            room.transform.parent = this.floor;
+
+            this.roomMatrix[roomCoordinate.x, roomCoordinate.y] = room.GetComponent<Room>();
+        }
+
+        private void GenerateRooms() {
+            List<RoomCoordinate> availablePlaces = AvailableNeighbours(this.firstRoom);
 
             for (int i = 0; i < this.numberOfRooms - 1; i++) {
                 int placeIndex = Random.Range(0, availablePlaces.Count - 1);
@@ -56,29 +79,13 @@ public class Floor : MonoBehaviour {
                 availablePlaces.RemoveAt(placeIndex);
 
                 foreach (RoomCoordinate neighbour in AvailableNeighbours(newRoom)) {
-                    if (!availablePlaces.Exists(room => room.X() == neighbour.X() && room.Y() == neighbour.Y())) {
+                    if (!availablePlaces.Exists(room => room.x == neighbour.x && room.y == neighbour.y)) {
                         availablePlaces.Add(neighbour);
                     }
                 }
 
                 availablePlaces.RemoveAll(place => !IsUsable(place));
             }
-
-
-
-        }
-
-        private void AddRoom(RoomCoordinate roomCoordinate) {
-            Vector2 roomPosition = new Vector2(
-                roomCoordinate.X() * roomPrefab.GetComponent<Renderer>().bounds.size.x,
-                roomCoordinate.Y() * roomPrefab.GetComponent<Renderer>().bounds.size.y
-                );
-
-            GameObject room = Instantiate(roomPrefab, roomPosition, Quaternion.identity) as GameObject;
-            room.name = roomCoordinate.ToString();
-            room.transform.parent = this.floor;
-
-            this.roomMatrix[roomCoordinate.X(), roomCoordinate.Y()] = room.GetComponent<Room>();
         }
 
         private List<RoomCoordinate> AvailableNeighbours(RoomCoordinate room) {
@@ -98,7 +105,7 @@ public class Floor : MonoBehaviour {
 
             foreach (RoomCoordinate neighbour in room.Neighbours()) {
                 if (!neighbour.IsOutOfBounds(this.roomMatrix.GetLength(0))) {
-                    if (this.roomMatrix[neighbour.X(), neighbour.Y()] != null) {
+                    if (this.roomMatrix[neighbour.x, neighbour.y] != null) {
                         numberOfNeighbours++;
                     }
                 }
@@ -111,25 +118,20 @@ public class Floor : MonoBehaviour {
             if (room.IsOutOfBounds(this.roomMatrix.GetLength(0))) {
                 return false;
             } else {
-                return this.roomMatrix[room.X(), room.Y()] == null;
+                return this.roomMatrix[room.x, room.y] == null;
             }
         }
 
+        public GameObject FirstRoom() {
+            return this.roomMatrix[this.firstRoom.x, this.firstRoom.y].gameObject;
+        }
 
         private class RoomCoordinate {
-            private int x, y;
+            public int x, y;
 
             public RoomCoordinate(int x, int y) {
                 this.x = x;
                 this.y = y;
-            }
-
-            public int X() {
-                return this.x;
-            }
-
-            public int Y() {
-                return this.y;
             }
 
             public RoomCoordinate Up() {
