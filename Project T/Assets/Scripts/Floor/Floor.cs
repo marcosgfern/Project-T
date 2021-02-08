@@ -2,163 +2,155 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Floor : MonoBehaviour {
+namespace Floors {
+    public class Floor : MonoBehaviour {
 
-    public GameObject roomPrefab;
-    private FloorGenerator generator;
-    private Dictionary<Coordinate, Room> roomMap;
+        public GameObject roomPrefab;
 
-    private void Start() {
-        this.generator = new FloorGenerator(10, this.roomPrefab, this.gameObject.transform);
-        this.roomMap = this.generator.Generate(854353174);
-    }
-
-    private class FloorGenerator {
-
-        private GameObject roomPrefab;
-        private Transform floor; 
-
-        private int level;
+        private FloorGenerator generator;
         private Dictionary<Coordinate, Room> roomMap;
-        private int numberOfRooms;
 
-        public FloorGenerator (int level, GameObject roomPrefab, Transform floor) {
-            this.level = level;
-            this.roomPrefab = roomPrefab;
-            this.floor = floor;
-            this.roomMap = new Dictionary<Coordinate, Room>();
+        private Coordinate currentRoom;
+        private GameObject player;
+        private CameraController cameraController;
+
+        private void Awake() {
+            Random.InitState(854353474);
+            this.generator = new FloorGenerator(this.roomPrefab, this.gameObject.transform);
+            this.player = GameObject.FindGameObjectsWithTag("Player")[0];
+            this.cameraController = Camera.main.GetComponent<CameraController>();
         }
 
-
-        public Dictionary<Coordinate, Room> Generate(int seed) {
-            roomMap.Clear();
-
-            Random.InitState(seed);
-
-            this.numberOfRooms = 6 + (int)(level * 1.5) + (int)Random.Range(0, Mathf.Sqrt(level));
-
-            GenerateRooms();
-
-            return this.roomMap;
+        private void Start() {           
+            this.roomMap = this.generator.Generate(10);
+            MoveToRoom(new Coordinate(0, 0));
         }
 
-        private void AddRoom(Coordinate roomCoordinate) {
-            Vector2 roomPosition = new Vector2(
-                roomCoordinate.x * roomPrefab.GetComponent<Renderer>().bounds.size.x,
-                roomCoordinate.y * roomPrefab.GetComponent<Renderer>().bounds.size.y
-                );
-
-            GameObject room = Instantiate(roomPrefab, roomPosition, Quaternion.identity) as GameObject;
-            room.name = roomCoordinate.ToString();
-            room.transform.parent = this.floor;
-
-            Room roomScript = room.GetComponent<Room>();
-
-            //Set neighbours
-
-            this.roomMap.Add(roomCoordinate, roomScript);
+        public void MoveToRoom(Direction direction) {
+            this.currentRoom = this.currentRoom.GetNeighbour(direction);
+            Room room = this.roomMap[this.currentRoom];
+            cameraController.MoveToRoom(room.gameObject.transform);
+            room.MovePlayerIn(this.player, direction.Opposite());
         }
 
-        private void GenerateRooms() {
-            Coordinate firstRoom = new Coordinate(0, 0);
-            AddRoom(firstRoom);
+        private void MoveToRoom(Coordinate coordinate) {
+            this.currentRoom = coordinate;
+            Room room = this.roomMap[coordinate];
+            cameraController.MoveToRoom(room.gameObject.transform);
+            this.player.transform.position = room.gameObject.transform.position;
+        }
 
-            List<Coordinate> availablePlaces = AvailableNeighbours(firstRoom);
+        private class FloorGenerator {
 
-            for (int i = 0; i < this.numberOfRooms - 1; i++) {
-                int placeIndex = Random.Range(0, availablePlaces.Count - 1);
-                Coordinate newRoom = availablePlaces[placeIndex];
-                AddRoom(newRoom);
-                availablePlaces.RemoveAt(placeIndex);
+            private GameObject roomPrefab;
+            private Transform floor;
 
-                foreach (Coordinate neighbour in AvailableNeighbours(newRoom)) {
-                    if (!availablePlaces.Contains(neighbour)) {
-                        availablePlaces.Add(neighbour);
+            private Dictionary<Coordinate, Room> roomMap;
+            private int numberOfRooms;
+            private int level;
+
+            public FloorGenerator(GameObject roomPrefab, Transform floor) {
+                this.roomPrefab = roomPrefab;
+                this.floor = floor;
+                this.roomMap = new Dictionary<Coordinate, Room>();
+            }
+
+
+            public Dictionary<Coordinate, Room> Generate(int level) {
+                roomMap.Clear();
+
+                this.level = level;
+                this.numberOfRooms = 6 + (int)(this.level * 1.5) + (int)Random.Range(0, Mathf.Sqrt(this.level));
+
+                GenerateRooms();
+
+                PlaceDoors();
+
+                return this.roomMap;
+            }
+
+            private void GenerateRooms() {
+                Coordinate firstRoom = new Coordinate(0, 0);
+                AddRoom(firstRoom);
+
+                List<Coordinate> availablePlaces = AvailableNeighbours(firstRoom);
+
+                for (int i = 0; i < this.numberOfRooms - 1; i++) {
+                    int placeIndex = Random.Range(0, availablePlaces.Count - 1);
+                    Coordinate newRoom = availablePlaces[placeIndex];
+                    AddRoom(newRoom);
+                    availablePlaces.RemoveAt(placeIndex);
+
+                    foreach (Coordinate neighbour in AvailableNeighbours(newRoom)) {
+                        if (!availablePlaces.Contains(neighbour)) {
+                            availablePlaces.Add(neighbour);
+                        }
+                    }
+
+                    availablePlaces.RemoveAll(place => !IsUsable(place));
+                }
+            }
+
+            private void AddRoom(Coordinate roomCoordinate) {
+                Vector2 roomPosition = new Vector2(
+                    roomCoordinate.x * roomPrefab.GetComponent<Renderer>().bounds.size.x,
+                    roomCoordinate.y * roomPrefab.GetComponent<Renderer>().bounds.size.y
+                    );
+
+                GameObject room = Instantiate(roomPrefab, roomPosition, Quaternion.identity) as GameObject;
+                room.name = roomCoordinate.ToString();
+                room.transform.parent = this.floor;
+
+                this.roomMap.Add(roomCoordinate, room.GetComponent<Room>());
+            }
+
+            private List<Coordinate> AvailableNeighbours(Coordinate room) {
+                List<Coordinate> availableNeighbours = new List<Coordinate>();
+
+                foreach (Coordinate neighbour in room.GetNeighbours()) {
+                    if (IsAvailable(neighbour)) {
+                        availableNeighbours.Add(neighbour);
                     }
                 }
 
-                availablePlaces.RemoveAll(place => !IsUsable(place));
+                return availableNeighbours;
             }
-        }
 
-        private List<Coordinate> AvailableNeighbours(Coordinate room) {
-            List<Coordinate> availableNeighbours = new List<Coordinate>();
+            private bool IsUsable(Coordinate room) {
+                int numberOfNeighbours = 0;
 
-            foreach (Coordinate neighbour in room.GetNeighbours()) {
-                if (IsAvailable(neighbour)) {
-                    availableNeighbours.Add(neighbour);
+                foreach (Coordinate neighbour in room.GetNeighbours()) {
+                    if (this.roomMap.ContainsKey(neighbour)) {
+                        numberOfNeighbours++;
+                    }
                 }
+
+                return numberOfNeighbours == 1;
             }
 
-            return availableNeighbours;
-        }
-
-        private bool IsUsable(Coordinate room) {
-            int numberOfNeighbours = 0;
-
-            foreach (Coordinate neighbour in room.GetNeighbours()) {
-                if (this.roomMap.ContainsKey(neighbour)) {
-                    numberOfNeighbours++;
-                }
-            }
-
-            return numberOfNeighbours == 1;
-        }
-
-        private bool IsAvailable(Coordinate room) {
+            private bool IsAvailable(Coordinate room) {
                 return !this.roomMap.ContainsKey(room);
-        }
-    }
-
-    private class Coordinate {
-        public int x, y;
-
-        public Coordinate(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        //Change list to array
-        public List<Coordinate> GetNeighbours() {
-            List<Coordinate> neighbours = new List<Coordinate>();
-
-            neighbours.Add(new Coordinate(this.x, this.y + 1));
-            neighbours.Add(new Coordinate(this.x + 1, this.y));
-            neighbours.Add(new Coordinate(this.x, this.y - 1));
-            neighbours.Add(new Coordinate(this.x - 1, this.y));
-
-            return neighbours;
-        }
-
-        //To remove
-        public bool IsOutOfBounds(int bounds) {
-            return (this.x < 0 ||
-                this.x >= bounds ||
-                this.y < 0 ||
-                this.y >= bounds);
-        }
-
-        override public string ToString() {
-            return "[" + this.x + "," + this.y + "]";
-        }
-
-        public override bool Equals(object obj) {
-            if(obj == null) {
-                return false;
             }
 
-            if(!(obj is Coordinate)) {
-                return false;
+            private void PlaceDoors() {
+                Coordinate farthestCoordinate = null;
+                int maxDistance = 0;
+                foreach (KeyValuePair<Coordinate, Room> room in roomMap) {
+                    if(room.Key.DistanceToOrigin() >= maxDistance) {
+                        farthestCoordinate = room.Key;
+                        maxDistance = room.Key.DistanceToOrigin();
+                    }
+
+                    foreach (Direction direction in System.Enum.GetValues(typeof(Direction))) {
+                        if (roomMap.ContainsKey(room.Key.GetNeighbour(direction))) {
+                            room.Value.SetDoor(direction);
+                        }
+                    }
+                }
+
+                roomMap[farthestCoordinate].SetStairs();
             }
-
-            return this.x == ((Coordinate)obj).x 
-                && this.y == ((Coordinate)obj).y;
-        }
-
-        public override int GetHashCode() {
-            return (this.x + "," + this.y).GetHashCode();
         }
     }
-
-    
 }
+

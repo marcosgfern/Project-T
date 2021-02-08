@@ -133,7 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 090607f60f2ff014bb945288a9304c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorPrefab: {fileID: 0}
+  doorPrefab: {fileID: 8927247829097572583, guid: 358a19440f986fd448006009cabde03b, type: 3}
+  stairsPrefab: {fileID: 316421631144580571, guid: 9a5aa11f94ed46842ab9d54ba980d086, type: 3}
 --- !u!1 &3136259672349240142
 GameObject:
   m_ObjectHideFlags: 0

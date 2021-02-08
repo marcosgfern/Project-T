@@ -175,4 +175,16 @@ public class PlayerController : MonoBehaviour {
             this.healthController.SetInvincibility(false);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if(collision.tag == "Door") {
+            collision.SendMessage("PlayerEnter");
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision) {
+        if(collision.tag == "Door") {
+            collision.SendMessage("PlayerExit");
+        }
+    }
 }
