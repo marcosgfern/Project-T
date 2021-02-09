@@ -74,7 +74,7 @@ namespace Floors {
         Left
     }
     public static class DirectionExtensions {
-        public static Direction Opposite(this Direction direction) {
+        public static Direction? Opposite(this Direction direction) {
             switch (direction) {
                 case Direction.Up: 
                     return Direction.Down;
@@ -85,7 +85,7 @@ namespace Floors {
                 case Direction.Left:
                     return Direction.Right;
                 default:
-                    return Direction.Up;
+                    return null;
             }
         }
     }

@@ -55,6 +55,15 @@ public class SpriteManager {
         this.spriteRenderer.color = spriteColor;
     }
 
+    public IEnumerator Fading(Color startingColor, Color targetColor, float duration) {
+        SetColor(startingColor);
+        for (float t = 0f; t < duration; t += Time.deltaTime) {
+            SetColor(Color.Lerp(startingColor, targetColor, t / duration));
+            yield return Time.deltaTime;
+        }
+        SetColor(targetColor);
+    }
+
     public IEnumerator HitFlash() {
         SetColor(Color.yellow);
         yield return new WaitForSeconds(0.05f);

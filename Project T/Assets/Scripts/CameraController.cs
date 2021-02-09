@@ -6,11 +6,16 @@ public class CameraController : MonoBehaviour {
 
     public RectTransform upperUI, lowerUI, canvas;
     private float shift;
+    private float panningDuration = 0.2f;
 
     void Start() {
         AdjustOrtographicSize();
 
         CalculateCameraYShift();
+    }
+
+    public float GetPanningDuration() {
+        return this.panningDuration;
     }
 
     public void CalculateCameraYShift() {
@@ -32,7 +37,7 @@ public class CameraController : MonoBehaviour {
     }
 
     public void MoveToRoom(Transform room) {
-        StartCoroutine(Panning(new Vector3(room.position.x, room.position.y - this.shift, this.transform.position.z), 0.2f));
+        StartCoroutine(Panning(new Vector3(room.position.x, room.position.y - this.shift, this.transform.position.z), this.panningDuration));
     }
 
     private IEnumerator Panning(Vector3 targetPosition, float duration) {

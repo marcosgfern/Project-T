@@ -5,7 +5,9 @@ using UnityEngine;
 namespace Floors {
     public class Stairs : Door {
         override public void PlayerEnter() {
-            Debug.Log("Going down the stairs");
+            if (!this.closed) {
+                SendMessageUpwards("GenerateNextFloor");
+            }
         }
     }
 }

@@ -12,6 +12,16 @@ namespace Floors {
 
         private GameObject[] enemies;
 
+        private SpriteManager spriteManager;
+
+        private void Awake() {
+            this.spriteManager = new SpriteManager(GetComponent<SpriteRenderer>());
+        }
+
+        private void Start() {
+            this.spriteManager.SetColor(Color.clear);
+        }
+
         public void SetDoor(Direction direction) {
             switch (direction) {
                 case Direction.Up:
@@ -59,7 +69,7 @@ namespace Floors {
             return door.GetComponent<Stairs>();
         }
 
-        public void MovePlayerIn(GameObject player, Direction direction) {
+        public void MovePlayerIn(GameObject player, Direction? direction) {
             if (!this.completed) {
                 if(this.enemies != null && this.enemies.Length > 0) {
                     CloseDoors();
@@ -67,9 +77,25 @@ namespace Floors {
                     this.completed = true;
                 }
             }
-            GetDoor(direction).Close();
-            player.transform.position = GetDoor(direction).gameObject.transform.position;
+
+            if(GetDoor(direction) != null) {
+                GetDoor(direction).Close();
+                player.transform.position = GetDoor(direction).gameObject.transform.position;
+            } else {
+                player.transform.position = this.gameObject.transform.position;
+            }
+            
             player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        }
+
+        private Door GetDoor(Direction? direction) {
+            switch (direction) {
+                case Direction.Up: return upDoor;
+                case Direction.Right: return rightDoor;
+                case Direction.Down: return downDoor;
+                case Direction.Left: return leftDoor;
+                default: return null;
+            }
         }
 
         private void OpenDoors() {
@@ -109,15 +135,26 @@ namespace Floors {
                 leftDoor.SetLock(true);
             }
         }
+        
+        public void FadeIn(float duration) {
+            Fade(Color.clear, Color.white, duration);
+        }
 
-        private Door GetDoor(Direction direction) {
-            switch (direction) {
-                case Direction.Up: return upDoor;
-                case Direction.Right: return rightDoor;
-                case Direction.Down: return downDoor;
-                case Direction.Left: return leftDoor;
-                default: return null;
-            }
+        public void FadeOut(float duration) {
+            Fade(Color.white, Color.clear, duration);
+        }
+
+        private void Fade(Color startingColor, Color targetColor, float duration) {
+            StartCoroutine(this.spriteManager.Fading(startingColor, targetColor, duration));
+
+            if(this.upDoor != null)
+                this.upDoor.Fade(startingColor, targetColor, duration);
+            if(this.rightDoor != null)
+                this.rightDoor.Fade(startingColor, targetColor, duration);
+            if(this.downDoor != null)
+                this.downDoor.Fade(startingColor, targetColor, duration);
+            if(this.leftDoor != null)
+                this.leftDoor.Fade(startingColor, targetColor, duration);
         }
     }
 }
