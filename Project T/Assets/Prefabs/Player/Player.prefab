@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 3
+  heartBarGameObject: {fileID: 0}
 --- !u!95 &5052634440986482706
 Animator:
   serializedVersion: 3
