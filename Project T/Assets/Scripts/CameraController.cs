@@ -19,11 +19,7 @@ public class CameraController : MonoBehaviour {
     }
 
     public void CalculateCameraYShift() {
-        Debug.Log(lowerUI.rect.height);
-        Debug.Log(upperUI.rect.height);
-        Debug.Log(canvas.localScale.y);
-
-        float screenShift = (lowerUI.rect.height - upperUI.rect.height) / 2;
+       float screenShift = (lowerUI.rect.height - upperUI.rect.height) / 2;
         this.shift = (Camera.main.ScreenToWorldPoint(new Vector3(0, screenShift, 0)) - Camera.main.ScreenToWorldPoint(Vector3.zero)).y;
     }
 
