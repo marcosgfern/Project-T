@@ -27,7 +27,7 @@ namespace EnemyHealth {
             transform.rotation = Quaternion.identity;
         }
 
-        public void SetLifePoints(int points) {
+        public void SetHealthPoints(int points) {
             lifePoints = points;
             this.lifeBarRenderer.size = new Vector2(pointWidth * lifePoints, pointHeight);
         }

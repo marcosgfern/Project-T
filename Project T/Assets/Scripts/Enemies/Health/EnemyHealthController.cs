@@ -7,7 +7,7 @@ namespace EnemyHealth {
     public class EnemyHealthController : MonoBehaviour {
 
         public int health = 1;
-        public DamageColor color = DamageColor.White;
+        public DamageColor damageColor = DamageColor.White;
 
         private LifeBar lifeBar;
         private EnemyController enemyController;
@@ -18,22 +18,31 @@ namespace EnemyHealth {
         }
 
         void Start() {
-            this.lifeBar.SetLifePoints(this.health);
+            this.lifeBar.SetHealthPoints(this.health);
         }
 
         void AddDamage(Damage damageInfo) {           
-            this.health -= damageInfo.CalculateDamage(this.color);
-            this.lifeBar.SetLifePoints(this.health);
+            this.health -= damageInfo.CalculateDamage(this.damageColor);
            
-            if (health <= 0) {
-                Destroy(gameObject);
+            if (this.health <= 0) {
+                this.gameObject.SetActive(false);
             } else {
-                enemyController.StartInvulnerabilityTime();
+                this.lifeBar.SetHealthPoints(this.health);
+                this.enemyController.StartInvulnerabilityTime();
             }
         }
 
-        public DamageColor GetColor() {
-            return this.color;
+        public DamageColor GetDamageColor() {
+            return this.damageColor;
+        }
+
+        public void SetDamageColor(DamageColor color) {
+            this.damageColor = color;
+        }
+
+        public void SetHealth(int health) {
+            this.health = health;
+            this.lifeBar.SetHealthPoints(this.health);
         }
     }
-}
+}     

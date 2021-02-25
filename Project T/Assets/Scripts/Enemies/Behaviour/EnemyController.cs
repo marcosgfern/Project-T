@@ -29,13 +29,20 @@ public abstract class EnemyController : MonoBehaviour {
         this.healthController = GetComponent<EnemyHealthController>();
 
         this.spriteManager = new SpriteManager(GetComponent<SpriteRenderer>());
-        this.spriteManager.SetMainColor(healthController.GetColor());
+        this.spriteManager.SetMainColor(healthController.GetDamageColor());
 
     }
 
     protected void Start() {
         this.isStunned = false;
         this.animator.SetBool("Moving", true);
+    }
+
+    public void ResetEnemy(int health, DamageColor color) {
+        this.healthController.SetHealth(health);
+        this.healthController.SetDamageColor(color);
+        this.spriteManager.SetMainColor(color);
+
     }
 
     protected void Update() {
