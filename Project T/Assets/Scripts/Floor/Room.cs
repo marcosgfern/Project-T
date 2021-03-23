@@ -5,12 +5,21 @@ using UnityEngine;
 namespace Floors {
     public class Room : MonoBehaviour {
 
+        public static EnemyPool enemyPool;
+
+        public float 
+            closerSpawnX = 0.75f, 
+            closerSpawnY = 1f, 
+            furtherSpawnX = 1.5f, 
+            furtherSpawnY = 2.1f;
+
         public GameObject doorPrefab, stairsPrefab;
 
         private Door upDoor, rightDoor, downDoor, leftDoor;
         private bool completed;
 
-        private GameObject[] enemies;
+        private List<EnemyTemplate> enemyTemplates;
+        private List<EnemyController> enemies;
 
         private SpriteManager spriteManager;
 
@@ -71,8 +80,9 @@ namespace Floors {
 
         public void MovePlayerIn(GameObject player, Direction? direction) {
             if (!this.completed) {
-                if(this.enemies != null && this.enemies.Length > 0) {
+                if(this.enemyTemplates != null && this.enemyTemplates.Count > 0) {
                     CloseDoors();
+                    SpawnEnemies(direction);
                 } else {
                     this.completed = true;
                 }
@@ -86,6 +96,54 @@ namespace Floors {
             }
             
             player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        }
+
+        public void UpdateEnemyCount() {
+            bool enemiesDefeated = true;
+
+            foreach(EnemyController enemy in enemies) {
+                if (enemy.gameObject.activeSelf) {
+                    enemiesDefeated = false;
+                    break;
+                }
+            }
+
+            if (enemiesDefeated) {
+                enemies.Clear();
+                this.completed = true;
+                OpenDoors();
+            }
+        }
+
+        private void SpawnEnemies(Direction? direction) {
+            foreach(EnemyTemplate template in enemyTemplates) {
+                enemies.Add(enemyPool.GetEnemy(template));
+            }
+
+            foreach(EnemyController enemy in enemies) {
+                enemy.Spawn(GetSpawnPoint());
+            }
+        }
+
+        private Vector3 GetSpawnPoint() {
+            System.Random random = new System.Random();
+            float x = 0, y = 0;
+
+            if (random.Next(0, 1) == 1) x = 1;
+            else x = -1;
+
+            if (random.Next(0, 1) == 1) y = 1;
+            else y = -1;
+
+            if (random.Next(1, 10) > 3) {
+                x *= furtherSpawnX;
+                y *= furtherSpawnY;
+            } else {
+                x *= closerSpawnX;
+                y *= closerSpawnY;
+            }
+
+            return this.transform.position + new Vector3(x, y, 0);
         }
 
         private Door GetDoor(Direction? direction) {

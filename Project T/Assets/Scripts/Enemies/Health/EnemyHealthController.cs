@@ -22,12 +22,11 @@ namespace EnemyHealth {
         }
 
         void AddDamage(Damage damageInfo) {           
-            this.health -= damageInfo.CalculateDamage(this.damageColor);
+            SetHealth(this.health - damageInfo.CalculateDamage(this.damageColor));
            
             if (this.health <= 0) {
-                this.gameObject.SetActive(false);
+                this.enemyController.Die();
             } else {
-                this.lifeBar.SetHealthPoints(this.health);
                 this.enemyController.StartInvulnerabilityTime();
             }
         }
@@ -45,4 +44,4 @@ namespace EnemyHealth {
             this.lifeBar.SetHealthPoints(this.health);
         }
     }
-}     
+}

@@ -21,6 +21,10 @@ public class Projectile : MonoBehaviour {
         this.transform.Translate(this.direction.normalized * this.speed * Time.deltaTime, Space.World);
     }
 
+    public void SetDamage(int damage) {
+        this.damage = damage;
+    }
+
     void OnCollisionEnter2D(Collision2D collision) {
         if (collision.collider.CompareTag("Enemy")) {
             collision.collider.SendMessageUpwards("AddDamage", new Damage(damage, DamageColor.Blue));

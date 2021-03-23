@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using EnemyHealth;
+using Floors;
 
 public abstract class EnemyController : MonoBehaviour {
 
+    public static Room currentRoom;
+
     public float speed = 1f;
+    public int damage = 1;
     
     protected Transform playerTransform;
 
@@ -38,11 +42,21 @@ public abstract class EnemyController : MonoBehaviour {
         this.animator.SetBool("Moving", true);
     }
 
-    public void ResetEnemy(int health, DamageColor color) {
+    public void ResetEnemy(int health, DamageColor color, int damage) {
         this.healthController.SetHealth(health);
         this.healthController.SetDamageColor(color);
         this.spriteManager.SetMainColor(color);
+        this.damage = damage;
+    }
 
+    public void Spawn(Vector3 spawnPoint) {
+        this.transform.position = spawnPoint;
+        this.gameObject.SetActive(true);
+    }
+
+    public void Die() {
+        this.gameObject.SetActive(false);
+        currentRoom.UpdateEnemyCount();
     }
 
     protected void Update() {
@@ -67,8 +81,6 @@ public abstract class EnemyController : MonoBehaviour {
     protected abstract Vector2 CalculateDirection();
 
     protected abstract void SecondaryActions();
-
-
 
     public void StartInvulnerabilityTime() {
         StartCoroutine(InvulnerabilityTime());
@@ -112,3 +124,4 @@ public abstract class EnemyController : MonoBehaviour {
         }
     }
 }
+

@@ -48,6 +48,7 @@ public class ShooterController : EnemyController {
             GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity) as GameObject;
 
             EnemyProjectile projectileComponent = projectile.GetComponent<EnemyProjectile>();
+            projectileComponent.SetDamage(this.damage);
             projectileComponent.direction = playerTransform.position - transform.position;
         }
     }
