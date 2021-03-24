@@ -25,6 +25,8 @@ namespace Floors {
 
         private void Awake() {
             this.spriteManager = new SpriteManager(GetComponent<SpriteRenderer>());
+            this.enemyTemplates = new List<EnemyTemplate>();
+            this.enemies = new List<EnemyController>();
         }
 
         private void Start() {
@@ -79,10 +81,11 @@ namespace Floors {
         }
 
         public void MovePlayerIn(GameObject player, Direction? direction) {
+            EnemyController.CurrentRoom = this;
             if (!this.completed) {
                 if(this.enemyTemplates != null && this.enemyTemplates.Count > 0) {
                     CloseDoors();
-                    SpawnEnemies(direction);
+                    SpawnEnemies();
                 } else {
                     this.completed = true;
                 }
@@ -96,6 +99,11 @@ namespace Floors {
             }
             
             player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        }
+
+        public void SetEnemies(List<EnemyTemplate> enemyTemplates) {
+            this.enemyTemplates = enemyTemplates;
+            Debug.Log("Set enemies: " + this.enemyTemplates.Count);
         }
 
         public void UpdateEnemyCount() {
@@ -115,12 +123,10 @@ namespace Floors {
             }
         }
 
-        private void SpawnEnemies(Direction? direction) {
-            foreach(EnemyTemplate template in enemyTemplates) {
-                enemies.Add(enemyPool.GetEnemy(template));
-            }
-
-            foreach(EnemyController enemy in enemies) {
+        private void SpawnEnemies() {
+            foreach(EnemyTemplate template in this.enemyTemplates) {
+                EnemyController enemy = enemyPool.GetEnemy(template);
+                this.enemies.Add(enemy);
                 enemy.Spawn(GetSpawnPoint());
             }
         }

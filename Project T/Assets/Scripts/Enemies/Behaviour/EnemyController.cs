@@ -7,7 +7,7 @@ using Floors;
 
 public abstract class EnemyController : MonoBehaviour {
 
-    public static Room currentRoom;
+    public static Room CurrentRoom;
 
     public float speed = 1f;
     public int damage = 1;
@@ -42,6 +42,15 @@ public abstract class EnemyController : MonoBehaviour {
         this.animator.SetBool("Moving", true);
     }
 
+    private void OnEnable() {
+        this.isStunned = false;
+        this.animator.SetBool("Moving", true);
+    }
+
+    private void OnDisable() {
+        this.animator.SetBool("Moving", false);
+    }
+
     public void ResetEnemy(int health, DamageColor color, int damage) {
         this.healthController.SetHealth(health);
         this.healthController.SetDamageColor(color);
@@ -49,14 +58,14 @@ public abstract class EnemyController : MonoBehaviour {
         this.damage = damage;
     }
 
-    public void Spawn(Vector3 spawnPoint) {
+    public virtual void Spawn(Vector3 spawnPoint) {
         this.transform.position = spawnPoint;
         this.gameObject.SetActive(true);
     }
 
     public void Die() {
         this.gameObject.SetActive(false);
-        currentRoom.UpdateEnemyCount();
+        CurrentRoom.UpdateEnemyCount();
     }
 
     protected void Update() {

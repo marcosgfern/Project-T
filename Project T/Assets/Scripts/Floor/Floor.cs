@@ -70,7 +70,7 @@ namespace Floors {
 
 
             public Dictionary<Coordinate, Room> Generate(int level) {
-                roomMap.Clear();
+                this.roomMap.Clear();
 
                 this.level = level;
                 this.numberOfRooms = 6 + (int)(this.level * 1.5) + (int)Random.Range(0, Mathf.Sqrt(this.level));
@@ -78,6 +78,8 @@ namespace Floors {
                 GenerateRooms();
 
                 PlaceDoors();
+
+                GenerateEnemies();
 
                 return this.roomMap;
             }
@@ -148,20 +150,35 @@ namespace Floors {
             private void PlaceDoors() {
                 Coordinate farthestCoordinate = null;
                 int maxDistance = 0;
-                foreach (KeyValuePair<Coordinate, Room> room in roomMap) {
+                foreach (KeyValuePair<Coordinate, Room> room in this.roomMap) {
                     if(room.Key.DistanceToOrigin() >= maxDistance) {
                         farthestCoordinate = room.Key;
                         maxDistance = room.Key.DistanceToOrigin();
                     }
 
                     foreach (Direction direction in System.Enum.GetValues(typeof(Direction))) {
-                        if (roomMap.ContainsKey(room.Key.GetNeighbour(direction))) {
+                        if (this.roomMap.ContainsKey(room.Key.GetNeighbour(direction))) {
                             room.Value.SetDoor(direction);
                         }
                     }
                 }
 
-                roomMap[farthestCoordinate].SetStairs();
+                this.roomMap[farthestCoordinate].SetStairs();
+            }
+
+            private void GenerateEnemies() {
+                foreach (KeyValuePair<Coordinate, Room> room in this.roomMap) {
+                    room.Value.SetEnemies(GenerateEnemyList());
+                }
+
+                this.roomMap[new Coordinate(0, 0)].SetEnemies(new List<EnemyTemplate>());
+            }
+
+            private List<EnemyTemplate> GenerateEnemyList() {
+                List<EnemyTemplate> enemies = new List<EnemyTemplate>();
+                enemies.Add(new EnemyTemplate(EnemyKind.Melee, 1, EnemyHealth.DamageColor.White, 1));
+                enemies.Add(new EnemyTemplate(EnemyKind.Shooter, 2, EnemyHealth.DamageColor.White, 1));
+                return enemies;
             }
         }
     }
