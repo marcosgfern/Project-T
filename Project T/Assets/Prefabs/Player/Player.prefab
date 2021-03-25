@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movingForce: 12
-  movingTime: 0.25
+  movingTime: 0.2
   startingLinearDrag: 1
   finalLinearDrag: 10
   shotCoolingTime: 0.1

@@ -13,8 +13,8 @@ public class ShooterController : EnemyController {
     private bool canShoot = true;
     
 
-    private new void Start() {
-        base.Start();
+    private new void Awake() {
+        base.Awake();
         this.movingSpeed = speed;
     }
 
@@ -43,7 +43,12 @@ public class ShooterController : EnemyController {
         }
     }
 
-        void Shoot() {
+    public override void Spawn(Vector3 spawnPoint) {
+        base.Spawn(spawnPoint);
+        canShoot = true;
+    }
+
+    void Shoot() {
         if (projectilePrefab != null) {
             GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity) as GameObject;
 
@@ -58,12 +63,14 @@ public class ShooterController : EnemyController {
             canShoot = false;
             this.speed = 0f;
             this.animator.SetTrigger("Shoot");
+            Debug.Log("Shoot. Speed = " +  this.speed);
         }
     }
 
     private IEnumerator ShotCooling() {
         this.speed = movingSpeed;
         this.animator.ResetTrigger("Shoot");
+        Debug.Log("ShotCooling. Speed = " + this.speed);
         yield return new WaitForSeconds(shotCoolingTime);
         canShoot = true;
     }

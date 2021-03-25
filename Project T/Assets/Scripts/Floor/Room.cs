@@ -70,7 +70,6 @@ namespace Floors {
             } else if(leftDoor == null) {
                 this.leftDoor = InstantiateStairs("LeftDoorPoint");
             } else {
-                Debug.Log("Couldn't place stairs. There is a door in every direction.");
             }
         }
 
@@ -103,7 +102,6 @@ namespace Floors {
 
         public void SetEnemies(List<EnemyTemplate> enemyTemplates) {
             this.enemyTemplates = enemyTemplates;
-            Debug.Log("Set enemies: " + this.enemyTemplates.Count);
         }
 
         public void UpdateEnemyCount() {

@@ -24,7 +24,7 @@ public abstract class EnemyController : MonoBehaviour {
 
     private EnemyHealthController healthController;
 
-    private void Awake() {
+    protected void Awake() {
         this.playerTransform = GameObject.FindGameObjectsWithTag("Player")[0].transform;
 
         this.animator = GetComponent<Animator>();
@@ -42,15 +42,6 @@ public abstract class EnemyController : MonoBehaviour {
         this.animator.SetBool("Moving", true);
     }
 
-    private void OnEnable() {
-        this.isStunned = false;
-        this.animator.SetBool("Moving", true);
-    }
-
-    private void OnDisable() {
-        this.animator.SetBool("Moving", false);
-    }
-
     public void ResetEnemy(int health, DamageColor color, int damage) {
         this.healthController.SetHealth(health);
         this.healthController.SetDamageColor(color);
@@ -61,9 +52,11 @@ public abstract class EnemyController : MonoBehaviour {
     public virtual void Spawn(Vector3 spawnPoint) {
         this.transform.position = spawnPoint;
         this.gameObject.SetActive(true);
+        this.animator.SetBool("Moving", true);
     }
 
     public void Die() {
+        this.animator.SetBool("Moving", false);
         this.gameObject.SetActive(false);
         CurrentRoom.UpdateEnemyCount();
     }
