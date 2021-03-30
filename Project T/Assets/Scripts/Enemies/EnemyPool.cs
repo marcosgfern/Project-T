@@ -7,14 +7,14 @@ public class EnemyPool : MonoBehaviour {
 
     public GameObject meleePrefab, shooterPrefab;
 
-    public int quantity = 8;
+    public int initialSize = 8;
 
     void Awake() {
         Floors.Room.enemyPool = this;
     }
 
     private void Start() {
-        for(int i = 0; i < quantity; i++) {
+        for(int i = 0; i < initialSize; i+=2) {
             Instantiate(meleePrefab, this.transform).SetActive(false);
             Instantiate(shooterPrefab, this.transform).SetActive(false);
         }

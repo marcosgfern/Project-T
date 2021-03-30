@@ -63,20 +63,22 @@ public class ShooterController : EnemyController {
             canShoot = false;
             this.speed = 0f;
             this.animator.SetTrigger("Shoot");
-            Debug.Log("Shoot. Speed = " +  this.speed);
         }
     }
 
     private IEnumerator ShotCooling() {
         this.speed = movingSpeed;
         this.animator.ResetTrigger("Shoot");
-        Debug.Log("ShotCooling. Speed = " + this.speed);
         yield return new WaitForSeconds(shotCoolingTime);
         canShoot = true;
     }
 
     protected override void Unstun() {
         base.Unstun();
-        StartCoroutine(ShotCooling());
+        if (canShoot) {
+            this.animator.ResetTrigger("Shoot");
+        } else {
+            StartCoroutine(ShotCooling());
+        }
     }
 }

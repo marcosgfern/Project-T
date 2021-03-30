@@ -502,7 +502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meleePrefab: {fileID: 9049060201411902898, guid: 154efeb085e12e74cbdc0ea9880e6409, type: 3}
   shooterPrefab: {fileID: 2667491560934539, guid: 120fe75b978ead84d923f9763eaab7ed, type: 3}
-  quantity: 8
+  initialSize: 8
 --- !u!4 &616047129
 Transform:
   m_ObjectHideFlags: 0

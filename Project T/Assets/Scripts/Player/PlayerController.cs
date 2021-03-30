@@ -8,8 +8,8 @@ class TouchManager {
     private TouchPhase? phase;
 
     public void Update() {
-        if (Input.touches.Length > 0) {
-            Touch touch = Input.GetTouch(0);
+        if (Input.touchCount > 0) {
+            Touch touch = Input.GetTouch(Input.touchCount - 1);
 
             this.phase = touch.phase;
 

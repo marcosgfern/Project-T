@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1
-  color: 0
+  damageColor: 0
 --- !u!114 &2795149379939366355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,14 +151,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4613191e7f79ee0409b6b527bfd6b42f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  speed: 1
+  damage: 1
   projectilePrefab: {fileID: 134156742331206581, guid: 32cac192533cbd540a24a087553a905d, type: 3}
-  movingSpeed: 2
-  shootingSpeed: 0.1
   targetDistance: 2
-  timeToShoot: 1
-  shotCoolingTime: 1
-  isStunned: 0
+  shotCoolingTime: 1.5
 --- !u!95 &5265441897291441002
 Animator:
   serializedVersion: 3
@@ -190,6 +187,10 @@ PrefabInstance:
       value: LifeBarPivotPoint
       objectReference: {fileID: 0}
     - target: {fileID: 317683567396007233, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 317683567396007233, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -202,6 +203,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 317683567396007233, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 317683567396007233, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -212,14 +217,6 @@ PrefabInstance:
     - target: {fileID: 317683567396007233, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 317683567396007233, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 317683567396007233, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 317683567396007233, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

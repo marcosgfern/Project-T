@@ -117,10 +117,10 @@ PolygonCollider2D:
       - {x: -2.5594404, y: -3.2021184}
       - {x: 2.561106, y: -3.2018828}
       - {x: 2.5598698, y: 3.200597}
-    - - {x: -2.0383654, y: -2.680029}
-      - {x: -2.0404003, y: 2.6808472}
-      - {x: 2.0402532, y: 2.680532}
-      - {x: 2.0407028, y: -2.6800413}
+    - - {x: -1.9600695, y: -2.5999045}
+      - {x: -1.9600066, y: 2.6000175}
+      - {x: 1.959694, y: 2.5999727}
+      - {x: 1.9601618, y: -2.6000168}
 --- !u!114 &1686498052354538626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,10 +133,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 090607f60f2ff014bb945288a9304c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeSpawnX: 0
-  meleeSpawnY: 0
-  shooterSpawnX: 0
-  shooterSpawnY: 0
+  closerSpawnX: 0.75
+  closerSpawnY: 1
+  furtherSpawnX: 1.5
+  furtherSpawnY: 2.1
   doorPrefab: {fileID: 8927247829097572583, guid: 358a19440f986fd448006009cabde03b, type: 3}
   stairsPrefab: {fileID: 316421631144580571, guid: 9a5aa11f94ed46842ab9d54ba980d086, type: 3}
 --- !u!1 &3136259672349240142
