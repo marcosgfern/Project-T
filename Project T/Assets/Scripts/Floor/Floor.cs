@@ -16,7 +16,7 @@ namespace Floors {
         private CameraController cameraController;
 
         private void Awake() {
-            Random.InitState(854353474);
+            //Random.InitState(854353474);
             this.level = 0;
             this.generator = new FloorGenerator(this.roomPrefab, this.gameObject.transform);
             this.player = GameObject.FindGameObjectsWithTag("Player")[0];

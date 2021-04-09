@@ -96,6 +96,13 @@ namespace Floors {
             } else {
                 player.transform.position = this.gameObject.transform.position;
             }
+
+            string enemyList = "Number of enemies: " + enemyTemplates.Count + "\n\n";
+            foreach(EnemyTemplate enemy in enemyTemplates) {
+                enemyList += enemy.ToString() + "\n";
+            }
+
+            Debug.Log(enemyList);
             
             player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
@@ -133,13 +140,13 @@ namespace Floors {
             System.Random random = new System.Random();
             float x = 0, y = 0;
 
-            if (random.Next(0, 1) == 1) x = 1;
+            if (random.Next(2) == 1) x = 1;
             else x = -1;
 
-            if (random.Next(0, 1) == 1) y = 1;
+            if (random.Next(2) == 1) y = 1;
             else y = -1;
 
-            if (random.Next(1, 10) > 3) {
+            if (random.Next(10) > 3) {
                 x *= furtherSpawnX;
                 y *= furtherSpawnY;
             } else {

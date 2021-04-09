@@ -12,6 +12,11 @@ namespace Floors {
         private int numberOfRooms;
         private int level;
 
+        private int maxEnemiesPerRoom = 4;
+        private float meleeShooterRatio = 0.8f;
+        private float specialColorRatio = 0.9f;
+        private float redBlueRatio = 0.6f;
+
         public FloorGenerator(GameObject roomPrefab, Transform floor) {
             this.roomPrefab = roomPrefab;
             this.floor = floor;
@@ -23,7 +28,7 @@ namespace Floors {
             this.roomMap.Clear();
 
             this.level = level;
-            this.numberOfRooms = 6 + (int)(this.level * 1.5) + (int)Random.Range(0, Mathf.Sqrt(this.level));
+            this.numberOfRooms = 6 + (int)(this.level * 1.5) + (int)Random.Range(0f, Mathf.Sqrt(this.level));
 
             GenerateRooms();
 
@@ -118,7 +123,8 @@ namespace Floors {
 
         private void GenerateEnemies() {
             foreach (KeyValuePair<Coordinate, Room> room in this.roomMap) {
-                room.Value.SetEnemies(GenerateEnemyList());
+                List<EnemyTemplate> enemies = GenerateEnemyList();
+                room.Value.SetEnemies(enemies);
             }
 
             this.roomMap[new Coordinate(0, 0)].SetEnemies(new List<EnemyTemplate>());
@@ -126,8 +132,48 @@ namespace Floors {
 
         private List<EnemyTemplate> GenerateEnemyList() {
             List<EnemyTemplate> enemies = new List<EnemyTemplate>();
-            enemies.Add(new EnemyTemplate(EnemyKind.Melee, 1, EnemyHealth.DamageColor.White, 1));
-            enemies.Add(new EnemyTemplate(EnemyKind.Shooter, 2, EnemyHealth.DamageColor.White, 1));
+
+            string result = "";
+
+            int numberOfEnemies = (int) Mathf.Log(
+                Random.Range(
+                    0f, 
+                    Mathf.Pow(2, maxEnemiesPerRoom) + 1),
+                2);
+
+            result += "Number of enemies: " + numberOfEnemies + "\n\n";
+
+            for(int i = 0; i < numberOfEnemies; i++) {
+                EnemyTemplate enemy = new EnemyTemplate();
+
+                if(Random.Range(0f, 1f) > this.meleeShooterRatio) {
+                    enemy.kind = EnemyKind.Shooter;
+                    
+                } else {
+                    enemy.kind = EnemyKind.Melee;
+                }
+
+                enemy.health = 1 + this.level + (int) Random.Range(0f, Mathf.Sqrt(this.level));
+
+                if (Random.Range(0f, 1f) > this.specialColorRatio) {
+                    if (Random.Range(0f, 1f) > this.redBlueRatio) {
+                        enemy.color = EnemyHealth.DamageColor.Red;
+                    } else {
+                        enemy.color = EnemyHealth.DamageColor.Blue;
+                    }
+                } else {
+                    enemy.color = EnemyHealth.DamageColor.White;
+                }
+
+                enemy.damage = 1 + (int)(this.level / 3);
+
+                result += enemy.ToString() + "\n";
+
+                enemies.Add(enemy);
+            }
+
+            Debug.Log(result);
+
             return enemies;
         }
     }

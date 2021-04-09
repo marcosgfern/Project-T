@@ -24,15 +24,15 @@ public class EnemyPool : MonoBehaviour {
         EnemyController enemy;
         switch (template.kind) {
             case EnemyKind.Melee:
-                enemy = this.transform.Find(meleePrefab.name + "(Clone)").gameObject.GetComponent<EnemyController>();
+                enemy = GetEnemyByKind(meleePrefab);
                 break;
 
             case EnemyKind.Shooter:
-                enemy = this.transform.Find(shooterPrefab.name + "(Clone)").gameObject.GetComponent<EnemyController>();
+                enemy = GetEnemyByKind(shooterPrefab);
                 break;
 
             default:
-                enemy = this.transform.Find(meleePrefab.name + "(Clone)").gameObject.GetComponent<EnemyController>();
+                enemy = GetEnemyByKind(meleePrefab);
                 break;
         }
 
@@ -65,16 +65,25 @@ public class EnemyPool : MonoBehaviour {
 }
 public class EnemyTemplate {
 
-    public EnemyKind kind { get; }
-    public int health { get; }
-    public DamageColor color { get; }
-    public int damage { get; }
+    public EnemyKind kind { get; set; }
+    public int health { get; set; }
+    public DamageColor color { get; set; }
+    public int damage { get; set; }
+
+    public EnemyTemplate() { }
 
     public EnemyTemplate(EnemyKind kind, int health, DamageColor color, int damage) {
         this.kind = kind;
         this.health = health;
         this.color = color;
         this.damage = damage;
+    }
+
+    override public string ToString() {
+        return this.kind
+            + ", health: " + this.health
+            + ", " + this.color
+            + ", damage: " + this.damage;
     }
 }
 
