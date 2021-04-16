@@ -135,7 +135,7 @@ namespace Floors {
 
             string result = "";
 
-            int numberOfEnemies = (int) Mathf.Log(
+            int numberOfEnemies = 4 - (int) Mathf.Log(
                 Random.Range(
                     0f, 
                     Mathf.Pow(2, maxEnemiesPerRoom) + 1),
