@@ -7,6 +7,8 @@ namespace Floors {
 
         public GameObject roomPrefab;
 
+        public MinimapRoomLayout minimap;
+
         private FloorGenerator generator;
         private Dictionary<Coordinate, Room> roomMap;
         private int level;
@@ -33,25 +35,32 @@ namespace Floors {
             }
 
             this.roomMap = this.generator.Generate(this.level++);
-            MoveToRoom(new Coordinate(0, 0));
+            this.minimap.GenerateTileLayout(this.roomMap);
+            MoveToRoom(new Coordinate(0, 0), null);
         }
 
         public void MoveToRoom(Direction direction) {
             this.roomMap[this.currentRoom].FadeOut(cameraController.GetPanningDuration());
-            this.currentRoom = this.currentRoom.GetNeighbour(direction);
+            MoveToRoom(this.currentRoom.GetNeighbour(direction), direction);
+        }
+
+        private void MoveToRoom(Coordinate coordinate, Direction? direction) {
+            this.currentRoom = coordinate;
             Room room = this.roomMap[this.currentRoom];
+            this.minimap.MoveToRoom(this.currentRoom);
+            DiscoverNeighbours();
             cameraController.MoveToRoom(room.gameObject.transform);
             room.FadeIn(cameraController.GetPanningDuration());
             room.MovePlayerIn(this.player, direction.Opposite());
         }
 
-        private void MoveToRoom(Coordinate coordinate) {
-            this.currentRoom = coordinate;
-            Room room = this.roomMap[coordinate];
-            cameraController.MoveToRoom(room.gameObject.transform);
-            room.FadeIn(cameraController.GetPanningDuration());
-            room.MovePlayerIn(this.player, null);
-        }       
+        private void DiscoverNeighbours() {
+            foreach(Coordinate coordinate in this.currentRoom.GetNeighbours()) {
+                if (this.roomMap.ContainsKey(coordinate)) {
+                    this.roomMap[coordinate].SetState(RoomState.Discovered, true);
+                }
+            }
+        }
     }
 }
 

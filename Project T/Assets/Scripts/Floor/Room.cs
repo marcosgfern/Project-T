@@ -14,9 +14,10 @@ namespace Floors {
             furtherSpawnY = 2.1f;
 
         public GameObject doorPrefab, stairsPrefab;
-
         private Door upDoor, rightDoor, downDoor, leftDoor;
-        private bool completed;
+
+        private MinimapRoomTile minimapTile;
+        private RoomState state;
 
         private List<EnemyTemplate> enemyTemplates;
         private List<EnemyController> enemies;
@@ -31,6 +32,16 @@ namespace Floors {
 
         private void Start() {
             this.spriteManager.SetColor(Color.clear);
+        }
+
+        private Door GetDoor(Direction? direction) {
+            switch (direction) {
+                case Direction.Up: return upDoor;
+                case Direction.Right: return rightDoor;
+                case Direction.Down: return downDoor;
+                case Direction.Left: return leftDoor;
+                default: return null;
+            }
         }
 
         public void SetDoor(Direction direction) {
@@ -79,14 +90,32 @@ namespace Floors {
             return door.GetComponent<Stairs>();
         }
 
+        public void SetMinimapTile(MinimapRoomTile tile) {
+            this.minimapTile = tile;
+            this.minimapTile.SetState(this.state);
+        }
+
+        public void SetState(RoomState state, bool updateTile) {
+            if((int)state > (int)this.state) {
+                this.state = state;
+                if (updateTile) {
+                    this.minimapTile.SetState(state);
+                }
+            }
+        }
+
         public void MovePlayerIn(GameObject player, Direction? direction) {
             EnemyController.CurrentRoom = this;
-            if (!this.completed) {
+
+            SetState(RoomState.Discovered, false);
+            this.minimapTile.SetState(RoomState.Current);
+
+            if (!this.state.Equals(RoomState.Completed)) {
                 if(this.enemyTemplates != null && this.enemyTemplates.Count > 0) {
                     CloseDoors();
                     SpawnEnemies();
                 } else {
-                    this.completed = true;
+                    SetState(RoomState.Completed, false);
                 }
             }
 
@@ -96,15 +125,13 @@ namespace Floors {
             } else {
                 player.transform.position = this.gameObject.transform.position;
             }
-
-            string enemyList = "Number of enemies: " + enemyTemplates.Count + "\n\n";
-            foreach(EnemyTemplate enemy in enemyTemplates) {
-                enemyList += enemy.ToString() + "\n";
-            }
-
-            Debug.Log(enemyList);
             
             player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        }
+
+        public void LeaveRoom(Direction direction) {
+            this.minimapTile.SetState(this.state);
+            SendMessageUpwards("MoveToRoom", direction);
         }
 
         public void SetEnemies(List<EnemyTemplate> enemyTemplates) {
@@ -123,7 +150,7 @@ namespace Floors {
 
             if (enemiesDefeated) {
                 enemies.Clear();
-                this.completed = true;
+                SetState(RoomState.Completed, false);
                 OpenDoors();
             }
         }
@@ -155,16 +182,6 @@ namespace Floors {
             }
 
             return this.transform.position + new Vector3(x, y, 0);
-        }
-
-        private Door GetDoor(Direction? direction) {
-            switch (direction) {
-                case Direction.Up: return upDoor;
-                case Direction.Right: return rightDoor;
-                case Direction.Down: return downDoor;
-                case Direction.Left: return leftDoor;
-                default: return null;
-            }
         }
 
         private void OpenDoors() {
@@ -225,6 +242,13 @@ namespace Floors {
             if(this.leftDoor != null)
                 this.leftDoor.Fade(startingColor, targetColor, duration);
         }
+
+    }
+    public enum RoomState {
+        Unknown = 0,
+        Discovered = 1,
+        Completed = 2,
+        Current = 3
     }
 }
 

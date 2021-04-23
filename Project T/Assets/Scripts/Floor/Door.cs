@@ -41,7 +41,7 @@ namespace Floors {
 
         public virtual void PlayerEnter() {
             if (!this.closed) {
-                SendMessageUpwards("MoveToRoom", this.direction);
+                SendMessageUpwards("LeaveRoom", this.direction);
             }
         }
 

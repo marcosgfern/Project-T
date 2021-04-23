@@ -21,6 +21,10 @@ public class SpriteManager {
         SetMainColor(color);
     }
 
+    public void SetSprite(Sprite sprite) {
+        this.spriteRenderer.sprite = sprite;
+    }
+
     public void SetMainColor(Color color) {
         this.spriteColor = color;
     }

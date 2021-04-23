@@ -64,8 +64,7 @@ namespace Floors {
         private void AddRoom(Coordinate roomCoordinate) {
             Vector2 roomPosition = new Vector2(
                 roomCoordinate.x * roomPrefab.GetComponent<Renderer>().bounds.size.x,
-                roomCoordinate.y * roomPrefab.GetComponent<Renderer>().bounds.size.y
-                );
+                roomCoordinate.y * roomPrefab.GetComponent<Renderer>().bounds.size.y);
 
             GameObject room = Object.Instantiate(roomPrefab, roomPosition, Quaternion.identity) as GameObject;
             room.name = roomCoordinate.ToString();
@@ -133,15 +132,11 @@ namespace Floors {
         private List<EnemyTemplate> GenerateEnemyList() {
             List<EnemyTemplate> enemies = new List<EnemyTemplate>();
 
-            string result = "";
-
-            int numberOfEnemies = 4 - (int) Mathf.Log(
+            int numberOfEnemies = maxEnemiesPerRoom - (int) Mathf.Log(
                 Random.Range(
                     0f, 
                     Mathf.Pow(2, maxEnemiesPerRoom) + 1),
                 2);
-
-            result += "Number of enemies: " + numberOfEnemies + "\n\n";
 
             for(int i = 0; i < numberOfEnemies; i++) {
                 EnemyTemplate enemy = new EnemyTemplate();
@@ -167,12 +162,8 @@ namespace Floors {
 
                 enemy.damage = 1 + (int)(this.level / 3);
 
-                result += enemy.ToString() + "\n";
-
                 enemies.Add(enemy);
             }
-
-            Debug.Log(result);
 
             return enemies;
         }
