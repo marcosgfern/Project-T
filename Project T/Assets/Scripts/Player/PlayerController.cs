@@ -1,55 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-class TouchManager {
-    private Vector2 startingPosition;
-    private Vector2 currentPosition;
-    private bool swipe;
-    private TouchPhase? phase;
-
-    public void Update() {
-        if (Input.touchCount > 0) {
-            Touch touch = Input.GetTouch(Input.touchCount - 1);
-
-            this.phase = touch.phase;
-
-            switch (touch.phase) {
-                case TouchPhase.Began:
-                    this.startingPosition = this.currentPosition = touch.position;
-                    this.swipe = false;
-
-                    break;
-                case TouchPhase.Moved:
-                    this.swipe = true;
-                    this.currentPosition = touch.position;
-
-                    break;
-                case TouchPhase.Ended:
-                    this.currentPosition = touch.position;
-                    break;
-            }
-        } else {
-            phase = null;
-        }
-    }
-
-    public Vector2 GetStartingPosition() {
-        return this.startingPosition;
-    }
-
-    public Vector2 GetSwipeDirection() {
-        return (this.currentPosition - this.startingPosition).normalized;
-    }
-
-    public bool IsSwipe() {
-        return this.swipe;
-    }
-
-    public TouchPhase? GetPhase() {
-        return this.phase;
-    }
-}
-
 public class PlayerController : MonoBehaviour {
 
     public float movingForce = 10f;
@@ -79,7 +30,6 @@ public class PlayerController : MonoBehaviour {
         this.spriteManager = new SpriteManager(GetComponent<SpriteRenderer>());
     }
 
-    // Update is called once per frame
     void Update(){
         this.touchManager.Update();
 
