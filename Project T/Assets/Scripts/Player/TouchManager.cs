@@ -9,6 +9,11 @@ public class TouchManager {
             Mathf.Pow(Screen.width, 2)
         ) * 0.04f;
 
+    private static int minHeight = 360,
+                maxHeight = Screen.height - 196;
+
+    private bool isOnControlArea;
+
     private Vector2 startingPosition;
     private Vector2 currentPosition;
     private bool swipe;
@@ -20,23 +25,32 @@ public class TouchManager {
 
             switch (touch.phase) {
                 case TouchPhase.Began:
-                    this.startingPosition = this.currentPosition = touch.position;
-                    this.swipe = false;
-                    this.phase = touch.phase;
+                    if (TouchIsInControlArea(touch)) {
+                        isOnControlArea = true;
+                        this.startingPosition = this.currentPosition = touch.position;
+                        this.swipe = false;
+                        this.phase = touch.phase;
+                    } else {
+                        isOnControlArea = false;
+                    }
                     break;
 
                 case TouchPhase.Moved:
-                    if(this.phase != TouchPhase.Moved
-                            && Mathf.Abs((touch.position - this.startingPosition).magnitude) > MinDistanceForSwipe) {
-                        this.swipe = true;
-                        this.phase = touch.phase;
+                    if (this.isOnControlArea) {
+                        if (Mathf.Abs((touch.position - this.startingPosition).magnitude) > MinDistanceForSwipe
+                                && this.phase != TouchPhase.Moved) {
+                            this.swipe = true;
+                            this.phase = touch.phase;
+                        }
+                        this.currentPosition = touch.position;
                     }
-                    this.currentPosition = touch.position;
                     break;
 
                 case TouchPhase.Ended:
-                    this.currentPosition = touch.position;
-                    this.phase = touch.phase;
+                    if (this.isOnControlArea) {
+                        this.currentPosition = touch.position;
+                        this.phase = touch.phase;
+                    }
                     break;
             }
         } else {
@@ -58,5 +72,10 @@ public class TouchManager {
 
     public TouchPhase? GetPhase() {
         return this.phase;
+    }
+
+    private bool TouchIsInControlArea(Touch touch) {
+        return touch.position.y > minHeight
+            && touch.position.y < maxHeight;
     }
 }
