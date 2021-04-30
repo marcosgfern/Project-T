@@ -590,6 +590,7 @@ GameObject:
   - component: {fileID: 1439841361}
   - component: {fileID: 1439841360}
   - component: {fileID: 1439841359}
+  - component: {fileID: 1439841362}
   m_Layer: 5
   m_Name: Pause
   m_TagString: Untagged
@@ -660,7 +661,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1439841360}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1439841362}
+        m_TargetAssemblyTypeName: Loader, Assembly-CSharp
+        m_MethodName: Load
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1439841360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -699,6 +712,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1439841357}
   m_CullTransparentMesh: 1
+--- !u!114 &1439841362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439841357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760a35d93fa5bf645a65cb0802bdaec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scene: 1
 --- !u!1 &1465934733
 GameObject:
   m_ObjectHideFlags: 0
@@ -1591,12 +1617,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2973974766283313473, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
+      propertyPath: maxHealth
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2973974766283313473, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
       propertyPath: heartBarGameObject
       value: 
       objectReference: {fileID: 1465934733}
     - target: {fileID: 3697284688787348975, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3697284688787348978, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
+      propertyPath: shotCoolingTime
+      value: 0.125
       objectReference: {fileID: 0}
     - target: {fileID: 3697284688787348979, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
       propertyPath: m_RootOrder

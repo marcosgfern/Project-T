@@ -14,10 +14,10 @@ public class HeartBar : MonoBehaviour {
     }
 
     public void SetHealth(float health) {
-        this.currentHealthUI.sizeDelta = new Vector2(health * heartSize, heartSize);
+        this.currentHealthUI.sizeDelta = new Vector2(health * heartSize / 2, heartSize);
     }
 
     public void SetMaxHealth(float maxHealth) {
-        this.maxHealthUI.sizeDelta = new Vector2(maxHealth * heartSize, heartSize);
+        this.maxHealthUI.sizeDelta = new Vector2(maxHealth * heartSize / 2, heartSize);
     }
 }

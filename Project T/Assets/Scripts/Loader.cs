@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public static class Loader {
-   
+public class Loader : MonoBehaviour {
 
-    public static void Load(Scene scene) {
-        SceneManager.LoadScene(scene.ToString());
+    public Scene scene;
+    public void Load() {
+        SceneManager.LoadScene(this.scene.ToString());
     }
 
     public enum Scene {
         GameScene,
-        MainMenu
+        MainMenu,
+        DeathScreen
     }
 }
