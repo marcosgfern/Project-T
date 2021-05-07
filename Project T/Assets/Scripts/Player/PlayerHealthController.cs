@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerHealthController : MonoBehaviour {
 
@@ -32,9 +31,7 @@ public class PlayerHealthController : MonoBehaviour {
             health = health - damage;
 
             if (health <= 0) {
-                gameObject.SetActive(false);
-                //Game over
-                SceneManager.LoadScene("DeathScreen");
+                playerController.Die();
             }
 
             this.heartBar.SetHealth(health);

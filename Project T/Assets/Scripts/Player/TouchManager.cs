@@ -7,7 +7,7 @@ public class TouchManager {
         Mathf.Sqrt(
             Mathf.Pow(Screen.height, 2) +
             Mathf.Pow(Screen.width, 2)
-        ) * 0.04f;
+        ) * 0.025f;
 
     private static int minHeight = 360,
                 maxHeight = Screen.height - 196;

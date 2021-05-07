@@ -156,15 +156,15 @@ namespace Floors {
         }
 
         private void SpawnEnemies() {
-            foreach(EnemyTemplate template in this.enemyTemplates) {
+            System.Random random = new System.Random();
+            foreach (EnemyTemplate template in this.enemyTemplates) {
                 EnemyController enemy = enemyPool.GetEnemy(template);
                 this.enemies.Add(enemy);
-                enemy.Spawn(GetSpawnPoint());
+                enemy.Spawn(GetSpawnPoint(random));
             }
         }
 
-        private Vector3 GetSpawnPoint() {
-            System.Random random = new System.Random();
+        private Vector3 GetSpawnPoint(System.Random random) {
             float x = 0, y = 0;
 
             if (random.Next(2) == 1) x = 1;
@@ -172,6 +172,8 @@ namespace Floors {
 
             if (random.Next(2) == 1) y = 1;
             else y = -1;
+
+            Debug.Log("Spawn point: [" + x + ", " + y + "]");
 
             if (random.Next(10) > 3) {
                 x *= furtherSpawnX;

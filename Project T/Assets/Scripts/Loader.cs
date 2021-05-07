@@ -7,7 +7,12 @@ public class Loader : MonoBehaviour {
 
     public Scene scene;
     public void Load() {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(this.scene.ToString());
+    }
+
+    public void Quit() {
+        Application.Quit();
     }
 
     public enum Scene {

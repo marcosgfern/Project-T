@@ -138,6 +138,10 @@ namespace Floors {
                     Mathf.Pow(2, maxEnemiesPerRoom) + 1),
                 2);
 
+            if(numberOfEnemies > maxEnemiesPerRoom) {
+                numberOfEnemies = maxEnemiesPerRoom;
+            }
+
             for(int i = 0; i < numberOfEnemies; i++) {
                 EnemyTemplate enemy = new EnemyTemplate();
 

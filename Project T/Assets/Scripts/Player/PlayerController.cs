@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -124,6 +125,11 @@ public class PlayerController : MonoBehaviour {
 
             this.healthController.SetInvincibility(false);
         }
+    }
+
+    public void Die() {
+        this.healthController.SetInvincibility(true);
+        SceneManager.LoadScene("DeathScreen");
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
