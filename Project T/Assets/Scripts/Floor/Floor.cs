@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace Floors {
@@ -8,6 +9,8 @@ namespace Floors {
         public GameObject roomPrefab;
 
         public MinimapRoomLayout minimap;
+
+        public GameObject floorNumberIndicator;
 
         private FloorGenerator generator;
         private Dictionary<Coordinate, Room> roomMap;
@@ -36,6 +39,7 @@ namespace Floors {
 
             this.roomMap = this.generator.Generate(this.level++);
             this.minimap.GenerateTileLayout(this.roomMap);
+            this.floorNumberIndicator.GetComponent<TextMeshProUGUI>().SetText("Floor " + this.level);
             MoveToRoom(new Coordinate(0, 0), null);
         }
 

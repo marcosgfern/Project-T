@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour {
 
     public GameObject projectilePrefab;
 
+    public GameObject deathScreen;
+
     private Rigidbody2D rigidBody;
     private Animator animator;
 
@@ -129,7 +131,7 @@ public class PlayerController : MonoBehaviour {
 
     public void Die() {
         this.healthController.SetInvincibility(true);
-        SceneManager.LoadScene("MainMenu");
+        this.deathScreen.SetActive(true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {

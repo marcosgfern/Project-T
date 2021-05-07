@@ -173,8 +173,6 @@ namespace Floors {
             if (random.Next(2) == 1) y = 1;
             else y = -1;
 
-            Debug.Log("Spawn point: [" + x + ", " + y + "]");
-
             if (random.Next(10) > 3) {
                 x *= furtherSpawnX;
                 y *= furtherSpawnY;
