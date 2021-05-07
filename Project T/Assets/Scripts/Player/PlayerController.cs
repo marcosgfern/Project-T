@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour {
 
     public void Die() {
         this.healthController.SetInvincibility(true);
-        SceneManager.LoadScene("DeathScreen");
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {

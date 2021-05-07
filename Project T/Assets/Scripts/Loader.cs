@@ -5,10 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class Loader : MonoBehaviour {
 
-    public Scene scene;
-    public void Load() {
+    public Animator crossfadeAnimator;
+
+    public void LoadGame() {
+        StartCoroutine(Load(Scene.GameScene));
+    }
+
+    public void LoadMainMenu() {
+        StartCoroutine(Load(Scene.MainMenu));
+    }
+
+    private IEnumerator Load(Scene scene) {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(this.scene.ToString());
+        crossfadeAnimator.SetTrigger("Start");
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(scene.ToString());
     }
 
     public void Quit() {
@@ -17,7 +28,6 @@ public class Loader : MonoBehaviour {
 
     public enum Scene {
         GameScene,
-        MainMenu,
-        DeathScreen
+        MainMenu
     }
 }
