@@ -13,21 +13,38 @@ public class SettingsMenu : MonoBehaviour {
         lensDistortionToggle, 
         bloomToggle;
 
+    private ChromaticAberration chromaticAberration;
+    private LensDistortion lensDistortion;
+    private Bloom bloom;
+
+    public void Awake() {
+        this.chromaticAberration = this.postProcessProfile.GetSetting<ChromaticAberration>();
+        this.lensDistortion = this.postProcessProfile.GetSetting<LensDistortion>();
+        this.bloom = this.postProcessProfile.GetSetting<Bloom>();
+    }
+
     public void Start() {
-        this.chromaticAberrationToggle.isOn = this.postProcessProfile.GetSetting<ChromaticAberration>().enabled.value;
-        this.lensDistortionToggle.isOn = this.postProcessProfile.GetSetting<LensDistortion>().enabled.value;
-        this.bloomToggle.isOn = this.postProcessProfile.GetSetting<Bloom>().enabled.value;
+        this.chromaticAberration.enabled.value = bool.Parse(PlayerPrefs.GetString("ChromaticAberration", "True"));
+        this.lensDistortion.enabled.value = bool.Parse(PlayerPrefs.GetString("LensDistortion", "True"));
+        this.bloom.enabled.value = bool.Parse(PlayerPrefs.GetString("Bloom", "True"));
+
+        this.chromaticAberrationToggle.isOn = this.chromaticAberration.enabled.value;
+        this.lensDistortionToggle.isOn = this.lensDistortion.enabled.value;
+        this.bloomToggle.isOn = this.bloom.enabled.value;
     }
 
     public void SetChromaticAberration(bool enabled) {
-        this.postProcessProfile.GetSetting<ChromaticAberration>().enabled.value = enabled;
+        this.chromaticAberration.enabled.value = enabled;
+        PlayerPrefs.SetString("ChromaticAberration", enabled.ToString());
     }
 
     public void SetLensDistortion(bool enabled) {
-        this.postProcessProfile.GetSetting<LensDistortion>().enabled.value = enabled;
+        this.lensDistortion.enabled.value = enabled;
+        PlayerPrefs.SetString("LensDistortion", enabled.ToString());
     }
 
     public void SetBloom(bool enabled) {
-        this.postProcessProfile.GetSetting<Bloom>().enabled.value = enabled;
+        this.bloom.enabled.value = enabled;
+        PlayerPrefs.SetString("Bloom", enabled.ToString());
     }
 }
