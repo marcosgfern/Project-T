@@ -3362,10 +3362,6 @@ PrefabInstance:
       propertyPath: deathScreen
       value: 
       objectReference: {fileID: 697703153}
-    - target: {fileID: 3697284688787348978, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
-      propertyPath: shotCoolingTime
-      value: 0.125
-      objectReference: {fileID: 0}
     - target: {fileID: 3697284688787348979, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
       propertyPath: m_RootOrder
       value: 3
