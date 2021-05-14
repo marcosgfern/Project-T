@@ -8,10 +8,10 @@ namespace Floors {
         public static EnemyPool enemyPool;
 
         public float 
-            closerSpawnX = 0.75f, 
-            closerSpawnY = 1f, 
-            furtherSpawnX = 1.5f, 
-            furtherSpawnY = 2.1f;
+            spawnPointX = 1f, 
+            spawnPointY = 1.25f, 
+            spawnPointXVariation = 0.5f, 
+            spawnPointYVariation = 0.85f;
 
         public GameObject doorPrefab, stairsPrefab;
         private Door upDoor, rightDoor, downDoor, leftDoor;
@@ -173,13 +173,8 @@ namespace Floors {
             if (random.Next(2) == 1) y = 1;
             else y = -1;
 
-            if (random.Next(10) > 3) {
-                x *= furtherSpawnX;
-                y *= furtherSpawnY;
-            } else {
-                x *= closerSpawnX;
-                y *= closerSpawnY;
-            }
+            x *= spawnPointX + spawnPointXVariation * (float) random.NextDouble();
+            y *= spawnPointY + spawnPointYVariation * (float)random.NextDouble();
 
             return this.transform.position + new Vector3(x, y, 0);
         }

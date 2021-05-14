@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 102908206}
   - component: {fileID: 102908205}
   m_Layer: 5
-  m_Name: Restart
+  m_Name: Restart button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,7 +151,7 @@ RectTransform:
   m_GameObject: {fileID: 102908202}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9992506, y: 0.9992506, z: 0.9992506}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2029265777}
   m_Father: {fileID: 731148388}
@@ -404,7 +404,7 @@ GameObject:
   - component: {fileID: 396550099}
   - component: {fileID: 396550098}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Main menu text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -553,7 +553,7 @@ RectTransform:
   m_GameObject: {fileID: 444725836}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9992506, y: 0.9992506, z: 0.9992506}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 697703154}
   m_RootOrder: 0
@@ -1113,7 +1113,7 @@ GameObject:
   - component: {fileID: 797228709}
   - component: {fileID: 797228708}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Restart text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1248,7 +1248,7 @@ GameObject:
   - component: {fileID: 1332206922}
   - component: {fileID: 1332206921}
   m_Layer: 5
-  m_Name: Resume
+  m_Name: Resume button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1263,7 +1263,7 @@ RectTransform:
   m_GameObject: {fileID: 1332206918}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9992506, y: 0.9992506, z: 0.9992506}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1878238033}
   m_Father: {fileID: 731148388}
@@ -1381,7 +1381,7 @@ GameObject:
   - component: {fileID: 1336624400}
   - component: {fileID: 1336624399}
   m_Layer: 5
-  m_Name: Main menu
+  m_Name: Main menu button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1396,7 +1396,7 @@ RectTransform:
   m_GameObject: {fileID: 1336624396}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9992506, y: 0.9992506, z: 0.9992506}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 396550097}
   m_Father: {fileID: 731148388}
@@ -1699,7 +1699,7 @@ GameObject:
   - component: {fileID: 1498620161}
   - component: {fileID: 1498620160}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Main menu text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2505,7 +2505,7 @@ GameObject:
   - component: {fileID: 1878238035}
   - component: {fileID: 1878238034}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Resume text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2833,7 +2833,7 @@ GameObject:
   - component: {fileID: 2029265779}
   - component: {fileID: 2029265778}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Restart text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2855,8 +2855,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
-  m_SizeDelta: {x: 0, y: -0.00005722046}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2029265778
 MonoBehaviour:
@@ -2968,7 +2968,7 @@ GameObject:
   - component: {fileID: 2039334155}
   - component: {fileID: 2039334154}
   m_Layer: 5
-  m_Name: Main menu
+  m_Name: Main menu button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2983,7 +2983,7 @@ RectTransform:
   m_GameObject: {fileID: 2039334152}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9992506, y: 0.9992506, z: 0.9992506}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1498620159}
   m_Father: {fileID: 697703154}
@@ -3101,7 +3101,7 @@ GameObject:
   - component: {fileID: 2126468276}
   - component: {fileID: 2126468275}
   m_Layer: 5
-  m_Name: Restart
+  m_Name: Restart button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3116,7 +3116,7 @@ RectTransform:
   m_GameObject: {fileID: 2126468273}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9992506, y: 0.9992506, z: 0.9992506}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 797228707}
   m_Father: {fileID: 697703154}

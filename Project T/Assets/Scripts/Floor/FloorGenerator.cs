@@ -132,7 +132,7 @@ namespace Floors {
         private List<EnemyTemplate> GenerateEnemyList() {
             List<EnemyTemplate> enemies = new List<EnemyTemplate>();
 
-            int numberOfEnemies = maxEnemiesPerRoom - (int) Mathf.Log(
+            /*int numberOfEnemies = maxEnemiesPerRoom - (int) Mathf.Log(
                 Random.Range(
                     0f, 
                     Mathf.Pow(2, maxEnemiesPerRoom) + 1),
@@ -140,6 +140,11 @@ namespace Floors {
 
             if(numberOfEnemies > maxEnemiesPerRoom) {
                 numberOfEnemies = maxEnemiesPerRoom;
+            }*/
+
+            int numberOfEnemies = Random.Range(0, maxEnemiesPerRoom + 1);
+            if (numberOfEnemies == 1) {
+                numberOfEnemies = 2;
             }
 
             for(int i = 0; i < numberOfEnemies; i++) {

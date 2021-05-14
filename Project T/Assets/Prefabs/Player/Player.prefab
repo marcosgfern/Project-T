@@ -189,8 +189,9 @@ MonoBehaviour:
   movingTime: 0.2
   startingLinearDrag: 1
   finalLinearDrag: 10
-  shotCoolingTime: 0.1
+  shotCoolingTime: 0.25
   projectilePrefab: {fileID: 7203675168597311138, guid: 5e449a46ab2fd12448d2be3725c4bf4d, type: 3}
+  deathScreen: {fileID: 0}
 --- !u!114 &2534492019672374294
 MonoBehaviour:
   m_ObjectHideFlags: 0

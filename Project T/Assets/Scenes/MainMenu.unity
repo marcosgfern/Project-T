@@ -547,7 +547,7 @@ GameObject:
   - component: {fileID: 368519803}
   - component: {fileID: 368519806}
   m_Layer: 5
-  m_Name: Exit
+  m_Name: Exit button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -759,7 +759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 303079386056404435, guid: 798a06be4390720478fa7eceb1311a64, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 360551592616051809, guid: 798a06be4390720478fa7eceb1311a64, type: 3}
       propertyPath: m_Pivot.x
@@ -862,7 +862,7 @@ GameObject:
   - component: {fileID: 448596312}
   - component: {fileID: 448596313}
   m_Layer: 5
-  m_Name: Toggle
+  m_Name: Bloom toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -935,13 +935,13 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 1815730019}
+        m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
+        m_MethodName: SetBloom
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -959,7 +959,7 @@ GameObject:
   - component: {fileID: 559304965}
   - component: {fileID: 559304966}
   m_Layer: 5
-  m_Name: Toggle
+  m_Name: Lens distortion toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1223,7 +1223,7 @@ GameObject:
   - component: {fileID: 644198112}
   - component: {fileID: 644198111}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Bloom text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1447,7 +1447,7 @@ GameObject:
   - component: {fileID: 880696580}
   - component: {fileID: 880696581}
   m_Layer: 5
-  m_Name: Toggle
+  m_Name: Chromatic aberration toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1661,7 +1661,7 @@ GameObject:
   - component: {fileID: 1070086953}
   - component: {fileID: 1070086952}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Back text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1796,7 +1796,7 @@ GameObject:
   - component: {fileID: 1079266787}
   - component: {fileID: 1079266786}
   m_Layer: 5
-  m_Name: Start
+  m_Name: Start button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2045,7 +2045,7 @@ GameObject:
   - component: {fileID: 1238818999}
   - component: {fileID: 1238818998}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Exit text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2180,7 +2180,7 @@ GameObject:
   - component: {fileID: 1248481483}
   - component: {fileID: 1248481482}
   m_Layer: 5
-  m_Name: Settings
+  m_Name: Settings button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2312,7 +2312,7 @@ GameObject:
   - component: {fileID: 1253315308}
   - component: {fileID: 1253315307}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Lens distortion text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2608,7 +2608,7 @@ GameObject:
   - component: {fileID: 1462976683}
   - component: {fileID: 1462976682}
   m_Layer: 5
-  m_Name: Back
+  m_Name: Back button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2815,7 +2815,7 @@ GameObject:
   - component: {fileID: 1714143768}
   - component: {fileID: 1714143767}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Chromatic aberration text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3062,7 +3062,7 @@ GameObject:
   - component: {fileID: 1790633463}
   - component: {fileID: 1790633462}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Start text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3202,7 +3202,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1815730016
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3278,6 +3278,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   postProcessProfile: {fileID: 11400000, guid: ef7540d4bd99dda45bcd65f984280a6d, type: 2}
+  chromaticAberrationToggle: {fileID: 880696581}
+  lensDistortionToggle: {fileID: 559304966}
+  bloomToggle: {fileID: 448596313}
 --- !u!1 &1880210342
 GameObject:
   m_ObjectHideFlags: 0
@@ -3533,7 +3536,7 @@ GameObject:
   - component: {fileID: 2108025063}
   - component: {fileID: 2108025062}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Settings text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
