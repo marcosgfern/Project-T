@@ -4,12 +4,15 @@ using UnityEngine;
 
 using EnemyHealth;
 
+/* Class SpriteManager is used in different classes for visual effects related to sprites. 
+ * Used specifically for special enemies.
+ */
 public class SpriteManager {
     public static Color customRed = new Color(0.9411765f, 0.1176471f, 0.1882353f, 1f);
     public static Color customBlue = new Color(0.159399f, 0.4789415f, 0.801f, 1f);
 
     private SpriteRenderer spriteRenderer;
-    private Color spriteColor;
+    private Color spriteColor; // Default color of the sprite. Other color changes are then multiplied to this.
 
     public SpriteManager(SpriteRenderer spriteRenderer) {
         this.spriteRenderer = spriteRenderer;
@@ -29,6 +32,7 @@ public class SpriteManager {
         this.spriteColor = color;
     }
 
+    /* Sets main color depending on @damageColor. Used specifically for special enemies. */
     public void SetMainColor(DamageColor damageColor) {
         switch (damageColor) {
             case DamageColor.White:
@@ -51,6 +55,7 @@ public class SpriteManager {
         this.spriteRenderer.color = this.spriteColor;
     }
 
+    /* Multiplies main color with @color */
     public void SetColor(Color color) {
         this.spriteRenderer.color = spriteColor * color;
     }
@@ -59,6 +64,7 @@ public class SpriteManager {
         this.spriteRenderer.color = spriteColor;
     }
 
+    /* Makes color transition between @startingColor and @targetColor, in @duration seconds. */
     public IEnumerator Fading(Color startingColor, Color targetColor, float duration) {
         SetColor(startingColor);
         for (float t = 0f; t < duration; t += Time.deltaTime) {
@@ -68,6 +74,7 @@ public class SpriteManager {
         SetColor(targetColor);
     }
 
+    /* Makes hit flashing effect. Used on enemies and player. */
     public IEnumerator HitFlash() {
         SetColor(Color.yellow);
         yield return new WaitForSeconds(0.05f);
@@ -77,6 +84,7 @@ public class SpriteManager {
         yield return new WaitForSeconds(0.05f);
     }
 
+    /* Makes flickering effect. Used on enemies and player when on invulnerability time */
     public IEnumerator InvulnerabilityFlash(float time) {
         Color veryTransparent = new Color(1f, 1f, 1f, 0.2f);
         Color littleTransparent = new Color(1f, 1f, 1f, 0.6f);

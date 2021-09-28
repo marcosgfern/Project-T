@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Class EnemyHealthController is used as one of the player components.
+ * Manages the player's health, and is responsible for the player's heartBar to change.
+ */
 public class PlayerHealthController : MonoBehaviour {
 
     public float maxHealth = 3f;
@@ -26,7 +29,11 @@ public class PlayerHealthController : MonoBehaviour {
         invincible = false;
     }
 
+    /* Adds damage to player's health and triggers the invulnerability cycle.
+     * If the player's health reaches 0, triggers the death process.
+     */
     void AddDamage(int damage) {
+        Debug.Log("AddDamage");
         if (!invincible) {
             health = health - damage;
 

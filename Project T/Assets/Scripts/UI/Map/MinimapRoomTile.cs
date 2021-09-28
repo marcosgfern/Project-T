@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Floors;
 
+/* Used as a component for minimap tiles. */
 public class MinimapRoomTile : MonoBehaviour {
 
     public Sprite[] stateSprites;
@@ -15,6 +16,7 @@ public class MinimapRoomTile : MonoBehaviour {
         this.SetState(RoomState.Unknown);
     }
 
+    /* Changes tile sprite depending on @state. */
     public void SetState(RoomState state) {
         this.image.sprite = stateSprites[(int)state];
     }

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Floors;
 
+/* MinimapRoomLayuout is used as a component for the minimap.
+ * Generates the minimap room layout and keeps it in a dictionary.
+ * Also updates the minimap position to center in the current room's tile.
+ */
 public class MinimapRoomLayout : MonoBehaviour {
 
     public GameObject tilePrefab;
@@ -14,6 +18,9 @@ public class MinimapRoomLayout : MonoBehaviour {
         this.tiles = new Dictionary<Coordinate, MinimapRoomTile>();
     }
 
+    /* Generates minimap layout from @roomMap, given by Floor.
+     * Associates every tile to its room.
+     */
     public void GenerateTileLayout(Dictionary<Coordinate, Room> roomMap) {
         Clear();
 
@@ -41,6 +48,7 @@ public class MinimapRoomLayout : MonoBehaviour {
         }
     }
 
+    /* Updates the minimap position to center in the current room's tile. */
     public void MoveToRoom(Coordinate coordinate) {
         Vector2 tilePosition = tiles[coordinate].transform.localPosition;
 

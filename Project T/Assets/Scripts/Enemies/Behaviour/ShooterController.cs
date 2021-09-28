@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//Controller for shooting enemies
+/* Controller for shooting enemies */
 public class ShooterController : EnemyController {
 
     public GameObject projectilePrefab;
@@ -18,7 +18,11 @@ public class ShooterController : EnemyController {
         this.movingSpeed = speed;
     }
 
-
+    /* Direction is calculated so the enemy tries to go to a point in the circumference with 
+     *      radius = ShooterController.targetDistance
+     *      and center = EnemyController.playerTransform.position,
+     * while also moving counterclockwise to the player.
+     */
     override protected Vector2 CalculateDirection() {
         Vector3 vectorToPlayer = playerTransform.position - this.transform.position;
 
@@ -48,6 +52,7 @@ public class ShooterController : EnemyController {
         canShoot = true;
     }
 
+    /* Shoots projectile in the direction of the player. */ 
     void Shoot() {
         if (projectilePrefab != null) {
             GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity) as GameObject;
@@ -58,6 +63,7 @@ public class ShooterController : EnemyController {
         }
     }
 
+    /* If shot cooling time is over, starts a new cycle of shooting. */ 
     protected override void SecondaryActions() {
         if (canShoot) {
             canShoot = false;
@@ -66,6 +72,9 @@ public class ShooterController : EnemyController {
         }
     }
 
+    /* Coroutine: waits the shot cooling time.
+     * Triggered by animator.     
+     */ 
     private IEnumerator ShotCooling() {
         this.speed = movingSpeed;
         this.animator.ResetTrigger("Shoot");
@@ -73,6 +82,7 @@ public class ShooterController : EnemyController {
         canShoot = true;
     }
 
+    /* Resets shooting loop after stun. */
     protected override void Unstun() {
         base.Unstun();
         if (canShoot) {

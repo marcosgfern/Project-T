@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Floors {
+    /* Class FloorGenerator is responsible for the random generation of a floor. */
     public class FloorGenerator {
 
         private GameObject roomPrefab;
@@ -23,7 +24,9 @@ namespace Floors {
             this.roomMap = new Dictionary<Coordinate, Room>();
         }
 
-
+        /* Generates floor of given level.
+         * Returns dictionary of resulting rooms.
+         */
         public Dictionary<Coordinate, Room> Generate(int level) {
             this.roomMap.Clear();
 
@@ -39,11 +42,12 @@ namespace Floors {
             return this.roomMap;
         }
 
+        /* Places rooms in a pseudo-random way, so every room is accessible. */
         private void GenerateRooms() {
             Coordinate firstRoom = new Coordinate(0, 0);
             AddRoom(firstRoom);
 
-            List<Coordinate> availablePlaces = AvailableNeighbours(firstRoom);
+            List<Coordinate> availablePlaces = GetAvailableNeighbours(firstRoom);
 
             for (int i = 0; i < this.numberOfRooms - 1; i++) {
                 int placeIndex = Random.Range(0, availablePlaces.Count - 1);
@@ -51,7 +55,7 @@ namespace Floors {
                 AddRoom(newRoom);
                 availablePlaces.RemoveAt(placeIndex);
 
-                foreach (Coordinate neighbour in AvailableNeighbours(newRoom)) {
+                foreach (Coordinate neighbour in GetAvailableNeighbours(newRoom)) {
                     if (!availablePlaces.Contains(neighbour)) {
                         availablePlaces.Add(neighbour);
                     }
@@ -61,6 +65,7 @@ namespace Floors {
             }
         }
 
+        /* Instantiates room in scene and adds its Room component to dictionary. */
         private void AddRoom(Coordinate roomCoordinate) {
             Vector2 roomPosition = new Vector2(
                 roomCoordinate.x * roomPrefab.GetComponent<Renderer>().bounds.size.x,
@@ -73,10 +78,11 @@ namespace Floors {
             this.roomMap.Add(roomCoordinate, room.GetComponent<Room>());
         }
 
-        private List<Coordinate> AvailableNeighbours(Coordinate room) {
+        /* Returns empty coordinates adjacent to @roomCoordinate. */
+        private List<Coordinate> GetAvailableNeighbours(Coordinate roomCoordinate) {
             List<Coordinate> availableNeighbours = new List<Coordinate>();
 
-            foreach (Coordinate neighbour in room.GetNeighbours()) {
+            foreach (Coordinate neighbour in roomCoordinate.GetNeighbours()) {
                 if (IsAvailable(neighbour)) {
                     availableNeighbours.Add(neighbour);
                 }
@@ -85,10 +91,13 @@ namespace Floors {
             return availableNeighbours;
         }
 
-        private bool IsUsable(Coordinate room) {
+        /* Returns if a coordinate is usable.
+         * Coordinate is considered usable when it has one and only one non empty adjacent coordinate.
+         */
+        private bool IsUsable(Coordinate roomCoordinate) {
             int numberOfNeighbours = 0;
 
-            foreach (Coordinate neighbour in room.GetNeighbours()) {
+            foreach (Coordinate neighbour in roomCoordinate.GetNeighbours()) {
                 if (this.roomMap.ContainsKey(neighbour)) {
                     numberOfNeighbours++;
                 }
@@ -97,17 +106,20 @@ namespace Floors {
             return numberOfNeighbours == 1;
         }
 
-        private bool IsAvailable(Coordinate room) {
-            return !this.roomMap.ContainsKey(room);
+        private bool IsAvailable(Coordinate roomCoordinate) {
+            return !this.roomMap.ContainsKey(roomCoordinate);
         }
 
+        /* Places doors in every room, in every direction where the room has a neighbour.
+         * Places stairs in one of the rooms farthest to the starting room.
+         */
         private void PlaceDoors() {
             Coordinate farthestCoordinate = null;
             int maxDistance = 0;
             foreach (KeyValuePair<Coordinate, Room> room in this.roomMap) {
-                if (room.Key.DistanceToOrigin() >= maxDistance) {
+                if (room.Key.GetDistanceToOrigin() >= maxDistance) {
                     farthestCoordinate = room.Key;
-                    maxDistance = room.Key.DistanceToOrigin();
+                    maxDistance = room.Key.GetDistanceToOrigin();
                 }
 
                 foreach (Direction direction in System.Enum.GetValues(typeof(Direction))) {
@@ -120,6 +132,7 @@ namespace Floors {
             this.roomMap[farthestCoordinate].SetStairs();
         }
 
+        /* Sets an enemy list to every room. */
         private void GenerateEnemies() {
             foreach (KeyValuePair<Coordinate, Room> room in this.roomMap) {
                 List<EnemyTemplate> enemies = GenerateEnemyList();
@@ -129,18 +142,9 @@ namespace Floors {
             this.roomMap[new Coordinate(0, 0)].SetEnemies(new List<EnemyTemplate>());
         }
 
+        /* Generates a pseudo-random enemy list for a room.*/ 
         private List<EnemyTemplate> GenerateEnemyList() {
             List<EnemyTemplate> enemies = new List<EnemyTemplate>();
-
-            /*int numberOfEnemies = maxEnemiesPerRoom - (int) Mathf.Log(
-                Random.Range(
-                    0f, 
-                    Mathf.Pow(2, maxEnemiesPerRoom) + 1),
-                2);
-
-            if(numberOfEnemies > maxEnemiesPerRoom) {
-                numberOfEnemies = maxEnemiesPerRoom;
-            }*/
 
             int numberOfEnemies = Random.Range(0, maxEnemiesPerRoom + 1);
             if (numberOfEnemies == 1) {

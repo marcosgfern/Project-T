@@ -2,33 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Class TouchManager is used to receive raw tactile input and interpret it as necessary. */
 public class TouchManager {
     private static float MinDistanceForSwipe =
         Mathf.Sqrt(
             Mathf.Pow(Screen.height, 2) +
             Mathf.Pow(Screen.width, 2)
-        ) * 0.025f;
+        ) * 0.025f; // Used to prevent small swipes made by mistake to register.
 
-    private static int minHeight = 360,
-                maxHeight = Screen.height - 196;
+    private static int MinHeight = 360,
+                MaxHeight = Screen.height - 196; // Used so the touches and swipes made on the UI don't register as player controls.
 
     private bool isOnControlArea;
 
     private Vector2 startingPosition;
     private Vector2 currentPosition;
-    private bool swipe;
+    private bool isSwipe;
     private TouchPhase? phase;
 
+    /* Interprets touch state. Called by PlayerController in every frame update. */
     public void Update() {
         if (Input.touchCount > 0) {
             Touch touch = Input.GetTouch(Input.touchCount - 1);
 
             switch (touch.phase) {
                 case TouchPhase.Began:
-                    if (TouchIsInControlArea(touch)) {
+                    if (IsTouchInControlArea(touch)) {
                         isOnControlArea = true;
                         this.startingPosition = this.currentPosition = touch.position;
-                        this.swipe = false;
+                        this.isSwipe = false;
                         this.phase = touch.phase;
                     } else {
                         isOnControlArea = false;
@@ -39,7 +41,7 @@ public class TouchManager {
                     if (this.isOnControlArea) {
                         if (Mathf.Abs((touch.position - this.startingPosition).magnitude) > MinDistanceForSwipe
                                 && this.phase != TouchPhase.Moved) {
-                            this.swipe = true;
+                            this.isSwipe = true;
                             this.phase = touch.phase;
                         }
                         this.currentPosition = touch.position;
@@ -67,15 +69,15 @@ public class TouchManager {
     }
 
     public bool IsSwipe() {
-        return this.swipe;
+        return this.isSwipe;
     }
 
     public TouchPhase? GetPhase() {
         return this.phase;
     }
 
-    private bool TouchIsInControlArea(Touch touch) {
-        return touch.position.y > minHeight
-            && touch.position.y < maxHeight;
+    private bool IsTouchInControlArea(Touch touch) {
+        return touch.position.y > MinHeight
+            && touch.position.y < MaxHeight;
     }
 }

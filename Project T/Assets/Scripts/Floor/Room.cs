@@ -44,6 +44,7 @@ namespace Floors {
             }
         }
 
+        /* Instantiates and sets a door in @direction. */
         public void SetDoor(Direction direction) {
             switch (direction) {
                 case Direction.Up:
@@ -71,6 +72,7 @@ namespace Floors {
             return door.GetComponent<Door>();
         }
 
+        /* Instantiates and sets stairs door in any empty direction. */
         public void SetStairs() {
             if(upDoor == null) {
                 this.upDoor = InstantiateStairs("UpDoorPoint");
@@ -80,7 +82,6 @@ namespace Floors {
                 this.downDoor = InstantiateStairs("DownDoorPoint");
             } else if(leftDoor == null) {
                 this.leftDoor = InstantiateStairs("LeftDoorPoint");
-            } else {
             }
         }
 
@@ -95,6 +96,9 @@ namespace Floors {
             this.minimapTile.SetState(this.state);
         }
 
+        /* Updates room's current state to @state when @state is higher.
+         * Updates respective tile state when @updateTile is true.
+         */
         public void SetState(RoomState state, bool updateTile) {
             if((int)state > (int)this.state) {
                 this.state = state;
@@ -104,6 +108,9 @@ namespace Floors {
             }
         }
 
+        /* Moves player into the room (on the door in @direction when specified).
+         * If room has enemies, and wasn't already completed, closes doors and spawns enemies.
+         */
         public void MovePlayerIn(GameObject player, Direction? direction) {
             EnemyController.CurrentRoom = this;
 
@@ -129,6 +136,7 @@ namespace Floors {
             player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
 
+        /* Sends a message to Floor so it moves player to the room in @direction. */
         public void LeaveRoom(Direction direction) {
             this.minimapTile.SetState(this.state);
             SendMessageUpwards("MoveToRoom", direction);
@@ -138,6 +146,7 @@ namespace Floors {
             this.enemyTemplates = enemyTemplates;
         }
 
+        /* Checks if every enemy in the room has been defeated. */
         public void UpdateEnemyCount() {
             bool enemiesDefeated = true;
 
@@ -155,6 +164,7 @@ namespace Floors {
             }
         }
 
+        /* Spawns every enemy in the room's list */
         private void SpawnEnemies() {
             System.Random random = new System.Random();
             foreach (EnemyTemplate template in this.enemyTemplates) {
@@ -164,6 +174,7 @@ namespace Floors {
             }
         }
 
+        /* Returns a pseudo-random spawning point within one of the room's corners. */
         private Vector3 GetSpawnPoint(System.Random random) {
             float x = 0, y = 0;
 
@@ -225,6 +236,7 @@ namespace Floors {
             Fade(Color.white, Color.clear, duration);
         }
 
+        /* Starts fading animation on itself and on its doors. */
         private void Fade(Color startingColor, Color targetColor, float duration) {
             StartCoroutine(this.spriteManager.Fading(startingColor, targetColor, duration));
 

@@ -6,6 +6,7 @@ namespace EnemyHealth {
 
     public enum DamageColor { White, Red, Blue }
 
+    /* Class Damage is used for defining player's attack's damage and type. */
     public class Damage {
 
         int damagePoints;
@@ -16,7 +17,7 @@ namespace EnemyHealth {
             this.damageColor = damageColor;
         }
 
-        //Returns the damage an enemy will receive depending on its color
+        /* Returns the damage an enemy will receive depending on its invulnerability type. */
         public int CalculateDamage(DamageColor enemyColor) {
             if (enemyColor == DamageColor.White) {
                 return this.damagePoints;

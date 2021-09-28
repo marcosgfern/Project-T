@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
 
+/* Class SettingsMenu is a component of the settings menu.
+ * Responsible both for changing settings and saving them.
+ */
 public class SettingsMenu : MonoBehaviour {
 
     public PostProcessProfile postProcessProfile;

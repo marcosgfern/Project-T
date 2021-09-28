@@ -2,6 +2,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/* PlayerController is used as the main component for player character.
+ * In charge of moving the player with the tactile input, starting its animations,
+ * controlling other components...
+ */
 public class PlayerController : MonoBehaviour {
 
     public float movingForce = 10f;
@@ -33,6 +37,7 @@ public class PlayerController : MonoBehaviour {
         this.spriteManager = new SpriteManager(GetComponent<SpriteRenderer>());
     }
 
+    /* Checks the current state of the input and controls the character based on it. */
     void Update(){
         this.touchManager.Update();
 
@@ -50,6 +55,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    /* Starts the animation of charging a melee attack. */
     private void ChargeAttack() {
         this.animator.SetBool("IsSwiping", true);
         this.RotatePlayerToSwipeDirection();
@@ -76,6 +82,9 @@ public class PlayerController : MonoBehaviour {
         this.transform.eulerAngles = new Vector3(0, 0, rotationAngle);
     }
 
+    /* Applies a force to player's game object in the direction of a swipe. After PlayerController.movingTime seconds,
+     * slows down the game object by increasing object's linear drag.
+     */
     private IEnumerator Dashing() {
         canShoot = false;
 
@@ -94,6 +103,7 @@ public class PlayerController : MonoBehaviour {
         canShoot = true;       
     }
 
+    /* If shooting cooldown is over, shoots a proyectile in the direction of the touch from the player. */
     private IEnumerator Shooting() {
         canShoot = false;
 
@@ -104,6 +114,7 @@ public class PlayerController : MonoBehaviour {
         canShoot = true;
     }
 
+    /* Shoots a proyectile from @shootingPoint to @target. */
      private void Shoot(Vector2 target, Vector2 shootingPoint) {
         if (projectilePrefab != null) {
             GameObject projectile = Instantiate(projectilePrefab, shootingPoint, Quaternion.identity) as GameObject;
@@ -117,6 +128,11 @@ public class PlayerController : MonoBehaviour {
     public void StartInvulnerabilityTime() {
         StartCoroutine(InvulnerabilityTime());
     }
+
+    /* Start cycle of invulnerability:
+     * Makes player invincible -> Makes hit flash -> 
+     * -> starts invulnerability flickering -> removes player's invincibility.
+     */
     private IEnumerator InvulnerabilityTime() {
         if (!this.healthController.IsInvincible()) {
             this.healthController.SetInvincibility(true);
@@ -129,17 +145,20 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    /* Makes death screen show up (activated when player health reaches 0). */
     public void Die() {
         this.healthController.SetInvincibility(true);
         this.deathScreen.SetActive(true);
     }
 
+    /* Notifies door if player collides with it. */
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.tag == "Door") {
             collision.SendMessage("PlayerEnter");
         }
     }
 
+    /* Notifies door if player leaves its collision area. */
     private void OnTriggerExit2D(Collider2D collision) {
         if(collision.tag == "Door") {
             collision.SendMessage("PlayerExit");

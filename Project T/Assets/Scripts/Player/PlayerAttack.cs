@@ -4,6 +4,10 @@ using UnityEngine;
 
 using EnemyHealth;
 
+/* Class PlayerAttack is used as one of the components for player.
+ * Responsible for the player's melee attack, both for animations
+ * and applying damage.
+ */
 public class PlayerAttack : MonoBehaviour {
 
     public int damage = 1;
@@ -18,11 +22,17 @@ public class PlayerAttack : MonoBehaviour {
         isAttacking = (this.animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"));
     }
 
+    /* Sends damage to collision if it is in the animation attack. */
     private void OnCollisionEnter2D(Collision2D collision) {
         if (isAttacking) {
-            if (collision.collider.CompareTag("Enemy")) {
-                collision.collider.SendMessageUpwards("AddDamage", new Damage(damage, DamageColor.Red));
-            }
+            SendDamage(collision);
+        }
+    }
+
+    /* If @collision is an enemy, adds red damage to it. */
+    private void SendDamage(Collision2D collision) {
+        if (collision.collider.CompareTag("Enemy")) {
+            collision.collider.SendMessageUpwards("AddDamage", new Damage(damage, DamageColor.Red));
         }
     }
 }

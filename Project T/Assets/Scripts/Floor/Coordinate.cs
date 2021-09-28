@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Floors {
+/* Class Coordinate is used as the key in the Dictionary<Coordinate, Room> used by Floor and FloorGenerator classes.
+ * Contains some helpful functions related to coordinates.
+ */
     public class Coordinate {
         public int x, y;
 
@@ -11,6 +14,7 @@ namespace Floors {
             this.y = y;
         }
 
+        /* Returns adjacent coordinates of this coordinate. */
         public Coordinate[] GetNeighbours() {
             Coordinate[] neighbours = new Coordinate[4];
 
@@ -22,6 +26,7 @@ namespace Floors {
             return neighbours;
         }
 
+        /* Returns adjacent neighbour in @direction */
         public Coordinate GetNeighbour(Direction direction) {
             switch (direction) {
                 case Direction.Up:
@@ -41,7 +46,12 @@ namespace Floors {
             }
         }
 
-        public int DistanceToOrigin() {
+        /* Returns distance to coordinate [0, 0].
+         * Distance is defined as the minimum quantity of steps 
+         * necessary to get from one coordinate to another, 
+         * moving only to an adjacent room in every step.
+         */
+        public int GetDistanceToOrigin() {
             return Mathf.Abs(this.x) + Mathf.Abs(this.y);
         }
 
@@ -74,7 +84,7 @@ namespace Floors {
         Left
     }
     public static class DirectionExtensions {
-        public static Direction? Opposite(this Direction? direction) {
+        public static Direction? GetOpposite(this Direction? direction) {
             switch (direction) {
                 case Direction.Up: 
                     return Direction.Down;

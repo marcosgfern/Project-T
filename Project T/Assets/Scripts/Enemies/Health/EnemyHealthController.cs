@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+
 namespace EnemyHealth {
+    /* Class EnemyHealthController is used as one of the enemy components.
+     * Manages an enemy's health, and is responsible for the enemy's lifeBar to change.
+     */
     public class EnemyHealthController : MonoBehaviour {
 
         public int health = 1;
@@ -21,6 +25,10 @@ namespace EnemyHealth {
             this.lifeBar.SetHealthPoints(this.health);
         }
 
+        /* Calculates the damage the enemy receives.
+         * If enemies health is > 0 after the damage, starts invulnerability state.
+         * If not, kills the enemy.
+         */
         void AddDamage(Damage damageInfo) {           
             SetHealth(this.health - damageInfo.CalculateDamage(this.damageColor));
            
@@ -39,6 +47,7 @@ namespace EnemyHealth {
             this.damageColor = color;
         }
 
+        /* Sets health points and updates lifeBar */
         public void SetHealth(int health) {
             this.health = health;
             this.lifeBar.SetHealthPoints(this.health);

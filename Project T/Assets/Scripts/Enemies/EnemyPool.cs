@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using EnemyHealth;
 
+/* Class EnemyPool is used as a component for game object EnemyPool.
+ * Implements the pooling technique for enemy spawning.
+ */ 
 public class EnemyPool : MonoBehaviour {
 
     public GameObject meleePrefab, shooterPrefab;
@@ -20,6 +23,9 @@ public class EnemyPool : MonoBehaviour {
         }
     }
 
+    /* Sets an exisiting enemy in pool with the stats specified in @template.
+     * Returns: Component EnemyController of the changed enemy.
+     */
     public EnemyController GetEnemy(EnemyTemplate template) {
         EnemyController enemy;
         switch (template.kind) {
@@ -39,7 +45,7 @@ public class EnemyPool : MonoBehaviour {
         enemy.ResetEnemy(template.health, template.color, template.damage);
         return enemy;
     }
-
+   
     private EnemyController GetEnemyByKind(GameObject prefab) {
         EnemyController enemy = null;
         for(int i = 0; i < this.transform.childCount; i++) {
@@ -57,12 +63,17 @@ public class EnemyPool : MonoBehaviour {
         }
     }
 
+    /* Instantiates a new enemy of the @prefab 's kind in the pool. */
     private EnemyController AddEnemyToPool(GameObject prefab) {
         GameObject enemy = Instantiate(prefab, this.transform);
         enemy.SetActive(false);
         return enemy.GetComponent<EnemyController>();
     }
 }
+
+/* Class EnemyTemplate is used as a template for enemies.
+ * Used by other classes and game objects to obtain enemies from the enemy pool.
+ */
 public class EnemyTemplate {
 
     public EnemyKind kind { get; set; }

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace EnemyHealth {
-
+/* Class LifeBar is used as a component in enemies' health bar.
+ * Changes visual size of healthbar depending on an enemy's health points.
+ */
     public class LifeBar : MonoBehaviour {
 
         public float pointWidth = 0.08f;
@@ -17,12 +19,10 @@ namespace EnemyHealth {
             this.lifeBarRenderer.enabled = true;
         }
 
-        // Start is called before the first frame update
         void Start() {
             this.lifeBarRenderer.size = new Vector2(pointWidth * lifePoints, pointHeight);
         }
 
-        // Update is called once per frame
         void Update() {
             transform.rotation = Quaternion.identity;
         }

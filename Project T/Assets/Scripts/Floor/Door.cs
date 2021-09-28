@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Floors {
+    /* Class Door is used as a component for door game objects. */
     public class Door : MonoBehaviour {
 
-        protected Direction direction;
-        protected bool closed;
-        protected bool locked;
+        protected Direction direction; //Used for knowing to which room the player will move into after touching the door.
+        protected bool isClosed;
+        protected bool isLocked;
 
         private Animator animator;
         private SpriteManager spriteManager;
@@ -25,28 +26,35 @@ namespace Floors {
             this.direction = direction;
         }
 
+        /* Opens the door both visually and logically. */
         public void Open() {
-            this.closed = false;
+            this.isClosed = false;
             this.animator.SetBool("Closed", false);
         }
 
+        /* Closes the door both visually and logically. */
         public void Close() {
-            this.closed = true;
+            this.isClosed = true;
             this.animator.SetBool("Closed", true);
         }
 
         public void SetLock(bool isLocked) {
-            this.locked = isLocked;
+            this.isLocked = isLocked;
         }
 
+        /* Sends a message to Room to move player to the room of the door's direction. */
         public virtual void PlayerEnter() {
-            if (!this.closed) {
+            if (!this.isClosed) {
                 SendMessageUpwards("LeaveRoom", this.direction);
             }
         }
 
+        /* Opens door (if is unlocked) when the player leaves door's collider.
+         * (When player is moved to a new room, the door where it spawns is closed
+         * so the player doesn't go back to previous room.)
+         */
         public void PlayerExit() {
-            if (!this.locked) {
+            if (!this.isLocked) {
                 this.Open();
             }
         }

@@ -5,6 +5,7 @@ using UnityEngine;
 using EnemyHealth;
 using Floors;
 
+/* Class EnemyController is a superclass for enemy behaviour. */
 public abstract class EnemyController : MonoBehaviour {
 
     public static Room CurrentRoom;
@@ -42,6 +43,7 @@ public abstract class EnemyController : MonoBehaviour {
         this.animator.SetBool("Moving", true);
     }
 
+    /* Sets enemy's stats to the given @health, @color and @damage. */ 
     public void ResetEnemy(int health, DamageColor color, int damage) {
         this.healthController.SetHealth(health);
         this.healthController.SetDamageColor(color);
@@ -49,18 +51,21 @@ public abstract class EnemyController : MonoBehaviour {
         this.damage = damage;
     }
 
+    /* Moves inactive enemy to @spawnPoint and actives it. */ 
     public virtual void Spawn(Vector3 spawnPoint) {
         this.transform.position = spawnPoint;
         this.gameObject.SetActive(true);
         this.animator.SetBool("Moving", true);
     }
 
+    /* Deactivates defeated enemy, and updates enemy count of the current room the enemy was in. */
     public void Die() {
         this.animator.SetBool("Moving", false);
         this.gameObject.SetActive(false);
         CurrentRoom.UpdateEnemyCount();
     }
 
+    /* Defines behaviour of enemy. */
     protected void Update() {
         if (!this.isStunned) {
             RotateEnemyToPlayer();
@@ -75,19 +80,26 @@ public abstract class EnemyController : MonoBehaviour {
         this.transform.eulerAngles = new Vector3(0, 0, angleToPlayer);
     }
 
+    /* Moves enemy in a direction (CalculateDirection()) proportionally to deltaTime and speed.  */ 
     private void Move() {
         Vector3 deltaVector = CalculateDirection().normalized * this.speed * Time.deltaTime;
         this.transform.Translate(deltaVector, Space.World);
     }
 
+    /* Calculates the enemy's direction for a given frame. */
     protected abstract Vector2 CalculateDirection();
 
+    /* Used for different action performed by different kinds of enemy. */
     protected abstract void SecondaryActions();
+
 
     public void StartInvulnerabilityTime() {
         StartCoroutine(InvulnerabilityTime());
     }
 
+    /* Start cycle of invulnerability:
+     * Stuns enemy -> Makes hit flash -> starts invulnerability flickering -> unstuns enemy.
+     */
     protected IEnumerator InvulnerabilityTime() {
         Stun();
 
@@ -98,6 +110,7 @@ public abstract class EnemyController : MonoBehaviour {
         Unstun();
     }
 
+    /* Stops enemy's movement and normal behaviour. */
     protected virtual void Stun(){
         this.isStunned = true;
 
@@ -110,6 +123,7 @@ public abstract class EnemyController : MonoBehaviour {
         this.enemyCollider.enabled = false;
     }
 
+    /* Restarts enemy's normal behaviour. */
     protected virtual void Unstun(){
         this.isStunned = false;
 
@@ -121,8 +135,13 @@ public abstract class EnemyController : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
+        SendDamage(collision);
+    }
+
+    /* Sends damage to collision when this one has Player tag. */ 
+    private void SendDamage(Collision2D collision) {
         if (collision.collider.CompareTag("Player")) {
-            collision.collider.SendMessageUpwards("AddDamage", 1);
+            collision.collider.SendMessageUpwards("AddDamage", this.damage);
         }
     }
 }
