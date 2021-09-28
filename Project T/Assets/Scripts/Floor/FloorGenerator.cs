@@ -15,7 +15,8 @@ namespace Floors {
 
         private int maxEnemiesPerRoom = 4;
         private float meleeShooterRatio = 0.8f;
-        private float specialColorRatio = 0.9f;
+        private float specialColorBaseRatio = 0.5f;
+        private float specialColorRatioVariation = 0.4f;
         private float redBlueRatio = 0.6f;
 
         public FloorGenerator(GameObject roomPrefab, Transform floor) {
@@ -163,7 +164,7 @@ namespace Floors {
 
                 enemy.health = 1 + this.level + (int) Random.Range(0f, Mathf.Sqrt(this.level));
 
-                if (Random.Range(0f, 1f) > this.specialColorRatio) {
+                if (Random.Range(0f, 1f) > this.specialColorBaseRatio + this.specialColorRatioVariation / this.level) {
                     if (Random.Range(0f, 1f) > this.redBlueRatio) {
                         enemy.color = EnemyHealth.DamageColor.Red;
                     } else {
