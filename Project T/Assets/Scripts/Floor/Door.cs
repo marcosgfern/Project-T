@@ -10,6 +10,8 @@ namespace Floors {
         protected bool isClosed;
         protected bool isLocked;
 
+        protected bool isPlayerIn = false;
+
         private Animator animator;
         private SpriteManager spriteManager;
 
@@ -28,8 +30,10 @@ namespace Floors {
 
         /* Opens the door both visually and logically. */
         public void Open() {
-            this.isClosed = false;
-            this.animator.SetBool("Closed", false);
+            if(!this.isPlayerIn) {
+                this.isClosed = false;
+                this.animator.SetBool("Closed", false);
+            }
         }
 
         /* Closes the door both visually and logically. */
@@ -44,6 +48,8 @@ namespace Floors {
 
         /* Sends a message to Room to move player to the room of the door's direction. */
         public virtual void PlayerEnter() {
+            this.isPlayerIn = true;
+
             if (!this.isClosed) {
                 SendMessageUpwards("LeaveRoom", this.direction);
             }
@@ -54,6 +60,8 @@ namespace Floors {
          * so the player doesn't go back to previous room.)
          */
         public void PlayerExit() {
+            this.isPlayerIn = false;
+
             if (!this.isLocked) {
                 this.Open();
             }
