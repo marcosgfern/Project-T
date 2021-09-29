@@ -153,8 +153,16 @@ public class PlayerController : MonoBehaviour {
 
     /* Notifies door if player collides with it. */
     private void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.tag == "Door") {
-            collision.SendMessage("PlayerEnter");
+        switch (collision.tag) {
+            case "Door":
+                collision.SendMessage("PlayerEnter");
+                break;
+
+            case "Heart":
+                if(!this.healthController.IsHealthFull()) {
+                    collision.SendMessage("Heal", this.gameObject.GetComponent<Collider2D>());
+                }
+                break;
         }
     }
 

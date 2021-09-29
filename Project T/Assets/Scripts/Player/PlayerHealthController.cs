@@ -22,26 +22,36 @@ public class PlayerHealthController : MonoBehaviour {
     }
 
     void Start() {
-        this.heartBar.SetHealth(maxHealth);
-        this.heartBar.SetMaxHealth(maxHealth);
-        health = maxHealth;
-        invincible = false;
+        this.heartBar.SetHealth(this.maxHealth);
+        this.heartBar.SetMaxHealth(this.maxHealth);
+        this.health = this.maxHealth;
+        this.invincible = false;
     }
 
     /* Adds damage to player's health and triggers the invulnerability cycle.
      * If the player's health reaches 0, triggers the death process.
      */
     void AddDamage(int damage) {
-        if (!invincible) {
-            health = health - damage;
+        if (!this.invincible) {
+            this.health = this.health - damage;
 
-            if (health <= 0) {
+            if (this.health <= 0) {
                 playerController.Die();
             }
 
-            this.heartBar.SetHealth(health);
+            this.heartBar.SetHealth(this.health);
             this.playerController.StartInvulnerabilityTime();
         }
+    }
+
+    void AddHealth(int health) {
+        this.health += health;
+
+        if(this.health > this.maxHealth) {
+            this.health = this.maxHealth;
+        }
+
+        this.heartBar.SetHealth(this.health);
     }
 
     public void SetInvincibility(bool invincible) {
@@ -50,5 +60,9 @@ public class PlayerHealthController : MonoBehaviour {
 
     public bool IsInvincible() {
         return this.invincible;
+    }
+
+    public bool IsHealthFull() {
+        return this.health == this.maxHealth;
     }
 }
