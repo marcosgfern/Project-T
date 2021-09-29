@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /* Class TouchManager is used to receive raw tactile input and interpret it as necessary. */
 public class TouchManager {
@@ -9,9 +10,6 @@ public class TouchManager {
             Mathf.Pow(Screen.height, 2) +
             Mathf.Pow(Screen.width, 2)
         ) * 0.025f; // Used to prevent small swipes made by mistake to register.
-
-    private static int MinHeight = 360,
-                MaxHeight = Screen.height - 196; // Used so the touches and swipes made on the UI don't register as player controls.
 
     private bool isOnControlArea;
 
@@ -77,7 +75,6 @@ public class TouchManager {
     }
 
     private bool IsTouchInControlArea(Touch touch) {
-        return touch.position.y > MinHeight
-            && touch.position.y < MaxHeight;
+        return !EventSystem.current.IsPointerOverGameObject(touch.fingerId);
     }
 }
