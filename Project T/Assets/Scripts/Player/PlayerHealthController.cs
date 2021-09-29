@@ -8,9 +8,8 @@ using UnityEngine;
 public class PlayerHealthController : MonoBehaviour {
 
     public float maxHealth = 3f;
-
-    private float health;
-    private bool invincible;
+    public float health;
+    public bool invincible;
 
     public GameObject heartBarGameObject;
     private HeartBar heartBar;
@@ -33,7 +32,6 @@ public class PlayerHealthController : MonoBehaviour {
      * If the player's health reaches 0, triggers the death process.
      */
     void AddDamage(int damage) {
-        Debug.Log("AddDamage");
         if (!invincible) {
             health = health - damage;
 

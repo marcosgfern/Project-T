@@ -183,6 +183,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LifeBarPivotPoint
       objectReference: {fileID: 0}
+    - target: {fileID: 55506585164067933, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 317683567396007233, guid: 82c6995a57f978845b0db3d31c6f2f42, type: 3}
       propertyPath: m_RootOrder
       value: 0

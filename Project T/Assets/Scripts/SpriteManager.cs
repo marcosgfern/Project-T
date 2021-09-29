@@ -28,6 +28,10 @@ public class SpriteManager {
         this.spriteRenderer.sprite = sprite;
     }
 
+    public Color GetMainColor() {
+        return this.spriteColor;
+    }
+
     public void SetMainColor(Color color) {
         this.spriteColor = color;
     }

@@ -38,11 +38,6 @@ public abstract class EnemyController : MonoBehaviour {
 
     }
 
-    protected void Start() {
-        this.isStunned = false;
-        this.animator.SetBool("Moving", true);
-    }
-
     /* Sets enemy's stats to the given @health, @color and @damage. */ 
     public void ResetEnemy(int health, DamageColor color, int damage) {
         this.healthController.SetHealth(health);
@@ -54,8 +49,9 @@ public abstract class EnemyController : MonoBehaviour {
     /* Moves inactive enemy to @spawnPoint and actives it. */ 
     public virtual void Spawn(Vector3 spawnPoint) {
         this.transform.position = spawnPoint;
+        this.transform.eulerAngles = new Vector3(0, 0, -90);
         this.gameObject.SetActive(true);
-        this.animator.SetBool("Moving", true);
+        StartCoroutine(AwakingTime());
     }
 
     /* Deactivates defeated enemy, and updates enemy count of the current room the enemy was in. */
@@ -106,6 +102,19 @@ public abstract class EnemyController : MonoBehaviour {
         yield return StartCoroutine(this.spriteManager.HitFlash());
         yield return StartCoroutine(this.spriteManager.InvulnerabilityFlash(1f));
         this.spriteManager.ResetColor();
+
+        Unstun();
+    }
+
+    protected IEnumerator AwakingTime() {
+        Stun();
+
+        yield return StartCoroutine(
+            this.spriteManager
+            .Fading(
+                Color.clear, 
+                Color.white, 
+                0.75f));
 
         Unstun();
     }
