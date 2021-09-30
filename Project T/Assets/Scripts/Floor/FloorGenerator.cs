@@ -6,7 +6,7 @@ namespace Floors {
     /* Class FloorGenerator is responsible for the random generation of a floor. */
     public class FloorGenerator {
 
-        private GameObject roomPrefab;
+        private GameObject roomPrefab, fullHeartPrefab, halfHeartPrefab;
         private Transform floor;
 
         private Dictionary<Coordinate, Room> roomMap;
@@ -19,9 +19,11 @@ namespace Floors {
         private float specialColorRatioVariation = 0.4f;
         private float redBlueRatio = 0.6f;
 
-        public FloorGenerator(GameObject roomPrefab, Transform floor) {
-            this.roomPrefab = roomPrefab;
+        public FloorGenerator(Transform floor, GameObject roomPrefab, GameObject fullHeartPrefab, GameObject halfHeartPrefab) {
             this.floor = floor;
+            this.roomPrefab = roomPrefab;
+            this.fullHeartPrefab = fullHeartPrefab;
+            this.halfHeartPrefab = halfHeartPrefab;
             this.roomMap = new Dictionary<Coordinate, Room>();
         }
 
@@ -138,6 +140,10 @@ namespace Floors {
             foreach (KeyValuePair<Coordinate, Room> room in this.roomMap) {
                 List<EnemyTemplate> enemies = GenerateEnemyList();
                 room.Value.SetEnemies(enemies);
+
+                if(enemies.Count == 0) {
+                    GenerateHeart(room.Value);
+                }
             }
 
             this.roomMap[new Coordinate(0, 0)].SetEnemies(new List<EnemyTemplate>());
@@ -180,6 +186,17 @@ namespace Floors {
             }
 
             return enemies;
+        }
+
+        private void GenerateHeart(Room room) {
+            GameObject prefab;
+            if (Random.Range(0f, 1f) > 0.5f) {
+                prefab = this.fullHeartPrefab;
+            } else {
+                prefab = this.halfHeartPrefab;
+            }
+
+            Object.Instantiate(prefab, room.transform);
         }
     }
 }

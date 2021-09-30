@@ -10,7 +10,7 @@ namespace Floors {
      */
     public class Floor : MonoBehaviour {
 
-        public GameObject roomPrefab;
+        public GameObject roomPrefab, fullHeartPrefab, halfHeartPrefab;
 
         public MinimapRoomLayout minimap;
 
@@ -27,7 +27,7 @@ namespace Floors {
         private void Awake() {
             //Random.InitState(854353474);
             this.level = 0;
-            this.generator = new FloorGenerator(this.roomPrefab, this.gameObject.transform);
+            this.generator = new FloorGenerator(this.gameObject.transform, this.roomPrefab, this.fullHeartPrefab, this.halfHeartPrefab);
             this.player = GameObject.FindGameObjectsWithTag("Player")[0];
             this.cameraController = Camera.main.GetComponent<CameraController>();
         }

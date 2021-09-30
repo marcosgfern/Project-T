@@ -811,6 +811,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefab: {fileID: 2261467207176083927, guid: 2757cbde2cb75744ba0ff0d9c6983740, type: 3}
+  fullHeartPrefab: {fileID: 2371798221630365745, guid: 7d9cb2bb1986da349a3d6c3368af7498, type: 3}
+  halfHeartPrefab: {fileID: 8671615925885998859, guid: 37f1a35b15a61a14e8bacad601af02d8, type: 3}
   minimap: {fileID: 242057572}
   floorNumberIndicator: {fileID: 1506241789}
 --- !u!1 &576010734
