@@ -13,11 +13,15 @@ namespace Floors {
         private int numberOfRooms;
         private int level;
 
-        private int maxEnemiesPerRoom = 4;
-        private float meleeShooterRatio = 0.8f;
-        private float specialColorBaseRatio = 0.5f;
-        private float specialColorRatioVariation = 0.4f;
+        private int minEnemiesPerRoom = 2;
+        private int maxEnemiesPerRoom = 5;
+        private float emptyRoomRatio = 0.9f;
+        private float meleeShooterBaseRatio = 0.66f;
+        private float meleeShooterRatioVariation = 0.14f;
+        private float specialColorBaseRatio = 0.55f;
+        private float specialColorRatioVariation = 0.35f;
         private float redBlueRatio = 0.6f;
+        private float fullHalfRatio = 0.75f;
 
         public FloorGenerator(Transform floor, GameObject roomPrefab, GameObject fullHeartPrefab, GameObject halfHeartPrefab) {
             this.floor = floor;
@@ -153,22 +157,25 @@ namespace Floors {
         private List<EnemyTemplate> GenerateEnemyList() {
             List<EnemyTemplate> enemies = new List<EnemyTemplate>();
 
-            int numberOfEnemies = Random.Range(0, maxEnemiesPerRoom + 1);
-            if (numberOfEnemies == 1) {
-                numberOfEnemies = 2;
+            int numberOfEnemies;
+
+            if(Random.Range(0f, 1f) > this.emptyRoomRatio) {
+                numberOfEnemies = 0;
+            } else {
+                numberOfEnemies = Random.Range(this.minEnemiesPerRoom, this.maxEnemiesPerRoom);
             }
 
             for(int i = 0; i < numberOfEnemies; i++) {
                 EnemyTemplate enemy = new EnemyTemplate();
 
-                if(Random.Range(0f, 1f) > this.meleeShooterRatio) {
+                if(Random.Range(0f, 1f) > this.meleeShooterBaseRatio + this.meleeShooterRatioVariation / this.level) {
                     enemy.kind = EnemyKind.Shooter;
                     
                 } else {
                     enemy.kind = EnemyKind.Melee;
                 }
 
-                enemy.health = 1 + this.level + (int) Random.Range(0f, Mathf.Sqrt(this.level));
+                enemy.health = 1 + this.level/2 + (int) Random.Range(0f, Mathf.Sqrt(this.level/2));
 
                 if (Random.Range(0f, 1f) > this.specialColorBaseRatio + this.specialColorRatioVariation / this.level) {
                     if (Random.Range(0f, 1f) > this.redBlueRatio) {
@@ -190,7 +197,7 @@ namespace Floors {
 
         private void GenerateHeart(Room room) {
             GameObject prefab;
-            if (Random.Range(0f, 1f) > 0.5f) {
+            if (Random.Range(0f, 1f) > this.fullHalfRatio) {
                 prefab = this.fullHeartPrefab;
             } else {
                 prefab = this.halfHeartPrefab;
