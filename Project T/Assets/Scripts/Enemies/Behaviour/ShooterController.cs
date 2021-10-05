@@ -7,10 +7,13 @@ public class ShooterController : EnemyController {
 
     public GameObject projectilePrefab;
     public float targetDistance = 2f;
-    public float shotCoolingTime = 1f;
+    public float minimumShotCoolingTime = 0.5f;
 
     private float movingSpeed;
     private bool canShoot = true;
+
+    private int orbitDirection = 1;
+    static private System.Random ShooterRandom = new System.Random();
     
 
     private new void Awake() {
@@ -18,31 +21,41 @@ public class ShooterController : EnemyController {
         this.movingSpeed = speed;
     }
 
+    private void FixedUpdate() {
+        ChangeOrbitDirection();
+    }
+
+    private void ChangeOrbitDirection() {
+        if(ShooterRandom.NextDouble() > 0.995f) {
+            orbitDirection *= -1;
+        }
+    }
+
     /* Direction is calculated so the enemy tries to go to a point in the circumference with 
      *      radius = ShooterController.targetDistance
      *      and center = EnemyController.playerTransform.position,
-     * while also moving counterclockwise to the player.
+     * while also moving clockwise/counterclockwise to the player.
      */
     override protected Vector2 CalculateDirection() {
         Vector3 vectorToPlayer = playerTransform.position - this.transform.position;
 
         //If the enemy is further than the target distance
-        if (vectorToPlayer.magnitude >= targetDistance) {
-            float distanceFactor = targetDistance / vectorToPlayer.magnitude;
+        if (vectorToPlayer.magnitude >= this.targetDistance) {
+            float distanceFactor = this.targetDistance / vectorToPlayer.magnitude;
             if (distanceFactor > 1) distanceFactor = 1;
 
             //A degree vector relative to vectorToPlayer, between 0 and 90
-            float xComponent = vectorToPlayer.x * (1 - distanceFactor) - vectorToPlayer.y * (distanceFactor);
-            float yComponent = vectorToPlayer.y * (1 - distanceFactor) + vectorToPlayer.x * (distanceFactor);
+            float xComponent = vectorToPlayer.x * (1 - distanceFactor) - vectorToPlayer.y * (distanceFactor) * this.orbitDirection;
+            float yComponent = vectorToPlayer.y * (1 - distanceFactor) + vectorToPlayer.x * (distanceFactor) * this.orbitDirection;
             return new Vector2(xComponent, yComponent);
 
         } else {
-            float distanceFactor = vectorToPlayer.magnitude / targetDistance;
+            float distanceFactor = vectorToPlayer.magnitude / this.targetDistance;
             if (distanceFactor > 1) distanceFactor = 1;
 
             //A degree vector relative to vectorToPlayer, between 90 and 180 degrees
-            float xComponent = vectorToPlayer.x * -1f * (1 - distanceFactor) - vectorToPlayer.y * (distanceFactor);
-            float yComponent = vectorToPlayer.y * -1f * (1 - distanceFactor) + vectorToPlayer.x * (distanceFactor);
+            float xComponent = vectorToPlayer.x * -1f * (1 - distanceFactor) - vectorToPlayer.y * (distanceFactor) * this.orbitDirection;
+            float yComponent = vectorToPlayer.y * -1f * (1 - distanceFactor) + vectorToPlayer.x * (distanceFactor) * this.orbitDirection;
             return new Vector2(xComponent, yComponent);
         }
     }
@@ -78,7 +91,7 @@ public class ShooterController : EnemyController {
     private IEnumerator ShotCooling() {
         this.speed = movingSpeed;
         this.animator.ResetTrigger("Shoot");
-        yield return new WaitForSeconds(shotCoolingTime);
+        yield return new WaitForSeconds(this.minimumShotCoolingTime + (float) ShooterRandom.NextDouble());
         canShoot = true;
     }
 

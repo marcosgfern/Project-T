@@ -168,7 +168,7 @@ namespace Floors {
             for(int i = 0; i < numberOfEnemies; i++) {
                 EnemyTemplate enemy = new EnemyTemplate();
 
-                if(Random.Range(0f, 1f) > this.meleeShooterBaseRatio + this.meleeShooterRatioVariation / this.level) {
+                if (Random.Range(0f, 1f) > this.meleeShooterBaseRatio + this.meleeShooterRatioVariation / this.level) {
                     enemy.kind = EnemyKind.Shooter;
                     
                 } else {
