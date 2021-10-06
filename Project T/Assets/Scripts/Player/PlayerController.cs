@@ -148,6 +148,13 @@ public class PlayerController : MonoBehaviour {
     /* Makes death screen show up (activated when player health reaches 0). */
     public void Die() {
         this.healthController.SetInvincibility(true);
+        this.rigidBody.isKinematic = true;
+        this.rigidBody.velocity = Vector2.zero;
+        this.animator.SetTrigger("Die");       
+    }
+
+    /* Starts death screen animation. This function is triggered by an animator event. */
+    public void ShowDeathScreen() {
         this.deathScreen.SetActive(true);
     }
 
