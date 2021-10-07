@@ -147,7 +147,11 @@ public abstract class EnemyController : MonoBehaviour {
         SendDamage(collision);
     }
 
-    /* Sends damage to collision when this one has Player tag. */ 
+    private void OnCollisionStay2D(Collision2D collision) {
+        SendDamage(collision);
+    }
+
+    /* Sends damage to collision when this one has Player tag. */
     private void SendDamage(Collision2D collision) {
         if (collision.collider.CompareTag("Player")) {
             collision.collider.SendMessageUpwards("AddDamage", this.damage);

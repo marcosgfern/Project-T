@@ -33,13 +33,16 @@ public class PlayerHealthController : MonoBehaviour {
      */
     void AddDamage(int damage) {
         if (!this.invincible) {
-            this.health = this.health - damage;
+            this.invincible = true;
 
+            this.health = this.health - damage;
+            this.heartBar.SetHealth(this.health);
+            
             if (this.health <= 0) {
                 playerController.Die();
+                return;
             }
 
-            this.heartBar.SetHealth(this.health);
             this.playerController.StartInvulnerabilityTime();
         }
     }

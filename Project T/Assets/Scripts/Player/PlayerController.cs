@@ -134,15 +134,11 @@ public class PlayerController : MonoBehaviour {
      * -> starts invulnerability flickering -> removes player's invincibility.
      */
     private IEnumerator InvulnerabilityTime() {
-        if (!this.healthController.IsInvincible()) {
-            this.healthController.SetInvincibility(true);
+        yield return StartCoroutine(this.spriteManager.HitFlash());
+        yield return StartCoroutine(this.spriteManager.InvulnerabilityFlash(1f));
+        this.spriteManager.ResetColor();
 
-            yield return StartCoroutine(this.spriteManager.HitFlash());
-            yield return StartCoroutine(this.spriteManager.InvulnerabilityFlash(1f));
-            this.spriteManager.ResetColor();
-
-            this.healthController.SetInvincibility(false);
-        }
+        this.healthController.SetInvincibility(false);
     }
 
     /* Makes death screen show up (activated when player health reaches 0). */
