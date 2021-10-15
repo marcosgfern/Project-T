@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour {
     private PlayerHealthController healthController;
     private TouchManager touchManager;
     private SpriteManager spriteManager;
+    private PlayerSFXController sfxController;
 
     private bool canShoot = true;
 
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour {
         this.healthController = GetComponent<PlayerHealthController>();
         this.touchManager = new TouchManager();
         this.spriteManager = new SpriteManager(GetComponent<SpriteRenderer>());
+        this.sfxController = GetComponent<PlayerSFXController>();
     }
 
     /* Checks the current state of the input and controls the character based on it. */
@@ -117,11 +119,14 @@ public class PlayerController : MonoBehaviour {
     /* Shoots a proyectile from @shootingPoint to @target. */
      private void Shoot(Vector2 target, Vector2 shootingPoint) {
         if (projectilePrefab != null) {
+            this.sfxController.PlayShot();
+
             GameObject projectile = Instantiate(projectilePrefab, shootingPoint, Quaternion.identity) as GameObject;
 
             Projectile projectileComponent = projectile.GetComponent<Projectile>();
 
             projectileComponent.direction = target - shootingPoint;
+
         }
     }
 

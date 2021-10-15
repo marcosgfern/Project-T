@@ -62,6 +62,7 @@ GameObject:
   - component: {fileID: 3697284688787348978}
   - component: {fileID: 2534492019672374294}
   - component: {fileID: 2973974766283313473}
+  - component: {fileID: 874249969149468359}
   - component: {fileID: 5052634440986482706}
   m_Layer: 11
   m_Name: Player
@@ -218,7 +219,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 3
+  health: 0
+  invincible: 0
   heartBarGameObject: {fileID: 0}
+--- !u!114 &874249969149468359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3697284688787348975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7715c56ab9e46f4e9052adc50961712, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shots:
+  - {fileID: 8300000, guid: b485212bd63f1dd4da5aad5df0f835e8, type: 3}
+  - {fileID: 8300000, guid: 1820175e8b14636478d36b2da40a9394, type: 3}
+  - {fileID: 8300000, guid: 8d35392b3ddbd2043bba949246113256, type: 3}
+  - {fileID: 8300000, guid: 7f2b3de84f554d249b078999ee372750, type: 3}
+  - {fileID: 8300000, guid: 0d46ac8c3788f3f48945bcf8505f39f6, type: 3}
+  - {fileID: 8300000, guid: f0b8f1262c5da444a83a83566f1398d4, type: 3}
+  - {fileID: 8300000, guid: 582efbc2a798ae94e98b3261ec6fd74d, type: 3}
+  - {fileID: 8300000, guid: 51da804e999e107419bfaf7fb0aae18e, type: 3}
 --- !u!95 &5052634440986482706
 Animator:
   serializedVersion: 3
