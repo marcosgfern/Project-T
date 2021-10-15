@@ -160,7 +160,7 @@ namespace Floors {
             if (enemiesDefeated) {
                 enemies.Clear();
                 SetState(RoomState.Completed, false);
-                OpenDoors();
+                StartCoroutine(OpenDoorsWithDelay(0.25f));
             }
         }
 
@@ -188,6 +188,11 @@ namespace Floors {
             y *= spawnPointY + spawnPointYVariation * (float)random.NextDouble();
 
             return this.transform.position + new Vector3(x, y, 0);
+        }
+
+        private IEnumerator OpenDoorsWithDelay(float delay) {
+            yield return new WaitForSeconds(delay);
+            OpenDoors();
         }
 
         private void OpenDoors() {
