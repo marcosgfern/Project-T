@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8608529060021690532}
   - component: {fileID: 716631047125735988}
   - component: {fileID: 5103497313447827892}
+  - component: {fileID: 6160973377547017785}
   - component: {fileID: 5275641478509956212}
   m_Layer: 10
   m_Name: MeleeEnemy
@@ -153,6 +154,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   damageColor: 0
+--- !u!114 &6160973377547017785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9049060201411902898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ff28cc0e6b56d46a64baa73055073f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  steps:
+  - {fileID: 8300000, guid: e395776e5fe6ba448b2eec07d88be301, type: 3}
+  - {fileID: 8300000, guid: 4fe7c1c519b170c4e8ad813ead39e157, type: 3}
+  - {fileID: 8300000, guid: 0cc15c9589e06a848bcdc1074dd16331, type: 3}
+  - {fileID: 8300000, guid: 9a1e584ffa5fe0443bbc887afc7d7ce9, type: 3}
+  - {fileID: 8300000, guid: d7ef69f3cbfc68b4393471701710c394, type: 3}
+  - {fileID: 8300000, guid: c9081c30364e71142a3c216111acbb92, type: 3}
+  - {fileID: 8300000, guid: 91a13c32179e7fa4684ab402771ef3de, type: 3}
+  - {fileID: 8300000, guid: 1e0fd34c76e3a504490f9a8a769cab5a, type: 3}
+  hurts: []
 --- !u!95 &5275641478509956212
 Animator:
   serializedVersion: 3

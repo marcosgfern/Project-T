@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5069204457860405937}
   - component: {fileID: 5160279390342962397}
   - component: {fileID: 2795149379939366355}
+  - component: {fileID: 8542161020784497818}
   - component: {fileID: 5265441897291441002}
   m_Layer: 10
   m_Name: ShootingEnemy
@@ -155,7 +156,39 @@ MonoBehaviour:
   damage: 1
   projectilePrefab: {fileID: 134156742331206581, guid: 32cac192533cbd540a24a087553a905d, type: 3}
   targetDistance: 2
-  shotCoolingTime: 1.5
+  minimumShotCoolingTime: 0.5
+--- !u!114 &8542161020784497818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2667491560934539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 941f128e79d622e4a92dc74529382e7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  steps:
+  - {fileID: 8300000, guid: e395776e5fe6ba448b2eec07d88be301, type: 3}
+  - {fileID: 8300000, guid: 4fe7c1c519b170c4e8ad813ead39e157, type: 3}
+  - {fileID: 8300000, guid: 0cc15c9589e06a848bcdc1074dd16331, type: 3}
+  - {fileID: 8300000, guid: 9a1e584ffa5fe0443bbc887afc7d7ce9, type: 3}
+  - {fileID: 8300000, guid: d7ef69f3cbfc68b4393471701710c394, type: 3}
+  - {fileID: 8300000, guid: c9081c30364e71142a3c216111acbb92, type: 3}
+  - {fileID: 8300000, guid: 91a13c32179e7fa4684ab402771ef3de, type: 3}
+  - {fileID: 8300000, guid: 1e0fd34c76e3a504490f9a8a769cab5a, type: 3}
+  hurts: []
+  shotChargings: []
+  shots:
+  - {fileID: 8300000, guid: 839cad90c7507f44b9aa329917547c2b, type: 3}
+  - {fileID: 8300000, guid: 38d0a0dcb96c1954c943b74fe9495e63, type: 3}
+  - {fileID: 8300000, guid: 56b0a8ea7d753674fb14380dc154c931, type: 3}
+  - {fileID: 8300000, guid: dd5ff8bf4d4f2ed45b5232b5a97c7b3e, type: 3}
+  - {fileID: 8300000, guid: 942e4161fe10c6e43a6478492f8e5755, type: 3}
+  - {fileID: 8300000, guid: c16a06ec2909bda4aa7bac1f60d799bd, type: 3}
+  - {fileID: 8300000, guid: 4a89cb1ba02098e4097c355e7af8765c, type: 3}
+  - {fileID: 8300000, guid: 03492504c0973ac4b8be0728f9200009, type: 3}
 --- !u!95 &5265441897291441002
 Animator:
   serializedVersion: 3

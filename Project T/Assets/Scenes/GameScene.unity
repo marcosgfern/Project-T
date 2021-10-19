@@ -3884,10 +3884,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2973974766283313473, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
-      propertyPath: maxHealth
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2973974766283313473, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
       propertyPath: heartBarGameObject
       value: 
       objectReference: {fileID: 1465934733}

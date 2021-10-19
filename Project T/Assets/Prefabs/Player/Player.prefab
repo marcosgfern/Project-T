@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 298f899866ba5784bb001f2f49571b48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
+  maxHealth: 6
   health: 0
   invincible: 0
   heartBarGameObject: {fileID: 0}
@@ -243,6 +243,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f0b8f1262c5da444a83a83566f1398d4, type: 3}
   - {fileID: 8300000, guid: 582efbc2a798ae94e98b3261ec6fd74d, type: 3}
   - {fileID: 8300000, guid: 51da804e999e107419bfaf7fb0aae18e, type: 3}
+  flips:
+  - {fileID: 8300000, guid: b0a8921cc1a69be4ba65d249bc0f148c, type: 3}
+  - {fileID: 8300000, guid: 3451d78aad6bb3d4abd4523b329f0e21, type: 3}
+  - {fileID: 8300000, guid: d1fc8eb0e38ee2b4b8b6d5bc85a91f23, type: 3}
+  - {fileID: 8300000, guid: 2e2ed0d821d0efe45b9b6625f4a6f872, type: 3}
+  - {fileID: 8300000, guid: 84b189dfc6185544e9efb5f30d00df10, type: 3}
+  - {fileID: 8300000, guid: 803c24ad2c53c45478f94208db54815d, type: 3}
 --- !u!95 &5052634440986482706
 Animator:
   serializedVersion: 3
