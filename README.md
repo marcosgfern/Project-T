@@ -1,2 +1,2 @@
 # Project-T
-Unity project for my Computer Engineering final project
+Unity project for a rogue-like game on Android devices. It started as my Computer Engineering end-of-deegree project.
