@@ -181,14 +181,14 @@ MonoBehaviour:
   hurts: []
   shotChargings: []
   shots:
-  - {fileID: 8300000, guid: 839cad90c7507f44b9aa329917547c2b, type: 3}
-  - {fileID: 8300000, guid: 38d0a0dcb96c1954c943b74fe9495e63, type: 3}
-  - {fileID: 8300000, guid: 56b0a8ea7d753674fb14380dc154c931, type: 3}
-  - {fileID: 8300000, guid: dd5ff8bf4d4f2ed45b5232b5a97c7b3e, type: 3}
-  - {fileID: 8300000, guid: 942e4161fe10c6e43a6478492f8e5755, type: 3}
-  - {fileID: 8300000, guid: c16a06ec2909bda4aa7bac1f60d799bd, type: 3}
-  - {fileID: 8300000, guid: 4a89cb1ba02098e4097c355e7af8765c, type: 3}
-  - {fileID: 8300000, guid: 03492504c0973ac4b8be0728f9200009, type: 3}
+  - {fileID: 8300000, guid: b485212bd63f1dd4da5aad5df0f835e8, type: 3}
+  - {fileID: 8300000, guid: 1820175e8b14636478d36b2da40a9394, type: 3}
+  - {fileID: 8300000, guid: 8d35392b3ddbd2043bba949246113256, type: 3}
+  - {fileID: 8300000, guid: 7f2b3de84f554d249b078999ee372750, type: 3}
+  - {fileID: 8300000, guid: 0d46ac8c3788f3f48945bcf8505f39f6, type: 3}
+  - {fileID: 8300000, guid: f0b8f1262c5da444a83a83566f1398d4, type: 3}
+  - {fileID: 8300000, guid: 582efbc2a798ae94e98b3261ec6fd74d, type: 3}
+  - {fileID: 8300000, guid: 51da804e999e107419bfaf7fb0aae18e, type: 3}
 --- !u!95 &5265441897291441002
 Animator:
   serializedVersion: 3
