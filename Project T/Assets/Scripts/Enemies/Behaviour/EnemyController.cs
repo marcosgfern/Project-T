@@ -25,6 +25,8 @@ public abstract class EnemyController : MonoBehaviour {
 
     private EnemyHealthController healthController;
 
+    private EnemySFXController sfxController;
+
     protected void Awake() {
         this.playerTransform = GameObject.FindGameObjectsWithTag("Player")[0].transform;
 
@@ -32,6 +34,7 @@ public abstract class EnemyController : MonoBehaviour {
         this.enemyRigidbody = GetComponent<Rigidbody2D>();
         this.enemyCollider = GetComponent<Collider2D>();
         this.healthController = GetComponent<EnemyHealthController>();
+        this.sfxController = GetComponent<EnemySFXController>();
 
         this.spriteManager = new SpriteManager(GetComponent<SpriteRenderer>());
         this.spriteManager.SetMainColor(healthController.GetDamageColor());
@@ -98,6 +101,8 @@ public abstract class EnemyController : MonoBehaviour {
      */
     protected IEnumerator InvulnerabilityTime() {
         Stun();
+
+        this.sfxController.PlayHurt();
 
         yield return StartCoroutine(this.spriteManager.HitFlash());
         yield return StartCoroutine(this.spriteManager.InvulnerabilityFlash(1f));

@@ -178,7 +178,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c9081c30364e71142a3c216111acbb92, type: 3}
   - {fileID: 8300000, guid: 91a13c32179e7fa4684ab402771ef3de, type: 3}
   - {fileID: 8300000, guid: 1e0fd34c76e3a504490f9a8a769cab5a, type: 3}
-  hurts: []
+  hurts:
+  - {fileID: 8300000, guid: 33ec912fd85152c498f2ed65be999329, type: 3}
+  - {fileID: 8300000, guid: 6f7edbc4272700c4f8cc485ac00fac0d, type: 3}
+  - {fileID: 8300000, guid: 372dfec70358d784c96da3ddd1cf72ca, type: 3}
+  - {fileID: 8300000, guid: 580db99738e4d614688c257125812057, type: 3}
+  - {fileID: 8300000, guid: 0e0d1207f8cdb584a81999344e787829, type: 3}
+  - {fileID: 8300000, guid: 934b7ad0be1caa942af913b3804d09d6, type: 3}
+  - {fileID: 8300000, guid: 96f9af255e84f0c40a4183da7dc123d2, type: 3}
+  - {fileID: 8300000, guid: 2e687c581bf73c843908545f9b686691, type: 3}
   shotChargings: []
   shots:
   - {fileID: 8300000, guid: b485212bd63f1dd4da5aad5df0f835e8, type: 3}
