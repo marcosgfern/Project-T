@@ -24,9 +24,12 @@ public class RandomSFXSource {
     private int RepeatCheck(int previousIndex, int range) {
         int index = IndexRandomizer.Next(0, range);
 
-        while (index == previousIndex) {
-            index = IndexRandomizer.Next(0, range);
+        if (range > 1) {
+            while (index == previousIndex) {
+                index = IndexRandomizer.Next(0, range);
+            }
         }
+
         return index;
     }
 }

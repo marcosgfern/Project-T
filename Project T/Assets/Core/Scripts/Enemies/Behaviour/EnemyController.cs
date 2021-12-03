@@ -10,12 +10,14 @@ public abstract class EnemyController : MonoBehaviour {
 
     public static Room CurrentRoom;
 
-    public float speed = 1f;
-    public int damage = 1;
+    [SerializeField] protected float speed = 1f;
+    [SerializeField] protected int damage = 1;
     
     protected Transform playerTransform;
 
     protected bool isStunned;
+
+    [SerializeField] protected GameObject enemyDeathParticle;
 
     protected Animator animator;
     private Rigidbody2D enemyRigidbody;
@@ -60,8 +62,15 @@ public abstract class EnemyController : MonoBehaviour {
     /* Deactivates defeated enemy, and updates enemy count of the current room the enemy was in. */
     public void Die() {
         this.animator.SetBool("Moving", false);
+        SpawnDeathParticle();
         this.gameObject.SetActive(false);
         CurrentRoom.UpdateEnemyCount();
+    }
+
+    private void SpawnDeathParticle() {
+        Particle particle = Instantiate(this.enemyDeathParticle, this.transform.position, this.transform.rotation)
+            .GetComponent<Particle>();
+        particle.SetColor(this.spriteManager.GetMainColor());
     }
 
     /* Defines behaviour of enemy. */

@@ -140,6 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   damage: 1
+  enemyDeathParticle: {fileID: 4790664278017373140, guid: e9bfd1ca77e859248ba72c2bfe174d1e, type: 3}
 --- !u!114 &5103497313447827892
 MonoBehaviour:
   m_ObjectHideFlags: 0
