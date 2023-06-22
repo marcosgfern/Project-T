@@ -55,6 +55,11 @@ namespace Floors {
             return Mathf.Abs(this.x) + Mathf.Abs(this.y);
         }
 
+        public bool IsOrigin() {
+            return this.x == 0 
+                && this.y == 0;
+        }
+
         override public string ToString() {
             return "[" + this.x + "," + this.y + "]";
         }

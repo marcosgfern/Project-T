@@ -142,15 +142,15 @@ namespace Floors {
         /* Sets an enemy list to every room. */
         private void GenerateEnemies() {
             foreach (KeyValuePair<Coordinate, Room> room in this.roomMap) {
-                List<EnemyTemplate> enemies = GenerateEnemyList();
-                room.Value.SetEnemies(enemies);
+                if (!room.Key.IsOrigin()) {
+                    List<EnemyTemplate> enemies = GenerateEnemyList();
+                    room.Value.SetEnemies(enemies);
 
-                if(enemies.Count == 0) {
-                    GenerateHeart(room.Value);
+                    if (enemies.Count == 0) {
+                        GenerateHeart(room.Value);
+                    }
                 }
             }
-
-            this.roomMap[new Coordinate(0, 0)].SetEnemies(new List<EnemyTemplate>());
         }
 
         /* Generates a pseudo-random enemy list for a room.*/ 
