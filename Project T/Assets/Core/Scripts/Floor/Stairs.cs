@@ -11,7 +11,7 @@ namespace Floors {
         /* Sends a message to Floor so it starts the generation of a new floor. */
         override public void PlayerEnter() {
             if (!this.isClosed) {
-                SendMessageUpwards("GenerateNextFloor");
+                SendMessageUpwards("MoveToNextFloor");
             }
         }
     }

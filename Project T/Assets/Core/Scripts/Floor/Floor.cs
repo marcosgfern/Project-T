@@ -10,11 +10,11 @@ namespace Floors {
      */
     public class Floor : MonoBehaviour {
 
-        public GameObject roomPrefab, fullHeartPrefab, halfHeartPrefab;
+        [SerializeField] private MinimapRoomLayout minimap;
+        [SerializeField] private GameObject floorNumberIndicator;
+        [SerializeField] private FloorFade floorFade;
 
-        public MinimapRoomLayout minimap;
-
-        public GameObject floorNumberIndicator;
+        [SerializeField] private GameObject roomPrefab, fullHeartPrefab, halfHeartPrefab;
 
         private FloorGenerator generator;
         private Dictionary<Coordinate, Room> roomMap;
@@ -33,7 +33,12 @@ namespace Floors {
         }
 
         private void Start() {
+            floorFade.BlackedOut += GenerateNextFloor;
             GenerateNextFloor();            
+        }
+
+        private void MoveToNextFloor() {
+            floorFade.StartFloorTransition(this.level);
         }
 
         private void GenerateNextFloor() {

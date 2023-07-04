@@ -365,6 +365,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 102908202}
   m_CullTransparentMesh: 1
+--- !u!114 &156906464 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2250741953782609314, guid: d57dcf5804013cf4ebdb21e63a54ef8f, type: 3}
+  m_PrefabInstance: {fileID: 25580744105741224}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40eb9dfa667a5a04ca70f31ab94e69f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &242057569
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,11 +930,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2f0f81b5d3aeb949b0eb603c9f269f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minimap: {fileID: 242057572}
+  floorNumberIndicator: {fileID: 1506241789}
+  floorFade: {fileID: 156906464}
   roomPrefab: {fileID: 2261467207176083927, guid: 2757cbde2cb75744ba0ff0d9c6983740, type: 3}
   fullHeartPrefab: {fileID: 2371798221630365745, guid: 7d9cb2bb1986da349a3d6c3368af7498, type: 3}
   halfHeartPrefab: {fileID: 8671615925885998859, guid: 37f1a35b15a61a14e8bacad601af02d8, type: 3}
-  minimap: {fileID: 242057572}
-  floorNumberIndicator: {fileID: 1506241789}
 --- !u!1 &576010734
 GameObject:
   m_ObjectHideFlags: 0
