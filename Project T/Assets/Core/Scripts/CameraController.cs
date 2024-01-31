@@ -12,9 +12,8 @@ public class CameraController : MonoBehaviour {
     private float shift;
     private float panningDuration = 0.2f;
 
-    void Start() {
+    void Awake() {
         AdjustOrtographicSize();
-
         CalculateCameraYShift();
     }
 

@@ -2645,6 +2645,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1799223048}
   m_CullTransparentMesh: 1
+--- !u!95 &1842434991 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5052634440986482706, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
+  m_PrefabInstance: {fileID: 3697284688724074787}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1842434997 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 3697284688787348973, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
+  m_PrefabInstance: {fileID: 3697284688724074787}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1874080432
 GameObject:
   m_ObjectHideFlags: 0
@@ -4008,6 +4018,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3697284688787348978, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1842434991}
+    - target: {fileID: 3697284688787348978, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
+      propertyPath: rigidBody
+      value: 
+      objectReference: {fileID: 1842434997}
     - target: {fileID: 3697284688787348978, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
       propertyPath: deathScreen
       value: 

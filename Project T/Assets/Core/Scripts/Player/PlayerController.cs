@@ -8,8 +8,6 @@ using UnityEngine.SceneManagement;
  */
 public class PlayerController : MonoBehaviour 
 {
-    [SerializeField] private bool controlEnabled = true;
-
     [Header("Parameters")]
     [SerializeField] private float movingForce = 10f;
     [SerializeField] private float movingTime = 0.2f;
@@ -24,8 +22,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rigidBody;
     private Animator animator;
 
+    protected TouchManager touchManager;
     private PlayerHealthController healthController;
-    private TouchManager touchManager;
     private SpriteManager spriteManager;
     private PlayerSFXController sfxController;
 
@@ -34,51 +32,48 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        this.rigidBody = GetComponent<Rigidbody2D>();
-        this.animator = GetComponent<Animator>();
+        rigidBody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
-        this.healthController = GetComponent<PlayerHealthController>();
-        this.touchManager = new TouchManager();
-        this.spriteManager = new SpriteManager(GetComponent<SpriteRenderer>());
-        this.sfxController = GetComponent<PlayerSFXController>();
+        healthController = GetComponent<PlayerHealthController>();
+        touchManager = new TouchManager();
+        spriteManager = new SpriteManager(GetComponent<SpriteRenderer>());
+        sfxController = GetComponent<PlayerSFXController>();
     }
 
     /* Checks the current state of the input and controls the character based on it. */
     void Update()
     {
-        if (this.controlEnabled)
-        {
-            this.touchManager.Update();
+        touchManager.Update();
 
-            switch(this.touchManager.GetPhase()) {
-                case TouchPhase.Moved:
-                    this.ChargeAttack();
-                    break;
-                case TouchPhase.Ended:
-                    if (this.touchManager.IsSwipe()) {
-                        this.DoMeleeAttack();
-                    } else {
-                        this.DoRangedAttack();
-                    }
-                    break;
-            }
+        switch(touchManager.GetPhase()) {
+            case TouchPhase.Moved:
+                ChargeAttack();
+                break;
+            case TouchPhase.Ended:
+                if (touchManager.IsSwipe()) {
+                    DoMeleeAttack();
+                } else {
+                    DoRangedAttack();
+                }
+                break;
         }
     }
 
     /* Starts the animation of charging a melee attack. */
-    private void ChargeAttack()
+    protected void ChargeAttack()
     {
-        this.animator.SetBool("IsSwiping", true);
-        this.RotatePlayerToSwipeDirection();
+        animator.SetBool("IsSwiping", true);
+        RotatePlayerToSwipeDirection();
     }
 
-    private void DoMeleeAttack()
+    protected void DoMeleeAttack()
     {
-        this.RotatePlayerToSwipeDirection();
+        RotatePlayerToSwipeDirection();
         StartCoroutine(Dashing());
     }
 
-    private void DoRangedAttack()
+    protected void DoRangedAttack()
     {
         if (canShoot)
         {
@@ -89,12 +84,12 @@ public class PlayerController : MonoBehaviour
 
     private void RotatePlayerToSwipeDirection()
     {
-        this.transform.eulerAngles = new Vector3(
+        transform.eulerAngles = new Vector3(
             0,
             0,
             Vector2.SignedAngle(
                 Vector2.right,
-                this.touchManager.GetSwipeDirection()));
+                touchManager.GetSwipeDirection()));
     }
 
     private void RotatePlayerToTouch()
@@ -102,9 +97,9 @@ public class PlayerController : MonoBehaviour
         float rotationAngle = Vector2.SignedAngle(
             Vector2.right, 
             Camera.main.ScreenToWorldPoint(
-                this.touchManager.GetStartingPosition()) - this.transform.position);
+                touchManager.GetStartingPosition()) - transform.position);
 
-        this.transform.eulerAngles = new Vector3(0, 0, rotationAngle);
+        transform.eulerAngles = new Vector3(0, 0, rotationAngle);
     }
 
     /* Applies a force to player's game object in the direction of a swipe.
@@ -114,19 +109,19 @@ public class PlayerController : MonoBehaviour
     {
         canShoot = false;
 
-        this.rigidBody.drag = startingLinearDrag;
+        rigidBody.drag = startingLinearDrag;
 
-        this.rigidBody.velocity = Vector2.zero;
-        this.rigidBody.AddForce(
-            this.touchManager.GetSwipeDirection() * this.movingForce,
+        rigidBody.velocity = Vector2.zero;
+        rigidBody.AddForce(
+            touchManager.GetSwipeDirection() * movingForce,
             ForceMode2D.Impulse);
 
-        this.animator.SetBool("IsSwiping", false);
+        animator.SetBool("IsSwiping", false);
 
         yield return new WaitForSeconds(movingTime);
 
-        this.rigidBody.drag = finalLinearDrag;
-        this.animator.SetTrigger("EndAttack");
+        rigidBody.drag = finalLinearDrag;
+        animator.SetTrigger("EndAttack");
 
         canShoot = true;       
     }
@@ -138,8 +133,8 @@ public class PlayerController : MonoBehaviour
         canShoot = false;
 
         Shoot(Camera.main.ScreenToWorldPoint(
-            this.touchManager.GetStartingPosition()), 
-            this.transform.position);
+            touchManager.GetStartingPosition()), 
+            transform.position);
 
         yield return new WaitForSeconds(shotCoolingTime);
 
@@ -150,7 +145,7 @@ public class PlayerController : MonoBehaviour
     private void Shoot(Vector2 target, Vector2 shootingPoint)
     {
         if (projectilePrefab != null) {
-            this.sfxController.PlayShot();
+            sfxController.PlayShot();
 
             GameObject projectile = Instantiate(
                 projectilePrefab, 
@@ -174,27 +169,27 @@ public class PlayerController : MonoBehaviour
      * -> starts invulnerability flickering -> removes player's invincibility.*/
     private IEnumerator InvulnerabilityTime() 
     {
-        yield return StartCoroutine(this.spriteManager.HitFlash());
-        yield return StartCoroutine(this.spriteManager.InvulnerabilityFlash(1f));
-        this.spriteManager.ResetColor();
+        yield return StartCoroutine(spriteManager.HitFlash());
+        yield return StartCoroutine(spriteManager.InvulnerabilityFlash(1f));
+        spriteManager.ResetColor();
 
-        this.healthController.SetInvincibility(false);
+        healthController.SetInvincibility(false);
     }
 
     /* Makes death screen show up (activated when player health reaches 0). */
     public void Die() 
     {
-        this.healthController.SetInvincibility(true);
-        this.rigidBody.isKinematic = true;
-        this.rigidBody.velocity = Vector2.zero;
-        this.animator.SetTrigger("Die");       
+        healthController.SetInvincibility(true);
+        rigidBody.isKinematic = true;
+        rigidBody.velocity = Vector2.zero;
+        animator.SetTrigger("Die");       
     }
 
     /* Starts death screen animation. 
      * This function is triggered by an animator event. */
     public void ShowDeathScreen() 
     {
-        this.deathScreen.SetActive(true);
+        deathScreen.SetActive(true);
     }
 
     /* Manages collisions with doors and hearts */
@@ -207,11 +202,11 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case "Heart":
-                if(!this.healthController.IsHealthFull())
+                if(!healthController.IsHealthFull())
                 {
                     collision.SendMessage(
                         "Heal", 
-                        this.gameObject.GetComponent<Collider2D>());
+                        gameObject.GetComponent<Collider2D>());
                 }
                 break;
         }
