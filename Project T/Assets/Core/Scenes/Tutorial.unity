@@ -242,7 +242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &62918582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,7 +573,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SWIPE IS ALSO AN ATTACK
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2871cf8ea20b9ad4892520f58f14caa8, type: 2}
   m_sharedMaterial: {fileID: -5971411331887298479, guid: 2871cf8ea20b9ad4892520f58f14caa8, type: 2}
@@ -603,9 +603,9 @@ MonoBehaviour:
   m_fontSize: 64
   m_fontSizeBase: 64
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 0
-  m_fontSizeMax: 0
+  m_fontSizeMax: 64
   m_fontStyle: 16
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -614,7 +614,7 @@ MonoBehaviour:
   m_wordSpacing: 0
   m_lineSpacing: 30
   m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
+  m_paragraphSpacing: 50
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
@@ -1028,6 +1028,10 @@ PrefabInstance:
     - target: {fileID: 303079386056404435, guid: 798a06be4390720478fa7eceb1311a64, type: 3}
       propertyPath: m_Name
       value: LevelLoader
+      objectReference: {fileID: 0}
+    - target: {fileID: 303079386056404435, guid: 798a06be4390720478fa7eceb1311a64, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 360551592616051809, guid: 798a06be4390720478fa7eceb1311a64, type: 3}
       propertyPath: m_Pivot.x
@@ -2373,6 +2377,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1747464707}
   m_CullTransparentMesh: 1
+--- !u!1 &1933686456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1933686457}
+  - component: {fileID: 1933686458}
+  m_Layer: 0
+  m_Name: RollTutorialSection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1933686457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933686456}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2023398388}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1933686458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933686456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ced37b652bee6a449c1c06b23aa7bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialMessage: Swipe in any direction to make a roll
+  playerController: {fileID: 1199220099}
 --- !u!1 &1985327471
 GameObject:
   m_ObjectHideFlags: 0
@@ -2533,7 +2582,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1933686457}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2551,7 +2601,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraController: {fileID: 1724121747}
   room: {fileID: 35387905}
-  sections: []
+  tutorialTextBox: {fileID: 548914108}
+  sections:
+  - {fileID: 1933686458}
 --- !u!1 &2025590509
 GameObject:
   m_ObjectHideFlags: 0
