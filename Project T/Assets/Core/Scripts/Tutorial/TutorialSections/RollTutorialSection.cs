@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class RollTutorialSection : TutorialSection
 {
-    protected int requiredRolls = 3;
-    protected float minTimeBetweenRolls = 1f;
+    [SerializeField] protected int requiredRolls = 5;
+    [SerializeField] protected float minTimeBetweenRolls = 1f;
 
     protected int currentRolls = 0;
     protected float timeSinceLastValidRoll = 0f;
@@ -18,15 +18,10 @@ public class RollTutorialSection : TutorialSection
         timeSinceLastValidRoll += Time.deltaTime;
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         playerController.Rolled += OnPlayerRolled;
-
-        playerController.ControlEnabled = true;
-        playerController.ShootEnabled = false;
-        playerController.SwipeEnabled = true;
-
-        UpdateText();
     }
 
     private void OnDisable()

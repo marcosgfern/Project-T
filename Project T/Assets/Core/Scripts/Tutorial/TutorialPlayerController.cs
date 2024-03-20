@@ -10,6 +10,8 @@ public class TutorialPlayerController : PlayerController
     [SerializeField] private bool shootEnabled = true;
     [SerializeField] private bool swipeEnabled = true;
 
+    public event Action Rolled;
+
     public bool ControlEnabled
     {
         get => controlEnabled;
@@ -27,8 +29,6 @@ public class TutorialPlayerController : PlayerController
         get => swipeEnabled;
         set => swipeEnabled = value;
     }
-
-    public event Action Rolled;
 
     // Update is called once per frame
     void Update()
@@ -49,7 +49,7 @@ public class TutorialPlayerController : PlayerController
                     if (swipeEnabled && touchManager.IsSwipe())
                     {
                         DoMeleeAttack();
-                        Rolled.Invoke();
+                        Rolled?.Invoke();
                     }
                     else if (shootEnabled && !touchManager.IsSwipe())
                     {

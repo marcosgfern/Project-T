@@ -43,6 +43,12 @@ public abstract class EnemyController : MonoBehaviour {
 
     }
 
+    protected void Start()
+    {
+        healthController.Hit += StartInvulnerabilityTime;
+        healthController.Death += Die;
+    }
+
     /* Sets enemy's stats to the given @health, @color and @damage. */ 
     public void ResetEnemy(int health, DamageColor color, int damage) {
         this.healthController.SetHealth(health);

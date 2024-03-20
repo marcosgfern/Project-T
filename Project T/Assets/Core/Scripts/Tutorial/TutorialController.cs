@@ -14,10 +14,10 @@ public class TutorialController : MonoBehaviour
 
     [SerializeField] private List<TutorialSection> sections;
 
-    private int currentSection;
+    private int currentSectionIndex;
 
     private TutorialSection CurrentSection => 
-        currentSection < sections.Count ? sections[currentSection] : null;
+        currentSectionIndex < sections.Count ? sections[currentSectionIndex] : null;
 
     private void Awake()
     {
@@ -29,7 +29,7 @@ public class TutorialController : MonoBehaviour
                 section.TextUpdated += OnTextUpdated;
             }
 
-            currentSection = 0;
+            currentSectionIndex = 0;
         }
     }
     private void Start()
@@ -45,14 +45,23 @@ public class TutorialController : MonoBehaviour
 
     private void OnSectionFinished()
     {
-        CurrentSection.gameObject.SetActive(false);
-        currentSection++;
-        InitCurrentSection();
+        if (CurrentSection.Equals(sections.Last()))
+        {
+            FinishTutorial();
+        }
+        else
+        {
+            CurrentSection.gameObject.SetActive(false);
+            currentSectionIndex++;
+            InitCurrentSection();
+        }
     }
 
     private void OnTextUpdated(string text)
     {
         tutorialTextBox.text = text;
     }
+
+    private void FinishTutorial() { }
 
 }

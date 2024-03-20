@@ -5,23 +5,45 @@ using UnityEngine;
 
 public abstract class TutorialSection : MonoBehaviour
 {
-    [SerializeField] protected string tutorialMessage;
     [SerializeField] protected TutorialPlayerController playerController;
+    [SerializeField] protected Transform playerStartingPosition;
+
+    [TextArea]
+    [SerializeField] protected string tutorialMessage;
+
+    [Header("Control settings")]
+    [SerializeField] protected bool controlEnabled;
+    [SerializeField] protected bool shootEnabled;
+    [SerializeField] protected bool swipeEnabled;
 
     public event Action SectionFinished;
     public event Action<string> TextUpdated;
 
     virtual public string Text => tutorialMessage;
 
+    protected virtual void OnEnable()
+    {
+        playerController.ControlEnabled = controlEnabled;
+        playerController.ShootEnabled = shootEnabled;
+        playerController.SwipeEnabled = swipeEnabled;
 
+        UpdateText();
+    }
 
     protected void UpdateText()
     {
         TextUpdated?.Invoke(Text);
     }
 
+    protected void SetPlayerStartingPosition()
+    {
+        playerController.gameObject.transform.position = playerStartingPosition.position;
+        playerController.gameObject.transform.rotation = playerStartingPosition.rotation;
+    }
+
     protected void FinishSection()
     {
+        playerController.ControlEnabled = false;
         SectionFinished?.Invoke();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -10,15 +11,18 @@ namespace EnemyHealth {
      */
     public class EnemyHealthController : MonoBehaviour {
 
-        public int health = 1;
-        public DamageColor damageColor = DamageColor.White;
+        [SerializeField] private int health = 1;
+        [SerializeField] private DamageColor damageColor = DamageColor.White;
+
+        public event Action Death;
+        public event Action Hit;
 
         private LifeBar lifeBar;
-        private EnemyController enemyController;
+        //private EnemyController enemyController;
 
         void Awake() {
             this.lifeBar = GetComponentInChildren<LifeBar>();
-            this.enemyController = GetComponent<EnemyController>();
+            //this.enemyController = GetComponent<EnemyController>();
         }
 
         void Start() {
@@ -33,9 +37,9 @@ namespace EnemyHealth {
             SetHealth(this.health - damageInfo.CalculateDamage(this.damageColor));
            
             if (this.health <= 0) {
-                this.enemyController.Die();
+                Death?.Invoke();
             } else {
-                this.enemyController.StartInvulnerabilityTime();
+                Hit?.Invoke();
             }
         }
 
