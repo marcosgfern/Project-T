@@ -28,6 +28,7 @@ public abstract class TutorialSection : MonoBehaviour
         playerController.SwipeEnabled = swipeEnabled;
 
         UpdateText();
+        SetPlayerStartingPosition();
     }
 
     protected void UpdateText()
@@ -37,6 +38,7 @@ public abstract class TutorialSection : MonoBehaviour
 
     protected void SetPlayerStartingPosition()
     {
+        playerController.gameObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         playerController.gameObject.transform.position = playerStartingPosition.position;
         playerController.gameObject.transform.rotation = playerStartingPosition.rotation;
     }

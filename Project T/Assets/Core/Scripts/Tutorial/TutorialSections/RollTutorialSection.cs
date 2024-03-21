@@ -11,7 +11,7 @@ public class RollTutorialSection : TutorialSection
     protected int currentRolls = 0;
     protected float timeSinceLastValidRoll = 0f;
 
-    override public string Text => tutorialMessage + "\n<size=140%>" + currentRolls + "/" + requiredRolls + "</size>";
+    public override string Text => tutorialMessage + "\n<size=140%>" + currentRolls + "/" + requiredRolls + "</size>";
 
     private void Update()
     {

@@ -11,6 +11,7 @@ public class TutorialPlayerController : PlayerController
     [SerializeField] private bool swipeEnabled = true;
 
     public event Action Rolled;
+    public event Action Shot;
 
     public bool ControlEnabled
     {
@@ -54,6 +55,7 @@ public class TutorialPlayerController : PlayerController
                     else if (shootEnabled && !touchManager.IsSwipe())
                     {
                         DoRangedAttack();
+                        Shot?.Invoke();
                     }
                     break;
             }
