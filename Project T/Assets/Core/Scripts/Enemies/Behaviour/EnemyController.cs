@@ -4,11 +4,14 @@ using UnityEngine;
 
 using EnemyHealth;
 using Floors;
+using System;
 
 /* Class EnemyController is a superclass for enemy behaviour. */
 public abstract class EnemyController : MonoBehaviour {
 
     public static Room CurrentRoom;
+
+    public event Action<EnemyController> Death;
 
     [SerializeField] protected float speed = 1f;
     [SerializeField] protected int damage = 1;
@@ -65,12 +68,12 @@ public abstract class EnemyController : MonoBehaviour {
         StartCoroutine(AwakingTime());
     }
 
-    /* Deactivates defeated enemy, and updates enemy count of the current room the enemy was in. */
+    /* Starts death animation, throws death event and deactivates enemy. */
     public void Die() {
         this.animator.SetBool("Moving", false);
         SpawnDeathParticle();
+        Death?.Invoke(this);
         this.gameObject.SetActive(false);
-        CurrentRoom.UpdateEnemyCount();
     }
 
     private void SpawnDeathParticle() {

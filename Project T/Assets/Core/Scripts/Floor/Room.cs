@@ -146,19 +146,12 @@ namespace Floors {
             this.enemyTemplates = enemyTemplates;
         }
 
-        /* Checks if every enemy in the room has been defeated. */
-        public void UpdateEnemyCount() {
-            bool enemiesDefeated = true;
+        /* Updates enemy list whenever an enemy is defeated. If no enemies left, room is marked as completed. */
+        public void OnEnemyDeath(EnemyController enemy) {
+            enemy.Death -= OnEnemyDeath;
+            enemies.Remove(enemy);
 
-            foreach(EnemyController enemy in enemies) {
-                if (enemy.gameObject.activeSelf) {
-                    enemiesDefeated = false;
-                    break;
-                }
-            }
-
-            if (enemiesDefeated) {
-                enemies.Clear();
+            if (enemies.Count <= 0) {
                 SetState(RoomState.Completed, false);
                 StartCoroutine(OpenDoorsWithDelay(0.25f));
             }
@@ -170,6 +163,7 @@ namespace Floors {
             foreach (EnemyTemplate template in this.enemyTemplates) {
                 EnemyController enemy = enemyPool.GetEnemy(template);
                 this.enemies.Add(enemy);
+                enemy.Death += OnEnemyDeath;
                 enemy.Spawn(GetSpawnPoint(random));
             }
         }
