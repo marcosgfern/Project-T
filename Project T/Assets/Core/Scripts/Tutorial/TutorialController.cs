@@ -11,6 +11,7 @@ public class TutorialController : MonoBehaviour
     [SerializeField] private CameraController cameraController;
     [SerializeField] private Transform room;
     [SerializeField] private TextMeshProUGUI tutorialTextBox;
+    [SerializeField] private FloorFade tutorialSectionFade;
 
     [SerializeField] private List<TutorialSection> sections;
 
@@ -31,6 +32,8 @@ public class TutorialController : MonoBehaviour
 
             currentSectionIndex = 0;
         }
+
+        tutorialSectionFade.BlackedOut += OnCrossfadeBlack;
     }
     private void Start()
     {     
@@ -51,10 +54,15 @@ public class TutorialController : MonoBehaviour
         }
         else
         {
-            CurrentSection.gameObject.SetActive(false);
-            currentSectionIndex++;
-            InitCurrentSection();
+            tutorialSectionFade.StartFloorTransition();
         }
+    }
+
+    private void OnCrossfadeBlack()
+    {
+        CurrentSection.gameObject.SetActive(false);
+        currentSectionIndex++;
+        InitCurrentSection();
     }
 
     private void OnTextUpdated(string text)

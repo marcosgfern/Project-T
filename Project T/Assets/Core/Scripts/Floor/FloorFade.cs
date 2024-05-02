@@ -13,8 +13,12 @@ public class FloorFade : MonoBehaviour
     public event System.Action BlackedOut;
 
 
-    public void StartFloorTransition(int floor) {
-        floorText.text = FloorString + floor.ToString();
+    public void StartFloorTransition(int floor = -1) {
+        if (floor != -1)
+        {
+            floorText.text = FloorString + floor.ToString();
+        }
+
         animator.SetTrigger("Start");
     }
 
