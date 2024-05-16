@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class TutorialController : MonoBehaviour
 {
+    [SerializeField] private float timeBeforeFadeScreen = 1f;
+
     [Header("References")]
     [SerializeField] private CameraController cameraController;
     [SerializeField] private Transform room;
@@ -54,8 +56,14 @@ public class TutorialController : MonoBehaviour
         }
         else
         {
-            tutorialSectionFade.StartFloorTransition();
+            StartCoroutine(StartTransition());
         }
+    }
+
+    private IEnumerator StartTransition()
+    {
+        yield return new WaitForSeconds(timeBeforeFadeScreen);
+        tutorialSectionFade.StartFloorTransition();
     }
 
     private void OnCrossfadeBlack()
