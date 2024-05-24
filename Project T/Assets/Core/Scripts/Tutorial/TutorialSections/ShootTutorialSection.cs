@@ -24,7 +24,7 @@ public class ShootTutorialSection : TutorialSection
     protected void OnPlayerShot()
     {
         currentShots++;
-        UpdateText();
+        UpdateInfo();
 
         if (currentShots >= requiredShots)
         {

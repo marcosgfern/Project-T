@@ -10,6 +10,7 @@ public abstract class TutorialSection : MonoBehaviour
 
     [TextArea]
     [SerializeField] protected string tutorialMessage;
+    [SerializeField] protected GameObject helpAnimationPrefab;
 
     [Header("Control settings")]
     [SerializeField] protected bool controlEnabled;
@@ -17,7 +18,7 @@ public abstract class TutorialSection : MonoBehaviour
     [SerializeField] protected bool swipeEnabled;
 
     public event Action SectionFinished;
-    public event Action<string> TextUpdated;
+    public event Action<string, GameObject?> InfoUpdated;
 
     virtual public string Text => tutorialMessage;
 
@@ -27,13 +28,13 @@ public abstract class TutorialSection : MonoBehaviour
         playerController.ShootEnabled = shootEnabled;
         playerController.SwipeEnabled = swipeEnabled;
 
-        UpdateText();
+        UpdateInfo();
         SetPlayerStartingPosition();
     }
 
-    protected void UpdateText()
+    protected void UpdateInfo()
     {
-        TextUpdated?.Invoke(Text);
+        InfoUpdated?.Invoke(Text, helpAnimationPrefab);
     }
 
     protected void SetPlayerStartingPosition()

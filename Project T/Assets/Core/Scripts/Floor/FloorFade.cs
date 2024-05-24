@@ -22,6 +22,7 @@ public class FloorFade : MonoBehaviour
         animator.SetTrigger("Start");
     }
 
+    //Used by Animator
     private void OnCrossfadeBlack() {
         BlackedOut?.Invoke();
     }

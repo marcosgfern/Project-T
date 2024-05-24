@@ -12,8 +12,8 @@ public class TutorialController : MonoBehaviour
     [Header("References")]
     [SerializeField] private CameraController cameraController;
     [SerializeField] private Transform room;
-    [SerializeField] private TextMeshProUGUI tutorialTextBox;
     [SerializeField] private FloorFade tutorialSectionFade;
+    [SerializeField] private TutorialSectionExplanation tutorialSectionExplanation;
 
     [SerializeField] private List<TutorialSection> sections;
 
@@ -29,7 +29,7 @@ public class TutorialController : MonoBehaviour
             foreach (TutorialSection section in sections)
             {
                 section.SectionFinished += OnSectionFinished;
-                section.TextUpdated += OnTextUpdated;
+                section.InfoUpdated += OnSectionInfoUpdated;
             }
 
             currentSectionIndex = 0;
@@ -45,7 +45,7 @@ public class TutorialController : MonoBehaviour
 
     private void InitCurrentSection()
     {
-        CurrentSection.gameObject.SetActive(true);        
+        CurrentSection.gameObject.SetActive(true);
     }
 
     private void OnSectionFinished()
@@ -73,9 +73,9 @@ public class TutorialController : MonoBehaviour
         InitCurrentSection();
     }
 
-    private void OnTextUpdated(string text)
+    private void OnSectionInfoUpdated(string text, GameObject helpAnimationPrefab)
     {
-        tutorialTextBox.text = text;
+        tutorialSectionExplanation.SetInfo(text, helpAnimationPrefab);
     }
 
     private void FinishTutorial() { }

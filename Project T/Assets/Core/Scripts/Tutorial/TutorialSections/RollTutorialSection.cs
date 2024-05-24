@@ -34,7 +34,7 @@ public class RollTutorialSection : TutorialSection
         if (timeSinceLastValidRoll >= minTimeBetweenRolls)
         {
             currentRolls++;
-            UpdateText();
+            UpdateInfo();
 
             if (currentRolls >= requiredRolls)
             {
