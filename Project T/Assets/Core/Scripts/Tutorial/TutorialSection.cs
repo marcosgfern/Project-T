@@ -18,9 +18,10 @@ public abstract class TutorialSection : MonoBehaviour
     [SerializeField] protected bool swipeEnabled;
 
     public event Action SectionFinished;
-    public event Action<string, GameObject?> InfoUpdated;
+    public event Action<string> TextUpdated;
 
     virtual public string Text => tutorialMessage;
+    public GameObject HelpAnimationPrefab => helpAnimationPrefab;
 
     protected virtual void OnEnable()
     {
@@ -34,14 +35,15 @@ public abstract class TutorialSection : MonoBehaviour
 
     protected void UpdateInfo()
     {
-        InfoUpdated?.Invoke(Text, helpAnimationPrefab);
+        TextUpdated?.Invoke(Text);
     }
 
     protected void SetPlayerStartingPosition()
     {
         playerController.gameObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-        playerController.gameObject.transform.position = playerStartingPosition.position;
-        playerController.gameObject.transform.rotation = playerStartingPosition.rotation;
+        playerController.gameObject.transform
+            .SetPositionAndRotation(playerStartingPosition.position, 
+                                    playerStartingPosition.rotation);
     }
 
     protected void FinishSection()

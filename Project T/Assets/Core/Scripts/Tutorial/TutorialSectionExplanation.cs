@@ -12,6 +12,9 @@ public class TutorialSectionExplanation : MonoBehaviour
         Hidden
     }
 
+    [SerializeField] private float delayUntilNextCharInSeconds;
+
+    [Header("References")]
     [SerializeField] private TextMeshProUGUI tutorialTextBox;
     [SerializeField] private RectTransform animationParent;
     [SerializeField] private GameObject backgroundImage;
@@ -21,11 +24,36 @@ public class TutorialSectionExplanation : MonoBehaviour
 
     private ExplanationStates currentState = ExplanationStates.Hidden;
 
+#nullable enable
+    public void SetInfo(string text, GameObject? helpAnimationPrefab)
+    {
+        backgroundImage.SetActive(true);
+
+        foreach (Transform child in animationParent.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        if (helpAnimationPrefab != null)
+        {
+            animationParent.gameObject.SetActive(true);
+            Instantiate(helpAnimationPrefab, animationParent);
+        }
+
+        targetText = text;
+        currentTextLength = 0;
+        currentState = ExplanationStates.Ongoing;
+
+        StartCoroutine(UpdateTextLength());
+    }
+#nullable disable
+
     public void GoToNextState()
     {
         switch (currentState)
         {
             case ExplanationStates.Ongoing:
+                StopCoroutine(UpdateTextLength());
                 tutorialTextBox.text = targetText;
                 currentState = ExplanationStates.Finished;
                 break;
@@ -41,41 +69,18 @@ public class TutorialSectionExplanation : MonoBehaviour
         }
     }
 
-    private void Update()
+    private IEnumerator UpdateTextLength()
     {
-        if (currentState == ExplanationStates.Ongoing)
-        {
-            UpdateTextLength();
-        }
-    }
-
-    private void UpdateTextLength()
-    {
-        if (currentTextLength <= targetText.Length)
+        while (currentTextLength <= targetText.Length)
         {
             tutorialTextBox.text = targetText.Substring(0, currentTextLength);
             currentTextLength++;
+            yield return new WaitForSeconds(delayUntilNextCharInSeconds);
         }
-        else
-        {
-            GoToNextState();
-        }
+        
+        GoToNextState();
+        yield return null;
     }
 
-    public void SetInfo(string text, GameObject helpAnimationPrefab)
-    {
-        animationParent.gameObject.SetActive(true);
-        backgroundImage.SetActive(true);
-
-        targetText = text;
-        currentTextLength = 0;
-        currentState = ExplanationStates.Ongoing;
-
-        foreach (Transform child in animationParent.transform)
-        {
-            Destroy(child.gameObject);
-        }
-
-        Instantiate(helpAnimationPrefab, animationParent);
-    }
+    
 }
