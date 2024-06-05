@@ -11,6 +11,7 @@ public class FloorFade : MonoBehaviour
     [SerializeField] private TextMeshProUGUI floorText;
 
     public event System.Action BlackedOut;
+    public event System.Action Transparent;
 
 
     public void StartFloorTransition(int floor = -1) {
@@ -25,5 +26,10 @@ public class FloorFade : MonoBehaviour
     //Used by Animator
     private void OnCrossfadeBlack() {
         BlackedOut?.Invoke();
+    }
+
+    private void OnCrossfadeTransparent()
+    {
+        Transparent?.Invoke();
     }
 }

@@ -5,68 +5,45 @@ using UnityEngine;
 
 public class TutorialSectionExplanation : MonoBehaviour
 {
-    private enum ExplanationStates
-    {
-        Ongoing,
-        Finished,
-        Hidden
-    }
-
     [SerializeField] private float delayUntilNextCharInSeconds;
 
     [Header("References")]
     [SerializeField] private TextMeshProUGUI tutorialTextBox;
-    [SerializeField] private RectTransform animationParent;
+    [SerializeField] private RectTransform helpAnimationParent;
     [SerializeField] private GameObject backgroundImage;
 
     private string targetText;
     private int currentTextLength;
 
-    private ExplanationStates currentState = ExplanationStates.Hidden;
-
-#nullable enable
-    public void SetInfo(string text, GameObject? helpAnimationPrefab)
+    public void SetInfo(string text, GameObject helpAnimationPrefab)
     {
         backgroundImage.SetActive(true);
 
-        foreach (Transform child in animationParent.transform)
+        foreach (Transform child in helpAnimationParent.transform)
         {
             Destroy(child.gameObject);
         }
 
         if (helpAnimationPrefab != null)
         {
-            animationParent.gameObject.SetActive(true);
-            Instantiate(helpAnimationPrefab, animationParent);
+            helpAnimationParent.gameObject.SetActive(true);
+            Instantiate(helpAnimationPrefab, helpAnimationParent);
         }
 
         targetText = text;
         currentTextLength = 0;
-        currentState = ExplanationStates.Ongoing;
+        tutorialTextBox.text = "";
+    }
 
+    public void StartExplanation()
+    {
         StartCoroutine(UpdateTextLength());
     }
-#nullable disable
 
-    public void GoToNextState()
+    public void FinishExplanation()
     {
-        switch (currentState)
-        {
-            case ExplanationStates.Ongoing:
-                StopCoroutine(UpdateTextLength());
-                tutorialTextBox.text = targetText;
-                currentState = ExplanationStates.Finished;
-                break;
-
-            case ExplanationStates.Finished:
-                animationParent.gameObject.SetActive(false);
-                backgroundImage.SetActive(false);
-                currentState = ExplanationStates.Hidden;
-                break;
-
-            case ExplanationStates.Hidden:
-                break;
-        }
+        helpAnimationParent.gameObject.SetActive(false);
+        backgroundImage.SetActive(false);
     }
 
     private IEnumerator UpdateTextLength()
@@ -78,7 +55,7 @@ public class TutorialSectionExplanation : MonoBehaviour
             yield return new WaitForSeconds(delayUntilNextCharInSeconds);
         }
         
-        GoToNextState();
+        FinishExplanation();
         yield return null;
     }
 

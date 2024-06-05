@@ -37,11 +37,13 @@ public class TutorialController : MonoBehaviour
         }
 
         tutorialSectionFade.BlackedOut += OnCrossfadeBlack;
+        tutorialSectionFade.Transparent += tutorialSectionExplanation.StartExplanation;
     }
     private void Start()
     {     
         cameraController.MoveToRoom(room);
         InitCurrentSection();
+        tutorialSectionExplanation.StartExplanation();
     }
 
     private void InitCurrentSection()
