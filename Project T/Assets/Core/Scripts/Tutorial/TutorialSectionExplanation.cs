@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -51,12 +52,32 @@ public class TutorialSectionExplanation : MonoBehaviour
         while (currentTextLength <= targetText.Length)
         {
             tutorialTextBox.text = targetText.Substring(0, currentTextLength);
-            currentTextLength++;
+            GoToNextNonTagCharacter();
             yield return new WaitForSeconds(delayUntilNextCharInSeconds);
         }
         
         FinishExplanation();
         yield return null;
+    }
+
+    private void GoToNextNonTagCharacter()
+    {
+        try
+        {
+            if (targetText[currentTextLength] == '<')
+            {
+                while (targetText[currentTextLength] != '>')
+                {
+                    currentTextLength++;
+                }
+            }
+
+            currentTextLength++;
+        }
+        catch (IndexOutOfRangeException)
+        {
+            currentTextLength = targetText.Length + 1;
+        }
     }
 
     
