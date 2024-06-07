@@ -15,6 +15,7 @@ public class TutorialController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI tutorialTextBox;
     [SerializeField] private FloorFade tutorialSectionFade;
     [SerializeField] private TutorialSectionExplanation tutorialSectionExplanation;
+    [SerializeField] private Loader sceneLoader;
 
     [SerializeField] private List<TutorialSection> sections;
 
@@ -84,6 +85,9 @@ public class TutorialController : MonoBehaviour
         tutorialTextBox.text = text;
     }
     
-    private void FinishTutorial() { }
+    private void FinishTutorial()
+    {
+        sceneLoader.FinishTutorial();
+    }
 
 }

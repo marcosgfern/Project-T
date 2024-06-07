@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,12 +15,30 @@ public class Loader : MonoBehaviour {
 
     /* Triggers load of the game's main scene */
     public void LoadGame() {
-        StartCoroutine(Load(Scene.GameScene));
+        if (IsTutorialFinished())
+        {
+            StartCoroutine(Load(Scene.GameScene));
+        }
+        else
+        {
+            StartCoroutine(Load(Scene.Tutorial));
+        }
     }
 
     /* Triggers load of main menu scene */
     public void LoadMainMenu() {
         StartCoroutine(Load(Scene.MainMenu));
+    }
+
+    public void LoadTutorial()
+    {
+        StartCoroutine(Load(Scene.Tutorial));
+    }
+
+    public void FinishTutorial()
+    {
+        PlayerPrefs.SetString("TutorialFinished", true.ToString());
+        LoadGame();
     }
 
     /* Starts crossfade animation and loads @scene afterwards. */
@@ -29,6 +49,22 @@ public class Loader : MonoBehaviour {
         SceneManager.LoadScene(scene.ToString());
     }
 
+    private bool IsTutorialFinished()
+    {
+        bool isTutorialFinished = false;
+
+        try
+        {
+            isTutorialFinished = bool.Parse(PlayerPrefs.GetString("TutorialFinished"));
+        }
+        catch (FormatException)
+        {
+            return false;
+        }
+
+        return isTutorialFinished;
+    }
+
     /* Closes application */
     public void Quit() {
         Application.Quit();
@@ -36,6 +72,7 @@ public class Loader : MonoBehaviour {
 
     public enum Scene {
         GameScene,
-        MainMenu
+        MainMenu,
+        Tutorial
     }
 }
