@@ -601,7 +601,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 2.5833333
+  - time: 2.8333333
     functionName: OnCrossfadeTransparent
     data: 
     objectReferenceParameter: {fileID: 0}
