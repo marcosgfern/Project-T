@@ -4027,7 +4027,7 @@ MonoBehaviour:
   playerController: {fileID: 1199220099}
   playerStartingPosition: {fileID: 1720852608}
   tutorialMessage: Swipe in any direction to make a roll
-  helpAnimationPrefab: {fileID: 0}
+  helpAnimationPrefab: {fileID: 3676894061368287446, guid: 5b40f18a0b308dd4fa2cb383a0d3dec7, type: 3}
   controlEnabled: 1
   shootEnabled: 0
   swipeEnabled: 1
