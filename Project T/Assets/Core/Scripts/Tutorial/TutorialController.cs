@@ -57,14 +57,7 @@ public class TutorialController : MonoBehaviour
 
     private void OnSectionFinished()
     {
-        if (CurrentSection.Equals(sections.Last()))
-        {
-            FinishTutorial();
-        }
-        else
-        {
-            StartCoroutine(StartTransition());
-        }
+        StartCoroutine(StartTransition());
     }
 
     private IEnumerator StartTransition()
@@ -75,9 +68,16 @@ public class TutorialController : MonoBehaviour
 
     private void OnCrossfadeBlack()
     {
-        CurrentSection.gameObject.SetActive(false);
-        currentSectionIndex++;
-        InitCurrentSection();
+        if (CurrentSection.Equals(sections.Last()))
+        {
+            FinishTutorial();
+        }
+        else
+        {
+            CurrentSection.gameObject.SetActive(false);
+            currentSectionIndex++;
+            InitCurrentSection();
+        }
     }
 
     private void OnTextUpdated(string text)

@@ -6,6 +6,14 @@ using UnityEngine;
 
 public class TutorialSectionExplanation : MonoBehaviour
 {
+    private enum ExplanationStates
+    {
+        Ready,
+        Started,
+        TextFinished,
+        Finished
+    }
+
     [SerializeField] private float delayUntilNextCharInSeconds;
 
     [Header("References")]
@@ -13,8 +21,38 @@ public class TutorialSectionExplanation : MonoBehaviour
     [SerializeField] private RectTransform helpAnimationParent;
     [SerializeField] private GameObject backgroundImage;
 
+    private ExplanationStates currentState;
+
     private string targetText;
     private int currentTextLength;
+    private float timeElapsedSinceLastChar;
+
+    private IEnumerator updateTextCoroutine;
+
+
+    private void Update()
+    {
+        if (currentState == ExplanationStates.Started)
+        {
+            if(currentTextLength <= targetText.Length)
+            {
+                if (timeElapsedSinceLastChar >= delayUntilNextCharInSeconds)
+                {
+                    timeElapsedSinceLastChar = 0;
+                    tutorialTextBox.text = targetText.Substring(0, currentTextLength);
+                    GoToNextNonTagCharacter();
+                }
+                else
+                {
+                    timeElapsedSinceLastChar += Time.deltaTime;
+                }
+            }
+            else
+            {
+                currentState = ExplanationStates.TextFinished;
+            }
+        }
+    }
 
     public void SetInfo(string text, GameObject helpAnimationPrefab)
     {
@@ -34,17 +72,34 @@ public class TutorialSectionExplanation : MonoBehaviour
         targetText = text;
         currentTextLength = 0;
         tutorialTextBox.text = "";
+        currentState = ExplanationStates.Ready;
     }
 
     public void StartExplanation()
     {
-        StartCoroutine(UpdateTextLength());
+        currentState = ExplanationStates.Started;
     }
 
-    public void FinishExplanation()
+    public void GoToNextStep()
     {
-        helpAnimationParent.gameObject.SetActive(false);
-        backgroundImage.SetActive(false);
+        switch (currentState)
+        {
+            case ExplanationStates.Ready:
+                StartExplanation();
+                break;
+
+            case ExplanationStates.Started:
+                tutorialTextBox.text = targetText;
+                currentState = ExplanationStates.TextFinished;
+                break;
+
+            case ExplanationStates.TextFinished:
+                helpAnimationParent.gameObject.SetActive(false);
+                backgroundImage.SetActive(false);
+                currentState = ExplanationStates.Finished;
+                break;
+            case ExplanationStates.Finished: break;
+        }
     }
 
     private IEnumerator UpdateTextLength()
@@ -55,8 +110,8 @@ public class TutorialSectionExplanation : MonoBehaviour
             GoToNextNonTagCharacter();
             yield return new WaitForSeconds(delayUntilNextCharInSeconds);
         }
-        
-        FinishExplanation();
+
+        currentState = ExplanationStates.TextFinished;
         yield return null;
     }
 

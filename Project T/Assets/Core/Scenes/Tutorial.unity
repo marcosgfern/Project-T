@@ -1859,7 +1859,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 151844788}
         m_TargetAssemblyTypeName: TutorialSectionExplanation, Assembly-CSharp
-        m_MethodName: GoToNextState
+        m_MethodName: GoToNextStep
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2054,7 +2054,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 360551592616051809, guid: 798a06be4390720478fa7eceb1311a64, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 360551592616051809, guid: 798a06be4390720478fa7eceb1311a64, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2822,8 +2822,8 @@ RectTransform:
   - {fileID: 151844787}
   - {fileID: 230975356}
   - {fileID: 1026395396}
-  - {fileID: 1335414479}
   - {fileID: 1649461401}
+  - {fileID: 1335414479}
   m_Father: {fileID: 32308068}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4409,7 +4409,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7950978959701362308, guid: f73292e3aba5d7b46909d539631855b0, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7950978959701362308, guid: f73292e3aba5d7b46909d539631855b0, type: 3}
       propertyPath: m_AnchorMax.x
