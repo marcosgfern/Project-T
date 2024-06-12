@@ -51,18 +51,7 @@ public class Loader : MonoBehaviour {
 
     private bool IsTutorialFinished()
     {
-        bool isTutorialFinished = false;
-
-        try
-        {
-            isTutorialFinished = bool.Parse(PlayerPrefs.GetString("TutorialFinished"));
-        }
-        catch (FormatException)
-        {
-            return false;
-        }
-
-        return isTutorialFinished;
+        return bool.Parse(PlayerPrefs.GetString("TutorialFinished", "False"));
     }
 
     /* Closes application */

@@ -9,12 +9,12 @@ using UnityEngine.UI;
  */
 public class SettingsMenu : MonoBehaviour {
 
-    public PostProcessProfile postProcessProfile;
-
-    public Toggle 
+    [SerializeField] private PostProcessProfile postProcessProfile;
+    [SerializeField] private Toggle
         chromaticAberrationToggle, 
         lensDistortionToggle, 
         bloomToggle;
+    [SerializeField] private Button replayTutorialButton;
 
     private ChromaticAberration chromaticAberration;
     private LensDistortion lensDistortion;
@@ -27,13 +27,19 @@ public class SettingsMenu : MonoBehaviour {
     }
 
     public void Start() {
-        this.chromaticAberration.enabled.value = bool.Parse(PlayerPrefs.GetString("ChromaticAberration", "True"));
-        this.lensDistortion.enabled.value = bool.Parse(PlayerPrefs.GetString("LensDistortion", "True"));
-        this.bloom.enabled.value = bool.Parse(PlayerPrefs.GetString("Bloom", "True"));
+        this.chromaticAberration.enabled.value = 
+            bool.Parse(PlayerPrefs.GetString("ChromaticAberration", "True"));
+        this.lensDistortion.enabled.value = 
+            bool.Parse(PlayerPrefs.GetString("LensDistortion", "True"));
+        this.bloom.enabled.value = 
+            bool.Parse(PlayerPrefs.GetString("Bloom", "True"));
 
         this.chromaticAberrationToggle.isOn = this.chromaticAberration.enabled.value;
         this.lensDistortionToggle.isOn = this.lensDistortion.enabled.value;
         this.bloomToggle.isOn = this.bloom.enabled.value;
+
+        this.replayTutorialButton.gameObject
+            .SetActive(bool.Parse(PlayerPrefs.GetString("TutorialFinished", "False")));
     }
 
     public void SetChromaticAberration(bool enabled) {
