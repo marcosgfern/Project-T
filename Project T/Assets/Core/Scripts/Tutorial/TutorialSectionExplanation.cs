@@ -102,19 +102,6 @@ public class TutorialSectionExplanation : MonoBehaviour
         }
     }
 
-    private IEnumerator UpdateTextLength()
-    {
-        while (currentTextLength <= targetText.Length)
-        {
-            tutorialTextBox.text = targetText.Substring(0, currentTextLength);
-            GoToNextNonTagCharacter();
-            yield return new WaitForSeconds(delayUntilNextCharInSeconds);
-        }
-
-        currentState = ExplanationStates.TextFinished;
-        yield return null;
-    }
-
     private void GoToNextNonTagCharacter()
     {
         try
