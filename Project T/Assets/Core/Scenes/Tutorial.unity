@@ -3166,7 +3166,7 @@ MonoBehaviour:
   playerController: {fileID: 1199220099}
   playerStartingPosition: {fileID: 2009095309}
   tutorialMessage: Tap anywhere to shoot in that direction
-  helpAnimationPrefab: {fileID: 0}
+  helpAnimationPrefab: {fileID: 1138556344332508858, guid: 717b86290ba77c44a9e740a73d1e7959, type: 3}
   controlEnabled: 1
   shootEnabled: 1
   swipeEnabled: 0
