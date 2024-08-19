@@ -765,6 +765,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60859abf0a55afd46b84bb824dd20c3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shakeDuration: 0.3
+  shakeStrength: 0.25
+  shakeVibrato: 50
+  shakeRandomness: 90
+  shakeFadeOut: 1
+  shakeRandomnessMode: 1
+  timeFreeze: 0.33
   upperUI: {fileID: 291270848}
   lowerUI: {fileID: 1949478906}
   canvas: {fileID: 2143630308}
