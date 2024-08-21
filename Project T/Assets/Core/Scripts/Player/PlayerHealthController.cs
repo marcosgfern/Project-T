@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 /* Class EnemyHealthController is used as one of the player components.
@@ -7,21 +6,19 @@ using UnityEngine;
  */
 public class PlayerHealthController : MonoBehaviour {
 
-    public float maxHealth = 3f;
-    public float health;
-    public bool invincible;
+    [SerializeField] private float maxHealth = 3f;
+    [SerializeField] private float health;
+    [SerializeField] private bool invincible;
 
-    public GameObject heartBarGameObject;
-    private HeartBar heartBar;
+    [Header("References")]
+    [SerializeField] private HeartBar heartBar;
 
-    private PlayerController playerController;
+    public event Action Hurt;
+    public event Action Die;
 
-    private void Awake() {
-        this.heartBar = heartBarGameObject.GetComponent<HeartBar>();
-        this.playerController = GetComponent<PlayerController>();
-    }
 
-    void Start() {
+    void Start()
+    {
         this.heartBar.SetHealth(this.maxHealth);
         this.heartBar.SetMaxHealth(this.maxHealth);
         this.health = this.maxHealth;
@@ -31,41 +28,50 @@ public class PlayerHealthController : MonoBehaviour {
     /* Adds damage to player's health and triggers the invulnerability cycle.
      * If the player's health reaches 0, triggers the death process.
      */
-    void AddDamage(int damage) {
-        if (!this.invincible) {
+    void AddDamage(int damage)
+    {
+        if (!this.invincible)
+        {
             this.invincible = true;
 
             this.health = this.health - damage;
             this.heartBar.SetHealth(this.health);
             
-            if (this.health <= 0) {
-                playerController.Die();
-                return;
+            if (this.health <= 0)
+            {
+                Die?.Invoke();
             }
-
-            this.playerController.StartInvulnerabilityTime();
+            else
+            {
+                Hurt?.Invoke();
+            }
         }
     }
 
-    void AddHealth(int health) {
+    void AddHealth(int health)
+    {
         this.health += health;
 
-        if(this.health > this.maxHealth) {
+        if(this.health > this.maxHealth)
+        {
             this.health = this.maxHealth;
         }
 
         this.heartBar.SetHealth(this.health);
     }
 
-    public void SetInvincibility(bool invincible) {
+    public void SetInvincibility(bool invincible)
+    {
         this.invincible = invincible;
     }
 
-    public bool IsInvincible() {
+    public bool IsInvincible()
+    {
         return this.invincible;
     }
 
-    public bool IsHealthFull() {
+    public bool IsHealthFull()
+    {
         return this.health == this.maxHealth;
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /* PlayerController is used as the main component for player character.
  * In charge of moving the player with the tactile input, starting its animations,
@@ -18,6 +17,7 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject deathScreen;
+    [SerializeField] private CameraController cameraController;
 
     private Rigidbody2D rigidBody;
     private Animator animator;
@@ -39,6 +39,12 @@ public class PlayerController : MonoBehaviour
         touchManager = new TouchManager();
         spriteManager = new SpriteManager(GetComponent<SpriteRenderer>());
         sfxController = GetComponent<PlayerSFXController>();
+    }
+
+    private void Start()
+    {
+        healthController.Hurt += OnHurt;
+        healthController.Die += OnDie;
     }
 
     /* Checks the current state of the input and controls the character based on it. */
@@ -159,8 +165,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void StartInvulnerabilityTime() 
+    private void OnHurt()
     {
+        cameraController.DoPlayerHitShake();
         StartCoroutine(InvulnerabilityTime());
     }
 
@@ -177,8 +184,10 @@ public class PlayerController : MonoBehaviour
     }
 
     /* Makes death screen show up (activated when player health reaches 0). */
-    public void Die() 
+    public void OnDie() 
     {
+        cameraController.DoPlayerHitShake();
+
         healthController.SetInvincibility(true);
         rigidBody.isKinematic = true;
         rigidBody.velocity = Vector2.zero;

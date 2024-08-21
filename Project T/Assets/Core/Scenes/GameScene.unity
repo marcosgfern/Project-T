@@ -4022,6 +4022,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2973974766283313473, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
+      propertyPath: heartBar
+      value: 
+      objectReference: {fileID: 1465934735}
+    - target: {fileID: 2973974766283313473, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
+      propertyPath: cameraController
+      value: 
+      objectReference: {fileID: 519420030}
+    - target: {fileID: 2973974766283313473, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
       propertyPath: heartBarGameObject
       value: 
       objectReference: {fileID: 1465934733}
@@ -4041,6 +4049,10 @@ PrefabInstance:
       propertyPath: deathScreen
       value: 
       objectReference: {fileID: 697703153}
+    - target: {fileID: 3697284688787348978, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
+      propertyPath: cameraController
+      value: 
+      objectReference: {fileID: 519420030}
     - target: {fileID: 3697284688787348979, guid: 8c492853b4e085640ac2b810814e1f0e, type: 3}
       propertyPath: m_RootOrder
       value: 3

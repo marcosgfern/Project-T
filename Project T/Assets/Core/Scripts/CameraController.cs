@@ -1,6 +1,5 @@
 ﻿using DG.Tweening;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /* Class CameraController is used as a component of the main camera.
@@ -30,11 +29,6 @@ public class CameraController : MonoBehaviour
     {
         AdjustOrtographicSize();
         CalculateCameraYShift();
-    }
-
-    private void Start()
-    {
-        StartCoroutine(ShakeRepeater());
     }
 
     public float GetPanningDuration()
@@ -85,7 +79,20 @@ public class CameraController : MonoBehaviour
         this.transform.position = targetPosition;
     }
 
-    public void Shake()
+    public void DoPlayerHitShake()
+    {
+        StartCoroutine(PlayerHitAnimation());
+    }
+
+    private IEnumerator PlayerHitAnimation()
+    {
+        Time.timeScale = 0.1f;
+        Shake();
+        yield return new WaitForSeconds(timeFreeze * Time.timeScale);
+        Time.timeScale = 1;
+    }
+
+    private void Shake()
     {
         Camera.main.DOShakePosition(
             shakeDuration,
@@ -95,18 +102,5 @@ public class CameraController : MonoBehaviour
             shakeFadeOut,
             shakeRandomnessMode)
             .SetUpdate(UpdateType.Normal, true);
-    }
-
-    private IEnumerator ShakeRepeater()
-    {
-        yield return new WaitForSeconds(5);
-        while (true)
-        {
-            Time.timeScale = 0.1f;
-            Shake();
-            yield return new WaitForSeconds(timeFreeze*Time.timeScale);
-            Time.timeScale = 1;
-            yield return new WaitForSeconds(3-timeFreeze);
-        }
     }
 }
