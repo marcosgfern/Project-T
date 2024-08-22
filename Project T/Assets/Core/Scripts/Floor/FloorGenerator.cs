@@ -187,7 +187,7 @@ namespace Floors {
                     enemy.color = EnemyHealth.DamageColor.White;
                 }
 
-                enemy.damage = 1 + (int)(this.level / 3);
+                enemy.damage = this.level > 6 ? 2 : 1;
 
                 enemies.Add(enemy);
             }
