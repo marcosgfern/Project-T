@@ -167,6 +167,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnHurt()
     {
+        sfxController.PlayHit();
         cameraController.DoPlayerHitShake();
         StartCoroutine(InvulnerabilityTime());
     }
@@ -186,6 +187,7 @@ public class PlayerController : MonoBehaviour
     /* Makes death screen show up (activated when player health reaches 0). */
     public void OnDie() 
     {
+        sfxController.PlayHit();
         cameraController.DoPlayerHitShake();
 
         healthController.SetInvincibility(true);

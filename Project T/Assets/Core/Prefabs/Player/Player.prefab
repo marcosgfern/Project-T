@@ -193,6 +193,7 @@ MonoBehaviour:
   shotCoolingTime: 0.25
   projectilePrefab: {fileID: 7203675168597311138, guid: 5e449a46ab2fd12448d2be3725c4bf4d, type: 3}
   deathScreen: {fileID: 0}
+  cameraController: {fileID: 0}
 --- !u!114 &2534492019672374294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,7 +222,7 @@ MonoBehaviour:
   maxHealth: 6
   health: 0
   invincible: 0
-  heartBarGameObject: {fileID: 0}
+  heartBar: {fileID: 0}
 --- !u!114 &874249969149468359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,6 +251,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2e2ed0d821d0efe45b9b6625f4a6f872, type: 3}
   - {fileID: 8300000, guid: 84b189dfc6185544e9efb5f30d00df10, type: 3}
   - {fileID: 8300000, guid: 803c24ad2c53c45478f94208db54815d, type: 3}
+  hits:
+  - {fileID: 8300000, guid: d099f543a2c66f64bb87ae64b3210037, type: 3}
+  - {fileID: 8300000, guid: ef98fc7c0b42f3c4496ad4c279227687, type: 3}
+  - {fileID: 8300000, guid: 59b067e4e401054448f9f7feffc80d04, type: 3}
+  - {fileID: 8300000, guid: 6219e3310a93f3443817b0c711df8ef0, type: 3}
 --- !u!95 &5052634440986482706
 Animator:
   serializedVersion: 5
