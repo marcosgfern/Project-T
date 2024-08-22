@@ -122,8 +122,8 @@ public abstract class EnemyController : MonoBehaviour {
 
         this.sfxController.PlayHurt();
 
-        yield return StartCoroutine(this.spriteManager.HitFlash());
-        yield return StartCoroutine(this.spriteManager.InvulnerabilityFlash(1f));
+        yield return this.spriteManager.HitFlash();
+        yield return this.spriteManager.InvulnerabilityFlash(1f);
         this.spriteManager.ResetColor();
 
         Unstun();
@@ -132,12 +132,10 @@ public abstract class EnemyController : MonoBehaviour {
     protected IEnumerator AwakingTime() {
         Stun();
 
-        yield return StartCoroutine(
-            this.spriteManager
-            .Fading(
-                Color.clear, 
-                Color.white, 
-                0.75f));
+        yield return this.spriteManager.Fading(
+                Color.clear,
+                Color.white,
+                0.5f);
 
         Unstun();
     }
@@ -176,7 +174,7 @@ public abstract class EnemyController : MonoBehaviour {
 
     /* Sends damage to collision when this one has Player tag. */
     private void SendDamage(Collision2D collision) {
-        if (collision.collider.CompareTag("Player")) {
+        if (!this.isStunned && collision.collider.CompareTag("Player")) {
             collision.collider.SendMessageUpwards("AddDamage", this.damage);
         }
     }
