@@ -3915,6 +3915,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2143630308}
     m_Modifications:
+    - target: {fileID: 25580743819018709, guid: d57dcf5804013cf4ebdb21e63a54ef8f, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 469762047
+      objectReference: {fileID: 0}
     - target: {fileID: 319228450078416843, guid: d57dcf5804013cf4ebdb21e63a54ef8f, type: 3}
       propertyPath: m_Name
       value: FloorFade
