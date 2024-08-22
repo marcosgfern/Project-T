@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6179631594459858381}
   - component: {fileID: 3760411031923338994}
   - component: {fileID: 6604301028414371071}
-  - component: {fileID: 2222865933079914057}
+  - component: {fileID: 3440984007426260559}
   - component: {fileID: 9113834642231889300}
   m_Layer: 6
   m_Name: HalfHeart
@@ -75,12 +75,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 9150113330484888242, guid: fc091134e6ed2e64c994e25add4faac9, type: 3}
+  m_Sprite: {fileID: 9150113330484888242, guid: 7106d240dcb02b84591b385a96581bbc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.24, y: 0.36}
+  m_Size: {x: 0.4, y: 0.36}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &3760411031923338994
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -101,10 +101,12 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!50 &6604301028414371071
 Rigidbody2D:
   serializedVersion: 4
@@ -126,8 +128,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!70 &2222865933079914057
-CapsuleCollider2D:
+--- !u!58 &3440984007426260559
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -140,8 +142,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.2, y: 0.3}
-  m_Direction: 0
+  serializedVersion: 2
+  m_Radius: 0.175
 --- !u!114 &9113834642231889300
 MonoBehaviour:
   m_ObjectHideFlags: 0
