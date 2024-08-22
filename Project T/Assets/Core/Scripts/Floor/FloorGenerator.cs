@@ -15,13 +15,13 @@ namespace Floors {
 
         private int minEnemiesPerRoom = 2;
         private int maxEnemiesPerRoom = 5;
-        private float emptyRoomRatio = 0.85f;
+        private float emptyRoomRatio = 0.80f;
         private float meleeShooterBaseRatio = 0.66f;
         private float meleeShooterRatioVariation = 0.14f;
         private float specialColorBaseRatio = 0.55f;
         private float specialColorRatioVariation = 0.35f;
         private float redBlueRatio = 0.6f;
-        private float fullHalfRatio = 0.75f;
+        private float fullHalfRatio = 0.5f;
 
         public FloorGenerator(Transform floor, GameObject roomPrefab, GameObject fullHeartPrefab, GameObject halfHeartPrefab) {
             this.floor = floor;
