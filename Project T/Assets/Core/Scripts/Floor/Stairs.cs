@@ -10,6 +10,8 @@ namespace Floors {
 
         /* Sends a message to Floor so it starts the generation of a new floor. */
         override public void PlayerEnter() {
+            this.isPlayerIn = true;
+
             if (!this.isClosed) {
                 SendMessageUpwards("MoveToNextFloor");
             }
