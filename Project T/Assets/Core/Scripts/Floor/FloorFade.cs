@@ -17,7 +17,7 @@ public class FloorFade : MonoBehaviour
     public void StartFloorTransition(int floor = -1) {
         if (floor != -1)
         {
-            floorText.text = FloorString + floor.ToString();
+            floorText.text = FloorString + (floor+1).ToString();
         }
 
         animator.SetTrigger("Start");

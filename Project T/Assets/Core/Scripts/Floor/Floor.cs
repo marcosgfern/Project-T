@@ -26,7 +26,7 @@ namespace Floors {
 
         private void Awake() {
             //Random.InitState(854353474);
-            this.level = 1;
+            this.level = 0;
             this.generator = new FloorGenerator(this.gameObject.transform, this.roomPrefab, this.fullHeartPrefab, this.halfHeartPrefab);
             this.player = GameObject.FindGameObjectsWithTag("Player")[0];
             this.cameraController = Camera.main.GetComponent<CameraController>();
@@ -45,9 +45,9 @@ namespace Floors {
             foreach(Transform child in this.gameObject.transform) {
                 Destroy(child.gameObject);
             }
-
+            this.level++;
             this.floorNumberIndicator.GetComponent<TextMeshProUGUI>().SetText("Floor " + this.level);
-            this.roomMap = this.generator.Generate(this.level++);
+            this.roomMap = this.generator.Generate(this.level);
             this.minimap.GenerateTileLayout(this.roomMap);
             MoveToRoom(new Coordinate(0, 0), null);
         }
