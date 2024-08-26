@@ -45,6 +45,11 @@ namespace Floors {
             foreach(Transform child in this.gameObject.transform) {
                 Destroy(child.gameObject);
             }
+
+            //Moving player to origin before avoids going to next floor in case stairs generate in same position as previous floor
+            this.player.transform.position = Vector2.zero;
+            player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
             this.level++;
             this.floorNumberIndicator.GetComponent<TextMeshProUGUI>().SetText("Floor " + this.level);
             this.roomMap = this.generator.Generate(this.level);
