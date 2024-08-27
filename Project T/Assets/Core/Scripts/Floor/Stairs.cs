@@ -13,6 +13,7 @@ namespace Floors {
             this.isPlayerIn = true;
 
             if (!this.isClosed) {
+                this.isClosed = true;
                 SendMessageUpwards("MoveToNextFloor");
             }
         }
