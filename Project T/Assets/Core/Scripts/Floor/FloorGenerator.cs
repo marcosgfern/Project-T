@@ -15,7 +15,7 @@ namespace Floors {
 
         private int minEnemiesPerRoom = 2;
         private int maxEnemiesPerRoom = 5;
-        private float emptyRoomRatio = 0.80f;
+        private float emptyRoomRatio = 0.85f;
         private float meleeShooterBaseRatio = 0.66f;
         private float meleeShooterRatioVariation = 0.14f;
         private float specialColorBaseRatio = 0.55f;
