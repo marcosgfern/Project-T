@@ -215,6 +215,7 @@ public class PlayerController : MonoBehaviour
             case "Heart":
                 if(!healthController.IsHealthFull())
                 {
+                    sfxController.PlayHeartPickUp();
                     collision.SendMessage(
                         "Heal", 
                         gameObject.GetComponent<Collider2D>());

@@ -256,6 +256,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ef98fc7c0b42f3c4496ad4c279227687, type: 3}
   - {fileID: 8300000, guid: 59b067e4e401054448f9f7feffc80d04, type: 3}
   - {fileID: 8300000, guid: 6219e3310a93f3443817b0c711df8ef0, type: 3}
+  heartPickUps:
+  - {fileID: 8300000, guid: 95431e0d006d99b45b2601e468f81524, type: 3}
+  - {fileID: 8300000, guid: b1e64dcc058cfdd4dac25cfcca3a0c88, type: 3}
+  - {fileID: 8300000, guid: ed1be83517c2dc84eae7e11945e92831, type: 3}
+  - {fileID: 8300000, guid: 4dc9bde5f20caa24fb190cb2f13857be, type: 3}
+  - {fileID: 8300000, guid: bc625b8757e558147a21dc072c1f00b6, type: 3}
 --- !u!95 &5052634440986482706
 Animator:
   serializedVersion: 5
