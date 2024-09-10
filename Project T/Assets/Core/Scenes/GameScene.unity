@@ -904,6 +904,7 @@ GameObject:
   m_Component:
   - component: {fileID: 543632942}
   - component: {fileID: 543632943}
+  - component: {fileID: 543632944}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -943,6 +944,18 @@ MonoBehaviour:
   roomPrefab: {fileID: 2261467207176083927, guid: 2757cbde2cb75744ba0ff0d9c6983740, type: 3}
   fullHeartPrefab: {fileID: 2371798221630365745, guid: 7d9cb2bb1986da349a3d6c3368af7498, type: 3}
   halfHeartPrefab: {fileID: 8671615925885998859, guid: 37f1a35b15a61a14e8bacad601af02d8, type: 3}
+--- !u!114 &543632944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543632941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 964ae83b2c1ca8f4da4d9c4a8bced1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &576010734
 GameObject:
   m_ObjectHideFlags: 0
