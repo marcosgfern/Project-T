@@ -7,8 +7,8 @@ using UnityEngine.UI;
 /* Class SettingsMenu is a component of the settings menu.
  * Responsible both for changing settings and saving them.
  */
-public class SettingsMenu : MonoBehaviour {
-
+public class SettingsMenu : MonoBehaviour
+{
     [SerializeField] private PostProcessProfile postProcessProfile;
     [SerializeField] private Toggle
         chromaticAberrationToggle, 
@@ -20,20 +20,15 @@ public class SettingsMenu : MonoBehaviour {
     private LensDistortion lensDistortion;
     private Bloom bloom;
 
-    public void Awake() {
+    public void Awake()
+    {
         this.chromaticAberration = this.postProcessProfile.GetSetting<ChromaticAberration>();
         this.lensDistortion = this.postProcessProfile.GetSetting<LensDistortion>();
         this.bloom = this.postProcessProfile.GetSetting<Bloom>();
     }
 
-    public void Start() {
-        this.chromaticAberration.enabled.value = 
-            bool.Parse(PlayerPrefs.GetString("ChromaticAberration", "True"));
-        this.lensDistortion.enabled.value = 
-            bool.Parse(PlayerPrefs.GetString("LensDistortion", "True"));
-        this.bloom.enabled.value = 
-            bool.Parse(PlayerPrefs.GetString("Bloom", "True"));
-
+    public void Start() 
+    {
         this.chromaticAberrationToggle.isOn = this.chromaticAberration.enabled.value;
         this.lensDistortionToggle.isOn = this.lensDistortion.enabled.value;
         this.bloomToggle.isOn = this.bloom.enabled.value;
@@ -42,17 +37,20 @@ public class SettingsMenu : MonoBehaviour {
             .SetActive(bool.Parse(PlayerPrefs.GetString("TutorialFinished", "False")));
     }
 
-    public void SetChromaticAberration(bool enabled) {
+    public void SetChromaticAberration(bool enabled)
+    {
         this.chromaticAberration.enabled.value = enabled;
         PlayerPrefs.SetString("ChromaticAberration", enabled.ToString());
     }
 
-    public void SetLensDistortion(bool enabled) {
+    public void SetLensDistortion(bool enabled)
+    {
         this.lensDistortion.enabled.value = enabled;
         PlayerPrefs.SetString("LensDistortion", enabled.ToString());
     }
 
-    public void SetBloom(bool enabled) {
+    public void SetBloom(bool enabled)
+    {
         this.bloom.enabled.value = enabled;
         PlayerPrefs.SetString("Bloom", enabled.ToString());
     }
